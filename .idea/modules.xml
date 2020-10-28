@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/1200-1500/1200-1500.iml" filepath="$PROJECT_DIR$/1200-1500/1200-1500.iml" />
       <module fileurl="file://$PROJECT_DIR$/CodeForces.iml" filepath="$PROJECT_DIR$/CodeForces.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CodeForces Beta Round #1/CodeForces Beta Round #1.iml" filepath="$PROJECT_DIR$/CodeForces Beta Round #1/CodeForces Beta Round #1.iml" />
     </modules>
   </component>
 </project>
