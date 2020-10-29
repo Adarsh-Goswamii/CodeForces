@@ -1,13 +1,35 @@
 import java.util.*;
 import java.io.*;
 
-public class FedyaandMaths {
+public class ChristmasSpruce {
     Reader in;
     PrintWriter out;
 
-    void solve() {
+    void solve() throws IOException {
+        int t= in.ni();
+        int[] parent= new int[t];
+        HashSet<Integer> non_leaf= new HashSet<>();
+        parent[0]= -1;
 
+        for(int i=1;i<parent.length;i++)
+        {
+            parent[i]= in.ni()-1;
+            non_leaf.add(parent[i]);
+        }
 
+        int[] leaf_child= new int[t];
+        for(int i=1;i<parent.length;i++)
+            leaf_child[parent[i]]+= (non_leaf.contains(i)? 0: 1);
+
+        String ans="Yes";
+        for(int i=0;i<leaf_child.length;i++)
+            if(leaf_child[i]<3 && non_leaf.contains(i))
+            {
+                //out.println(i);
+                ans= "No";
+            }
+
+        out.println(ans);
     }
 
     void run() throws Exception {
@@ -19,7 +41,7 @@ public class FedyaandMaths {
     }
 
     public static void main(String[] args) throws Exception {
-        new FedyaandMaths().run();
+        new ChristmasSpruce().run();
     }
 
     static class Reader {
@@ -49,6 +71,11 @@ public class FedyaandMaths {
                 buf[cnt++] = (byte) c;
             }
             return new String(buf, 0, cnt);
+        }
+
+        public String ns(boolean bool) {
+            Scanner sc = new Scanner(System.in);
+            return sc.nextLine();
         }
 
         public int ni() throws IOException {
