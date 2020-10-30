@@ -2,135 +2,126 @@ import java.util.*;
 import java.io.*;
 
 public class BeltedRooms {
-    Reader in;
+    InputStream is;
     PrintWriter out;
+    String INPUT = "";
 
-    void solve() {
+    void solve() throws IOException {
+        int t= ni();
+        for(int ii=0;ii<t;ii++)
+        {
 
-
+        }
     }
 
-    void run() throws Exception {
-        in = new Reader();
+    void run() throws Exception
+    {
+        is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
 
         solve();
         out.flush();
     }
 
-    public static void main(String[] args) throws Exception {
-        new BeltedRooms().run();
+    public static void main(String[] args) throws Exception { new BeltedRooms().run(); }
+
+    private byte[] inbuf = new byte[1024];
+    public int lenbuf = 0, ptrbuf = 0;
+
+    private int readByte()
+    {
+        if(lenbuf == -1)throw new InputMismatchException();
+        if(ptrbuf >= lenbuf){
+            ptrbuf = 0;
+            try { lenbuf = is.read(inbuf); } catch (IOException e) { throw new InputMismatchException(); }
+            if(lenbuf <= 0)return -1;
+        }
+        return inbuf[ptrbuf++];
     }
 
-    static class Reader {
-        final private int BUFFER_SIZE = 1 << 16;
-        private DataInputStream din;
-        private byte[] buffer;
-        private int bufferPointer, bytesRead;
+    private boolean isSpaceChar(int c) { return !(c >= 33 && c <= 126); }
+    private int skip() { int b; while((b = readByte()) != -1 && isSpaceChar(b)); return b; }
 
-        public Reader() {
-            din = new DataInputStream(System.in);
-            buffer = new byte[BUFFER_SIZE];
-            bufferPointer = bytesRead = 0;
+    private double nd() { return Double.parseDouble(ns()); }
+    private char nc() { return (char)skip(); }
+
+    private String ns()
+    {
+        int b = skip();
+        StringBuilder sb = new StringBuilder();
+        while(!(isSpaceChar(b))){ // when nextLine, (isSpaceChar(b) && b != ' ')
+            sb.appendCodePoint(b);
+            b = readByte();
+        }
+        return sb.toString();
+    }
+
+    private char[] ns(int n)
+    {
+        char[] buf = new char[n];
+        int b = skip(), p = 0;
+        while(p < n && !(isSpaceChar(b))){
+            buf[p++] = (char)b;
+            b = readByte();
+        }
+        return n == p ? buf : Arrays.copyOf(buf, p);
+    }
+
+    private char[][] nm(int n, int m)
+    {
+        char[][] map = new char[n][];
+        for(int i = 0;i < n;i++)map[i] = ns(m);
+        return map;
+    }
+
+    private int[] na(int n)
+    {
+        int[] a = new int[n];
+        for(int i = 0;i < n;i++)a[i] = ni();
+        return a;
+    }
+
+    private int ni()
+    {
+        int num = 0, b;
+        boolean minus = false;
+        while((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'));
+        if(b == '-'){
+            minus = true;
+            b = readByte();
         }
 
-        public Reader(String file_name) throws IOException {
-            din = new DataInputStream(new FileInputStream(file_name));
-            buffer = new byte[BUFFER_SIZE];
-            bufferPointer = bytesRead = 0;
-        }
-
-        public String ns() throws IOException {
-            byte[] buf = new byte[64]; // line length
-            int cnt = 0, c;
-            while ((c = read()) != -1) {
-                if (c == '\n')
-                    break;
-                buf[cnt++] = (byte) c;
+        while(true){
+            if(b >= '0' && b <= '9'){
+                num = num * 10 + (b - '0');
+            }else{
+                return minus ? -num : num;
             }
-            return new String(buf, 0, cnt);
-        }
-
-        public String ns(boolean bool) {
-            Scanner sc = new Scanner(System.in);
-            return sc.nextLine();
-        }
-
-        public int ni() throws IOException {
-            int ret = 0;
-            byte c = read();
-            while (c <= ' ')
-                c = read();
-            boolean neg = (c == '-');
-            if (neg)
-                c = read();
-            do {
-                ret = ret * 10 + c - '0';
-            } while ((c = read()) >= '0' && c <= '9');
-
-            if (neg)
-                return -ret;
-            return ret;
-        }
-
-        public long nl() throws IOException {
-            long ret = 0;
-            byte c = read();
-            while (c <= ' ')
-                c = read();
-            boolean neg = (c == '-');
-            if (neg)
-                c = read();
-            do {
-                ret = ret * 10 + c - '0';
-            }
-            while ((c = read()) >= '0' && c <= '9');
-            if (neg)
-                return -ret;
-            return ret;
-        }
-
-        public double nd() throws IOException {
-            double ret = 0, div = 1;
-            byte c = read();
-            while (c <= ' ')
-                c = read();
-            boolean neg = (c == '-');
-            if (neg)
-                c = read();
-
-            do {
-                ret = ret * 10 + c - '0';
-            }
-            while ((c = read()) >= '0' && c <= '9');
-
-            if (c == '.') {
-                while ((c = read()) >= '0' && c <= '9') {
-                    ret += (c - '0') / (div *= 10);
-                }
-            }
-
-            if (neg)
-                return -ret;
-            return ret;
-        }
-
-        private void fillBuffer() throws IOException {
-            bytesRead = din.read(buffer, bufferPointer = 0, BUFFER_SIZE);
-            if (bytesRead == -1)
-                buffer[0] = -1;
-        }
-
-        private byte read() throws IOException {
-            if (bufferPointer == bytesRead)
-                fillBuffer();
-            return buffer[bufferPointer++];
-        }
-
-        public void close() throws IOException {
-            if (din == null)
-                return;
-            din.close();
+            b = readByte();
         }
     }
+
+    private long nl()
+    {
+        long num = 0;
+        int b;
+        boolean minus = false;
+        while((b = readByte()) != -1 && !((b >= '0' && b <= '9') || b == '-'));
+        if(b == '-'){
+            minus = true;
+            b = readByte();
+        }
+
+        while(true){
+            if(b >= '0' && b <= '9'){
+                num = num * 10 + (b - '0');
+            }else{
+                return minus ? -num : num;
+            }
+            b = readByte();
+        }
+    }
+
+    private void tr(Object... o) { if(INPUT.length() > 0)System.out.println(Arrays.deepToString(o)); }
 }
+

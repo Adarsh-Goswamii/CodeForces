@@ -1,0 +1,10 @@
+SOLUTION:
+
+Bipartite graph.
+
+n nodes
+
+Add edges such that it is a bipartite graph and there are no self loops and
+multiple edges.
+
+
