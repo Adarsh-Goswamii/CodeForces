@@ -1,6 +1,31 @@
 import java.util.*;
 import java.io.*;
 
+/**
+ * SOLUTION:
+ *
+ * a and b grams of cheese
+ *
+ * okay so i guess i am the fox.
+ *
+ * we need to make them equal as soon as possible by reducing them to 1/2, 1/3
+ * and 1/5.
+ *
+ * How to approach the solution...............................................
+ * So if there exists a common divisor then there will exist some ans for the
+ * problem.
+ *
+ * Do prime factorization of a and b.
+ * How about writing a recursive code that checks for all valid paths. Only if
+ * we cant find any relation between which number to divide by what.
+ *
+ * 15= 3 x 5
+ * 20= 2 x 2 x 5
+ * delete all the common terms and if the left part just contains 2, 3 or 5 then
+ * there exists a solution with remaining no of elements in both of there
+ * prime factorization.
+ */
+
 public class FoxDividingCheese {
     InputStream is;
     PrintWriter out;
