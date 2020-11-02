@@ -1,69 +1,29 @@
 import java.util.*;
 import java.io.*;
 
-/**
- * SOLUTION:
- *
- * So we have a graph(tree) and we are supposed to add the max no of edges
- * to it while still retaining it as bipartite graph.
- *
- * So basically if we can divide the vertex of the graph into two disjoint sets
- * then we can find the no of edges missing as we can simply find the
- * edges in a complete bipartite graph with that no of vertex and subtract the
- * edges that we currently have.
- */
-
-public class MahmoudandEhabandthebipartiteness {
+public class Elimination {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    ArrayList<ArrayList<Integer>> colors;
 
     void solve() throws IOException {
-        int n = ni();
-        ArrayList<ArrayList<Integer>> arrayLists= new ArrayList<>();
-        for(int i=0;i<=n;i++)
-            arrayLists.add(new ArrayList<>());
-
-        for (int i = 1; i < n; i++) {
-            int from= ni(), to= ni();
-            arrayLists.get(from).add(to);
-            arrayLists.get(to).add(from);
-        }
-
-        boolean[] visited= new boolean[n+1];
-        colors.add(new ArrayList<>());
-        colors.add(new ArrayList<>());
-
-        DFSREC(arrayLists, visited, 1, 0);
-        out.println((colors.get(0).size()*(long)colors.get(1).size()-n+1l));
-        //out.println(colors);
-    }
-
-    private void DFSREC(ArrayList<ArrayList<Integer>> arrayLists, boolean[] visited, int curr, int color)
-    {
-        visited[curr]= true;
-        colors.get(color).add(curr);
-
-        for(Integer integer: arrayLists.get(curr))
-        {
-            if(visited[integer]) continue;
-
-            DFSREC(arrayLists, visited, integer, (color==1?0:1));
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int a= ni(), b= ni(), c= ni(), d= ni();
+            out.println((int )Math.max(a+b, c+d));
         }
     }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
-        colors= new ArrayList<>();
 
         solve();
         out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new MahmoudandEhabandthebipartiteness().run();
+        new Elimination().run();
     }
 
     private byte[] inbuf = new byte[1024];

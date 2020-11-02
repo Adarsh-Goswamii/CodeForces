@@ -1,8 +1,4 @@
 SOLUTION:
 
-greatest divisor of a such that its not divisible by b.
 
-we cant find all the factors(TLE).
 
-(i). if q is not multiple of p then p is the answer.
-(ii).
