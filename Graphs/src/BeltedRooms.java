@@ -10,7 +10,33 @@ public class BeltedRooms {
         int t= ni();
         for(int ii=0;ii<t;ii++)
         {
+            int n= ni();
+            char[] ch= ns(n);
 
+            boolean clock= false, anti_clock= false;
+            for(char c: ch)
+            {
+                if(c== '<')
+                    anti_clock= true;
+                else if(c== '>')
+                    clock= true;
+            }
+
+            if(clock && anti_clock)
+            {
+                int ans=0;
+                for(int i=0;i<n;i++)
+                {
+                    if(ch[(i-1+n)%n]=='-')
+                        ans++;
+                    else if(ch[i]=='-')
+                        ans++;
+                }
+
+                out.println(ans);
+            }
+            else
+                out.println(n);
         }
     }
 
@@ -124,4 +150,3 @@ public class BeltedRooms {
 
     private void tr(Object... o) { if(INPUT.length() > 0)System.out.println(Arrays.deepToString(o)); }
 }
-
