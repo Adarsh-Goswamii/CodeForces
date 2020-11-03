@@ -1,42 +1,51 @@
 import java.util.*;
 import java.io.*;
 
-public class Friends {
+public class Football {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    int length;
 
     void solve() throws IOException {
-        int n= ni();
-        int[] arr= new int[6];
-        for(int i=0;i<n;i++)
+        int n= ni(), k= ni();
+        if((n*(n-1)/2)<n*k)
+            out.println("-1");
+        else
         {
-            int from= ni(), to= ni();
-            arr[from]++;
-            arr[to]++;
+            StringBuilder br= new StringBuilder("");
+            int[] win= new int[n+1];
+            int count=0;
+            for(int i=1;i<=n;i++)
+            {
+                for(int j=i+1;j<=n;j++)
+                {
+                    if(win[i]!= k)
+                    {
+                        br.append(i+" "+j+"\n");
+                        win[i]++;
+                        count++;
+                    }
+                    else if(win[j]!=k) {
+                        br.append(j+ " " + i+"\n");
+                        win[j]++;
+                        count++;
+                    }
+                }
+            }
+            out.println(count+"\n"+br);
         }
-
-        boolean ans= false;
-        for(int i=1;i<6;i++)
-            if(arr[i]!= 2)
-                ans= true;
-
-        out.println((ans?"WIN": "FAIL"));
-
     }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
-        length= 0;
 
         solve();
         out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new Friends().run();
+        new Football().run();
     }
 
     private byte[] inbuf = new byte[1024];

@@ -1,42 +1,53 @@
 import java.util.*;
 import java.io.*;
 
-public class Friends {
+public class SendtheFoolFurther {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    int length;
 
     void solve() throws IOException {
         int n= ni();
-        int[] arr= new int[6];
+        ArrayList<ArrayList<Integer[]>> arrayLists =  new ArrayList<>();
         for(int i=0;i<n;i++)
+            arrayLists.add(new ArrayList<>());
+
+        for(int i=1;i<n;i++)
         {
-            int from= ni(), to= ni();
-            arr[from]++;
-            arr[to]++;
+            int from= ni(), to= ni(), cost= ni();
+            arrayLists.get(from).add(new Integer[]{to, cost});
+            arrayLists.get(to).add(new Integer[]{from, cost});
         }
 
-        boolean ans= false;
-        for(int i=1;i<6;i++)
-            if(arr[i]!= 2)
-                ans= true;
+        boolean[] visited= new boolean[n];
+        out.println(DFSREC(arrayLists,  visited, new Integer[]{0, 0}));
+    }
 
-        out.println((ans?"WIN": "FAIL"));
+    private int DFSREC(ArrayList<ArrayList<Integer[]>> arrayLists, boolean[] visited, Integer[] curr)
+    {
+        visited[curr[0]]= true;
 
+        int ret= 0;
+        for(Integer[] i: arrayLists.get(curr[0]))
+        {
+            if(visited[i[0]]) continue;
+
+            ret= Math.max(ret, DFSREC(arrayLists,  visited, i));
+        }
+
+        return ret+ curr[1];
     }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
-        length= 0;
 
         solve();
         out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new Friends().run();
+        new SendtheFoolFurther().run();
     }
 
     private byte[] inbuf = new byte[1024];

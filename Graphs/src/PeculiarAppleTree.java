@@ -1,42 +1,28 @@
 import java.util.*;
 import java.io.*;
 
-public class Friends {
+public class PeculiarAppleTree {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    int length;
 
     void solve() throws IOException {
-        int n= ni();
-        int[] arr= new int[6];
-        for(int i=0;i<n;i++)
-        {
-            int from= ni(), to= ni();
-            arr[from]++;
-            arr[to]++;
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
+
         }
-
-        boolean ans= false;
-        for(int i=1;i<6;i++)
-            if(arr[i]!= 2)
-                ans= true;
-
-        out.println((ans?"WIN": "FAIL"));
-
     }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
-        length= 0;
 
         solve();
         out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new Friends().run();
+        new PeculiarAppleTree().run();
     }
 
     private byte[] inbuf = new byte[1024];

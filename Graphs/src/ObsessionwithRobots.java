@@ -1,42 +1,92 @@
 import java.util.*;
 import java.io.*;
 
-public class Friends {
+public class ObsessionwithRobots {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    int length;
 
     void solve() throws IOException {
-        int n= ni();
-        int[] arr= new int[6];
-        for(int i=0;i<n;i++)
+        boolean[][] maze= new boolean[201][201];
+        int row= 100, col= 100;
+        char[] path= ns().toCharArray();
+        maze[row][col]= true;
+
+        for(int i=0;i<path.length;i++)
         {
-            int from= ni(), to= ni();
-            arr[from]++;
-            arr[to]++;
+            if(path[i]=='U')
+                row++;
+            else if(path[i]=='D')
+                row--;
+            else if(path[i]=='L')
+                col--;
+            else
+                col++;
+
+            maze[row][col]= true;
         }
 
-        boolean ans= false;
-        for(int i=1;i<6;i++)
-            if(arr[i]!= 2)
-                ans= true;
+        Queue<Integer> queue =  new LinkedList<>();
+        queue.add(100);
+        queue.add(100);
+        maze[100][100]= false;
 
-        out.println((ans?"WIN": "FAIL"));
+        int min_steps=0;
+        outer:while(!queue.isEmpty())
+        {
+            int size= queue.size();
+            for(int i=0;i<size/2;i++)
+            {
+                int curr_row= queue.poll();
+                int curr_col= queue.poll();
+                if(curr_row== row && curr_col== col)
+                    break outer;
 
+                if(curr_col+1<=200 && maze[curr_row][curr_col+1])
+                {
+                    queue.add(curr_row);
+                    queue.add(curr_col+ 1);
+                    maze[curr_row][curr_col+1]= false;
+                }
+
+                if(curr_col-1>=0 && maze[curr_row][curr_col-1])
+                {
+                    queue.add(curr_row);
+                    queue.add(curr_col- 1);
+                    maze[curr_row][curr_col-1]= false;
+                }
+
+                if(curr_row+1<=200 && maze[curr_row+1][curr_col])
+                {
+                    queue.add(curr_row+1);
+                    queue.add(curr_col);
+                    maze[curr_row+1][curr_col]= false;
+                }
+
+                if(curr_row-1>=0 && maze[curr_row-1][curr_col])
+                {
+                    queue.add(curr_row-1);
+                    queue.add(curr_col);
+                    maze[curr_row-1][curr_col]= false;
+                }
+            }
+
+            min_steps++;
+        }
+        //out.println(min_steps);
+        out.println((min_steps== path.length)? "OK": "BUG");
     }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
-        length= 0;
 
         solve();
         out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new Friends().run();
+        new ObsessionwithRobots().run();
     }
 
     private byte[] inbuf = new byte[1024];
