@@ -1,16 +1,4 @@
 SOLUTION:
 
-n inflorescence [1...n]
-1 is situated at the bottom
-
-1 apple per inflorescence
-
-In a particular inflorescence there can be only one apple at a time
-or all apples will rot if even || only one apple wont rot if odd.
-
-So we have a tree and the apples are at all nodes and apples move from
-leaf till root and at root they get collected.
-
-We have the parent array.
-
-So we need to find the chronology or the path in which they move towards 1
+1. make a outdegree array while taking the input
+2.
