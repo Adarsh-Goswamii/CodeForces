@@ -1,42 +1,30 @@
 import java.util.*;
 import java.io.*;
-
-public class PeculiarAppleTree {
+// TODO: https://codeforces.com/problemset/problem/320/B
+public class PingPongEasy {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int n= ni();
-        ArrayList<ArrayList<Integer>> arrayLists= new ArrayList<>();
-        for(int i=0;i<= n;i++)
-            arrayLists.add(new ArrayList<>());
+    void solve() throws IOException {
+        int t = ni();
+        int[] start= new int[101];
+        int[] last= new int[101];
 
-        for(int to=2;to<=n;to++)
+        for (int ii = 0; ii < t; ii++)
         {
-            int from= ni();
-            arrayLists.get(from).add(to);
-        }
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(1);
-
-        int ans=0;
-        while(!queue.isEmpty())
-        {
-            int size= queue.size(), apple=0;
-            for(int i=0;i<size;i++)
+            int type= ni(), b= ni(), c= ni();
+            if(type==1)
             {
-                int curr= queue.poll();
-                apple++;
+                start[ii]= b;
+                last[ii]= c;
+            }
+            else
+            {
 
-                for(int i1: arrayLists.get(curr))
-                    queue.add(i1);
             }
 
-            ans+= apple%2;
         }
-        out.println(ans);
     }
 
     void run() throws Exception {
@@ -48,7 +36,7 @@ public class PeculiarAppleTree {
     }
 
     public static void main(String[] args) throws Exception {
-        new PeculiarAppleTree().run();
+        new PingPongEasy().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -162,44 +150,3 @@ public class PeculiarAppleTree {
     }
 }
 
-//Approach 1: Time limit exceeded
-//        void solve() throws IOException {
-//        int n= ni();
-//        int[] parent= new int[n+1];
-//
-//        for (int i = 2; i < parent.length; i++) {
-//        parent[i]= ni();
-//        }
-//
-//        int[][] holder = new int[n+1][2];
-//        for(int[] ints: holder)
-//        ints[0]= 1;
-//
-//        int ans=0;
-//        while(true)
-//        {
-//        for(int i=1;i<parent.length;i++)
-//        {
-//        if(parent[i]==0)
-//        ans+= holder[i][0];
-//        else
-//        {
-//        holder[parent[i]][1]+= holder[i][0];
-//        holder[parent[i]][1]= holder[parent[i]][1]%2;
-//        }
-//        }
-//
-//        boolean end= true;
-//        for(int i=1;i< holder.length;i++)
-//        {
-//        if(holder[i][1]!=0) end= false;
-//        holder[i][0]= holder[i][1];
-//        holder[i][1]= 0;
-//        }
-//
-//        if(end)
-//        break;
-//        }
-//
-//        out.println(ans);
-//        }

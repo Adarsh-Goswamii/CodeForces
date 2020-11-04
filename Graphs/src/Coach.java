@@ -1,42 +1,92 @@
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.*;
 import java.io.*;
 
-public class PeculiarAppleTree {
+public class Coach {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int n= ni();
-        ArrayList<ArrayList<Integer>> arrayLists= new ArrayList<>();
-        for(int i=0;i<= n;i++)
+    void solve() throws IOException {
+        int n= ni(), m= ni();
+        ArrayList<ArrayList<Integer>> arrayLists =  new ArrayList<>();
+        for(int i=0;i<=n;i++)
             arrayLists.add(new ArrayList<>());
 
-        for(int to=2;to<=n;to++)
+        for(int i=0;i<m;i++)
         {
-            int from= ni();
-            arrayLists.get(from).add(to);
+            int a= ni() , b= ni();
+            arrayLists.get(a).add(b);
+            arrayLists.get(b).add(a);
         }
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(1);
 
-        int ans=0;
-        while(!queue.isEmpty())
+        boolean[] visited= new boolean[n+1];
+        HashMap<Integer, ArrayList<ArrayList<Integer>>> map =  new HashMap<>();
+        map.put(1, new ArrayList<>());
+        map.put(2, new ArrayList<>());
+        StringBuilder br= new StringBuilder();
+        for(int i=1;i<=n;i++)
         {
-            int size= queue.size(), apple=0;
-            for(int i=0;i<size;i++)
+            if(visited[i]) continue;
+            ArrayList<Integer> len= new ArrayList<Integer>();
+            DFSREC(arrayLists,  visited, i, len);
+            if(len.size()> 3)
             {
-                int curr= queue.poll();
-                apple++;
+                out.println("-1");
+                return;
+            }
+            else if(len.size()== 3)
+            {
+                br.append(len.get(0)+" "+len.get(1)+" "+len.get(2)+"\n");
+            }
+            else
+            {
+                if(map.containsKey(len.size()))
+                    map.get(len.size()).add(len);
+                else
+                {
+                    ArrayList<ArrayList<Integer>> temp= new ArrayList<>();
+                    temp.add(len);
+                    map.put(len.size(), temp);
+                }
+            }
+        }
 
-                for(int i1: arrayLists.get(curr))
-                    queue.add(i1);
+        if(map.getOrDefault(1, new ArrayList<>()).size()< map.getOrDefault(2, new ArrayList<>()).size())
+            out.println("-1");
+        else
+        {
+            ArrayList<ArrayList<Integer>> one= map.get(1);
+            ArrayList<ArrayList<Integer>> two= map.get(2);
+            out.print(br);
+            int i;
+            for(i=0;i<two.size();i++)
+            {
+                out.println(one.get(i).get(0)+" "+two.get(i).get(0)+" "+two.get(i).get(1));
             }
 
-            ans+= apple%2;
+            int count=1;
+            for(;i<one.size();i++)
+            {
+                if(count%3==0)
+                    out.println(one.get(i).get(0));
+                else
+                    out.print(one.get(i).get(0)+" ");
+                count++;
+            }
         }
-        out.println(ans);
+    }
+
+    private void DFSREC(ArrayList<ArrayList<Integer>> arrayLists, boolean[] visited, int curr, ArrayList<Integer> len)
+    {
+        visited[curr]= true;
+        len.add(curr);
+
+        for(Integer integer: arrayLists.get(curr))
+        {
+            if(visited[integer]) continue;
+            DFSREC(arrayLists, visited, integer, len);
+        }
     }
 
     void run() throws Exception {
@@ -48,7 +98,7 @@ public class PeculiarAppleTree {
     }
 
     public static void main(String[] args) throws Exception {
-        new PeculiarAppleTree().run();
+        new Coach().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -162,44 +212,3 @@ public class PeculiarAppleTree {
     }
 }
 
-//Approach 1: Time limit exceeded
-//        void solve() throws IOException {
-//        int n= ni();
-//        int[] parent= new int[n+1];
-//
-//        for (int i = 2; i < parent.length; i++) {
-//        parent[i]= ni();
-//        }
-//
-//        int[][] holder = new int[n+1][2];
-//        for(int[] ints: holder)
-//        ints[0]= 1;
-//
-//        int ans=0;
-//        while(true)
-//        {
-//        for(int i=1;i<parent.length;i++)
-//        {
-//        if(parent[i]==0)
-//        ans+= holder[i][0];
-//        else
-//        {
-//        holder[parent[i]][1]+= holder[i][0];
-//        holder[parent[i]][1]= holder[parent[i]][1]%2;
-//        }
-//        }
-//
-//        boolean end= true;
-//        for(int i=1;i< holder.length;i++)
-//        {
-//        if(holder[i][1]!=0) end= false;
-//        holder[i][0]= holder[i][1];
-//        holder[i][1]= 0;
-//        }
-//
-//        if(end)
-//        break;
-//        }
-//
-//        out.println(ans);
-//        }
