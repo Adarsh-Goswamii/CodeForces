@@ -1,0 +1,23 @@
+Resources: cp-algorithms.com
+
+1. Dijkstra - finding shortest paths from given vertex
+2. Dijkstra on sparse graphs
+3. Bellman-Ford - finding shortest paths with negative weights
+4. 0-1 BFS
+5. D´Esopo-Pape algorithm
+
+1. Dijkstra - finding shortest path from a given vertex.
+    * It can be applied on graph with only positive weighted edges.
+    * ALGORITHM:
+        (i). So the main idea is to divide the graph into two sections finalized and un-finalized nodes || vertex.
+        (ii). Every time we take out the node with the least weight from the un-finalized set and then check whether we can reach a vertex more
+        efficiently or not from this vertex if yes then we update its weight.
+        (iii). We keep on doing this until all the nodes are in finalized set and un-finalized set in empty.
+
+        COMPLEXITY: So we can use a adjacency matrix for running the algo in O(node^2+ edges).
+        But it can be optimized by using adjacency list and priority queue data structure. O(nlog n+ edges) where n is no of nodes.
+
+        Though the use of heap will only help when decrease key is used to update the values of nodes as it is supposed to be O(log n).
+        But unfortunately java does not provides such function.
+
+        

@@ -1,2 +1,30 @@
 SOLUTION:
 
+So we first need to design the graph directed acyclic and having no
+parallel edges.
+
+As every intersection can move to every other intersection so
+the graph is obviously dense so we will use adjacency matrix in
+place of the adjacency list.
+
+We can save space by not assigning any extra space for the weights
+and calculate very instance its required. But for the sake of
+simplicity we will use a 3D matrix for the graph so that we can
+save the weights| energy also.
+
+We will use a priority queue for the purpose of implementing the
+dijkstra's algorithm as it will find the min energy required
+quite efficiently.
+
+Okay we cant make a graph as the value of n is 2* 10^5 and obviously
+we wont have enough space to assign a graph for n*n*2 matrix.
+
+okay lets see....................
+---------------------------------------------
+a= 5;
+b=10;
+
+arr[i][j], arr[ii][jj]
+
+
+Swapped.
