@@ -1,48 +1,16 @@
 import java.util.*;
 import java.io.*;
-// TODO: from date 2nd December 2020.
-public class BouncingBall {
+// TODO: read the tutorial due: 3rd december
+public class XORGun {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    int[] memo;
 
     void solve() throws IOException {
         int t = ni();
-        for (int ii = 0; ii < t; ii++)
-        {
-            int n= ni(), p= ni(), k= ni();
-            char[] arr= ns(n);
-            int x= ni(), y= ni();
+        for (int ii = 0; ii < t; ii++) {
 
-            memo= new int[n];
-            long ans= Long.MAX_VALUE;
-            for (int i = p; i <=n; i++)
-            {
-                ans= Math.min(ans, y*(i-p)+ x*call(arr, i, k));
-                if(y*(long)(i-p)> ans)
-                    break;
-            }
-
-            out.println(ans);
         }
-    }
-
-    private int call(char[] arr, int p, int k)
-    {
-        if(p<=arr.length)
-        {
-            if (memo[p-1] != 0)
-                return memo[p-1];
-            else
-            {
-                int val= call(arr, p+k, k);
-                memo[p-1]= val+ (arr[p-1]=='0'?1: 0);
-                return memo[p-1];
-            }
-        }
-        else
-            return 0;
     }
 
     void run() throws Exception {
@@ -54,7 +22,7 @@ public class BouncingBall {
     }
 
     public static void main(String[] args) throws Exception {
-        new BouncingBall().run();
+        new XORGun().run();
     }
 
     private byte[] inbuf = new byte[1024];

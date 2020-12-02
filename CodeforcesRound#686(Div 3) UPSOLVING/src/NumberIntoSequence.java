@@ -1,48 +1,60 @@
 import java.util.*;
 import java.io.*;
-// TODO: from date 2nd December 2020.
-public class BouncingBall {
+
+public class NumberIntoSequence {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    int[] memo;
 
     void solve() throws IOException {
         int t = ni();
-        for (int ii = 0; ii < t; ii++)
-        {
-            int n= ni(), p= ni(), k= ni();
-            char[] arr= ns(n);
-            int x= ni(), y= ni();
+        for (int ii = 0; ii < t; ii++) {
+            long n= nl();
+            HashMap<Long, Long> map= primeFactorization(n);
 
-            memo= new int[n];
-            long ans= Long.MAX_VALUE;
-            for (int i = p; i <=n; i++)
+            long freq= 0, value= 1;
+            for(long l: map.keySet())
             {
-                ans= Math.min(ans, y*(i-p)+ x*call(arr, i, k));
-                if(y*(long)(i-p)> ans)
-                    break;
+                if(freq< map.get(l))
+                {
+                    freq= map.get(l);
+                    value= l;
+                }
             }
 
-            out.println(ans);
+            out.println(freq);
+            while(freq>1)
+            {
+                out.print(value+ " ");
+                n/= value;
+                freq--;
+            }
+            out.println(n);
         }
     }
 
-    private int call(char[] arr, int p, int k)
+    private HashMap<Long, Long> primeFactorization(long n)
     {
-        if(p<=arr.length)
+        HashMap<Long, Long> map= new HashMap<>();
+        while(n%2==0)
         {
-            if (memo[p-1] != 0)
-                return memo[p-1];
-            else
+            map.put(2l, map.getOrDefault(2l, 0l)+1);
+            n/= 2;
+        }
+
+        for(long i= 3;i<=Math.sqrt(n);i+=2)
+        {
+            while(n%i==0)
             {
-                int val= call(arr, p+k, k);
-                memo[p-1]= val+ (arr[p-1]=='0'?1: 0);
-                return memo[p-1];
+                map.put(i, map.getOrDefault(i, 0l)+1);
+                n/= i;
             }
         }
-        else
-            return 0;
+
+        if(n> 2)
+            map.put(n, map.getOrDefault(n, 0l)+1);
+
+        return map;
     }
 
     void run() throws Exception {
@@ -54,7 +66,7 @@ public class BouncingBall {
     }
 
     public static void main(String[] args) throws Exception {
-        new BouncingBall().run();
+        new NumberIntoSequence().run();
     }
 
     private byte[] inbuf = new byte[1024];
