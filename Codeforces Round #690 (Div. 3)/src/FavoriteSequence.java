@@ -1,118 +1,34 @@
-import javax.naming.PartialResultException;
 import java.util.*;
 import java.io.*;
 
-/**
- * SOLUTION:
- *
- * nxm matrix
- *
- * so change a row or a column to all primes. That will make the matrix as a prime
- * matrix.
- *
- * And we have to return the minimum steps needed to make the matrix as prime
- * matrix.
- *
- * So one efficient solution can be to find all the prime numbers from 2- 10^5
- * as the max value of the matrix will be only 10^5.
- *
- * And store all this primes in a sorted fashion as we are going to use binary
- * search to find the most closest value to a given number.
- *
- * then all we have to do is traverse the array and find the minimum number
- * of steps to make out matrix as an prime matrix.
- *
- * How to do that?
- * (i). replace all the numbers of the matrix by the steps required to make them
- * prime.
- *
- * (ii). now the question has reduced to finding the min sum of a row or a column.
- */
-
-public class PrimeMatrix {
+public class FavoriteSequence
+{
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    ArrayList<Integer> primes;
 
     void solve() throws IOException {
-        int n= ni(), m= ni();
-        int[][] arr= new int[n][m];
-
-        for(int i=0;i<n;i++)
+        int t = ni();
+        for (int ii = 0; ii < t; ii++)
         {
-            for(int j=0;j<m;j++)
-                arr[i][j]= ni();
-        }
+            int n= ni();
+            Deque<Integer> q= new LinkedList<>();
+            for (int i = 0; i < n; i++)
+                q.add(ni());
 
-        sieve();
-
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<m;j++)
-                arr[i][j]= binarySearch(arr[i][j], 0, primes.size()-1)- arr[i][j];
-        }
-
-        int ans= Integer.MAX_VALUE;
-        for(int i=0;i<n;i++)
-        {
-            int sum=0;
-            for(int j=0;j<m;j++)
+            int count= 0;
+            StringBuilder ans= new StringBuilder();
+            while(!q.isEmpty())
             {
-                if(sum> ans)
-                    break;
+                if(count%2==0)
+                    ans.append(q.pollFirst()+" ");
                 else
-                    sum+= arr[i][j];
+                    ans.append(q.pollLast()+" ");
+                count++;
             }
-            ans= Math.min(ans, sum);
+
+            out.println(ans);
         }
-
-        for(int i=0;i<m;i++)
-        {
-            int sum=0;
-            for(int j=0;j<n;j++)
-            {
-                if(sum> ans)
-                    break;
-                else
-                    sum+= arr[j][i];
-            }
-            ans= Math.min(ans, sum);
-        }
-
-        out.println(ans);
-    }
-
-    private int binarySearch(int find, int start, int last)
-    {
-        while(start<= last)
-        {
-            int mid= start+ (last- start)/2;
-
-            if(primes.get(mid)== find)
-                return find;
-            else if(primes.get(mid)> find)
-                last= mid-1;
-            else
-                start= mid+1;
-        }
-        return primes.get(start);
-    }
-
-    private void sieve()
-    {
-        boolean[] composite= new boolean[100000];
-        for(int i=2;i*i<= composite.length;i++)
-        {
-            if(composite[i]) continue;
-            for(int j=i*i;j< composite.length;j+=i)
-                composite[j]= true;
-        }
-
-        primes= new ArrayList<>();
-        for(int i=2;i<composite.length;i++)
-            if(!composite[i]) primes.add(i);
-        primes.add(100003);
     }
 
     void run() throws Exception {
@@ -124,7 +40,7 @@ public class PrimeMatrix {
     }
 
     public static void main(String[] args) throws Exception {
-        new PrimeMatrix().run();
+        new FavoriteSequence().run();
     }
 
     private byte[] inbuf = new byte[1024];

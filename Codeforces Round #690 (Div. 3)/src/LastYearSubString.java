@@ -1,93 +1,35 @@
 import java.util.*;
 import java.io.*;
 
-/**
- * SOLUTION:
- *
- * a and b grams of cheese
- *
- * okay so i guess i am the fox.
- *
- * we need to make them equal as soon as possible by reducing them to 1/2, 1/3
- * and 1/5.
- *
- * How to approach the solution...............................................
- * So if there exists a common divisor then there will exist some ans for the
- * problem.
- *
- * Do prime factorization of a and b.
- * How about writing a recursive code that checks for all valid paths. Only if
- * we cant find any relation between which number to divide by what.
- *
- * 15= 3 x 5
- * 20= 2 x 2 x 5
- * delete all the common terms and if the left part just contains 2, 3 or 5 then
- * there exists a solution with remaining no of elements in both of there
- * prime factorization.
- */
-
-public class FoxDividingCheese {
+public class LastYearSubString {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int n= ni(), m= ni();
-
-        HashMap<Integer, Integer> map = primeFactorization(n);
-        HashMap<Integer, Integer> map2 = primeFactorization(m);
-
-        HashSet<Integer> set =  new HashSet<>(map.keySet());
-        set.addAll(map2.keySet());
-
-        for(int key: set)
+        int t = ni();
+        outer:for (int ii = 0; ii < t; ii++)
         {
-            int min= Math.min(map.getOrDefault(key, 0), map2.getOrDefault(key, 0));
-            map.put(key, map.getOrDefault(key, 0)-min);
-            map2.put(key, map2.getOrDefault(key, 0)-min);
-        }
+            int n= ni();
+            char[] arr= ns(n);
+            char[] match= {'2', '0', '2', '0'};
 
-        int ans=0;
-        for(int i: set)
-        {
-            if(i!=2 && i!=3 && i!=5)
-            {
-                if(map.getOrDefault(i, 0)!= map2.getOrDefault(i, 0))
-                {
-                    ans= -1;
-                    break;
-                }
-            }
+            int i=0, j=0;
+            while(j!=4 && arr[i]== match[j])
+            { i++; j++; }
+            int prefix= j;
+            i= arr.length-1; j= 3;
+            while(j!=-1 && arr[i]== match[j])
+            { i--; j--; }
+
+            if(prefix> j)
+                out.println("yes");
             else
-                ans+= map.getOrDefault(i, 0)+ map2.getOrDefault(i, 0);
+                out.println("no");
+
+
+
         }
-
-        out.println(ans);
-    }
-
-    private HashMap<Integer, Integer> primeFactorization(int n)
-    {
-        HashMap<Integer, Integer> map =  new HashMap<>();
-
-        while(n%2==0 && n!=1)
-        {
-            map.put(2, map.getOrDefault(2, 0)+1);
-            n/=2;
-        }
-
-        for(int i=3;i*i<=n;i+=2)
-        {
-            while(n!=1 && n%i==0)
-            {
-                map.put(i, map.getOrDefault(i, 0)+1);
-                n/=i;
-            }
-        }
-
-        if(n>2)
-            map.put(n, map.getOrDefault(n, 0)+1);
-
-        return map;
     }
 
     void run() throws Exception {
@@ -99,7 +41,7 @@ public class FoxDividingCheese {
     }
 
     public static void main(String[] args) throws Exception {
-        new FoxDividingCheese().run();
+        new LastYearSubString().run();
     }
 
     private byte[] inbuf = new byte[1024];

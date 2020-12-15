@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NumberTheory/..iml" filepath="$PROJECT_DIR$/NumberTheory/..iml" />
       <module fileurl="file://$PROJECT_DIR$/CodeForces.iml" filepath="$PROJECT_DIR$/CodeForces.iml" />
       <module fileurl="file://$PROJECT_DIR$/CodeForces Beta Round #1/CodeForces Beta Round #1.iml" filepath="$PROJECT_DIR$/CodeForces Beta Round #1/CodeForces Beta Round #1.iml" />
       <module fileurl="file://$PROJECT_DIR$/CodeForces Round #680 (Div 2)/CodeForces Round #680 (Div 2).iml" filepath="$PROJECT_DIR$/CodeForces Round #680 (Div 2)/CodeForces Round #680 (Div 2).iml" />
       <module fileurl="file://$PROJECT_DIR$/CodeForces Round 681/CodeForces Round 681.iml" filepath="$PROJECT_DIR$/CodeForces Round 681/CodeForces Round 681.iml" />
       <module fileurl="file://$PROJECT_DIR$/CodeForces round #687 (Div 2) UPSOLVING/CodeForces round #687 (Div 2) UPSOLVING.iml" filepath="$PROJECT_DIR$/CodeForces round #687 (Div 2) UPSOLVING/CodeForces round #687 (Div 2) UPSOLVING.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Codeforces Round #690 (Div. 3)/Codeforces Round #690 (Div. 3).iml" filepath="$PROJECT_DIR$/Codeforces Round #690 (Div. 3)/Codeforces Round #690 (Div. 3).iml" />
       <module fileurl="file://$PROJECT_DIR$/CodeforcesRound#686(Div 3) UPSOLVING/CodeforcesRound#686(Div 3) UPSOLVING.iml" filepath="$PROJECT_DIR$/CodeforcesRound#686(Div 3) UPSOLVING/CodeforcesRound#686(Div 3) UPSOLVING.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Difficulty_1500/Difficulty_1500.iml" filepath="$PROJECT_DIR$/Difficulty_1500/Difficulty_1500.iml" />
       <module fileurl="file://$PROJECT_DIR$/Expected Value/Expected Value.iml" filepath="$PROJECT_DIR$/Expected Value/Expected Value.iml" />
       <module fileurl="file://$PROJECT_DIR$/Graphs/Graphs.iml" filepath="$PROJECT_DIR$/Graphs/Graphs.iml" />
     </modules>

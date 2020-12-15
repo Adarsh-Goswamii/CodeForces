@@ -1,55 +1,51 @@
 import java.util.*;
 import java.io.*;
 
-/**
- * SOLUTION:
- *
- * so basically we have a starting position and an ending position and we have
- * to figure out that we can reach the destination from given four moves or not
- *
- * so basically the difference between the initial and final position should be
- * a multiple of the given value of valid moves.
- *
- * but there is one more condition that we have to check if the co-ordinates x
- * and y can be achieved simultaneously or not.
- *
- * as we can add and delete that value in the very next step its safe to say
- * that we can ignore and even number of moves.
- *
- * we can first take the x co-ordinate to its final position an check for the no
- * of moves required to do so.
- *     If its even then the initial co-ordinate of y does not changes else
- *     we can add or subtract the value of b from initial y.
- * And then all we have to do is check whether the no of steps required by the
- * y axis to reach its final position is even or odd.
- *
- * (i). If its even then we can reach the final position.
- * (ii). If its odd then we cant reach the final position.
- */
-
-public class TreasureHunt {
+public class AddToNeighbourAndRemove {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int start_x= ni(), start_y= ni(), final_x= ni(), final_y= ni();
-        int a= ni(), b= ni();
-
-        if(Math.abs(start_x- final_x)%a==0 && Math.abs(start_y- final_y)%b==0)
+        int t = ni();
+        for (int ii = 0; ii < t; ii++)
         {
-            int steps= Math.abs(start_x- final_x)/a;
-            if(steps%2!=0)
-                start_y+= b;
+            int n= ni();
+            int[] arr= new int[n];
+            int max= 0, _sum=0;
+            ArrayList<Integer> set= new ArrayList<>();
+            for (int i = 0; i < n; i++)
+            {
+                arr[i]= ni();
+                max= Math.max(max, arr[i]);
+                _sum+= arr[i];
+                set.add(_sum);
+            }
 
-            steps= Math.abs(start_y- final_y)/b;
-            if(steps%2==0)
-                out.println("YES");
-            else
-                out.println("NO");
+            Collections.sort(set);
+
+            for(int i: set)
+            {
+                int steps= 0, j;
+                int sum= 0;
+                for(j=0;j<arr.length;j++)
+                {
+                    sum+= arr[j];
+                    if(sum== i)
+                    { sum= 0; steps--; }
+                    else if(sum> i)
+                        break;
+                    steps++;
+                }
+
+                if(j== arr.length && sum==0)
+                {
+                    //out.println(i);
+                    out.println(steps);
+                    break;
+                }
+            }
         }
-        else
-            out.println("NO");
     }
 
     void run() throws Exception {
@@ -61,7 +57,7 @@ public class TreasureHunt {
     }
 
     public static void main(String[] args) throws Exception {
-        new TreasureHunt().run();
+        new AddToNeighbourAndRemove().run();
     }
 
     private byte[] inbuf = new byte[1024];
