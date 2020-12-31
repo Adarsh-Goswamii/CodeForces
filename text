@@ -1,30 +1,15 @@
 SOLUTION:
 
-So we first need to design the graph directed acyclic and having no
-parallel edges.
+(Sliding window)
+So we just need to tell whether its possible or not.
+The only tricking thing about this code is that we need to choose what
+should be assigned to ? wisely or we will end up ruining the whole thing.
 
-As every intersection can move to every other intersection so
-the graph is obviously dense so we will use adjacency matrix in
-place of the adjacency list.
+10??100 this be out sequence and we have to make this string 4 balanced
 
-We can save space by not assigning any extra space for the weights
-and calculate very instance its required. But for the sake of
-simplicity we will use a 3D matrix for the graph so that we can
-save the weights| energy also.
+so out possibilities are that we can choose the pattern to be 1010100
+or 1001100 both satisfies the criteria for the first window but as we slide
+it we will face issues in 1010100, check the last sub string 0f len 4 0100
+which is not satisfying the criteria.
 
-We will use a priority queue for the purpose of implementing the
-dijkstra's algorithm as it will find the min energy required
-quite efficiently.
-
-Okay we cant make a graph as the value of n is 2* 10^5 and obviously
-we wont have enough space to assign a graph for n*n*2 matrix.
-
-okay lets see....................
----------------------------------------------
-a= 5;
-b=10;
-
-arr[i][j], arr[ii][jj]
-
-
-Swapped.
+So, how to deal with this problem
