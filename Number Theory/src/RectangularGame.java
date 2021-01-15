@@ -1,16 +1,34 @@
 import java.util.*;
 import java.io.*;
 
-public class PhysicalEducation {
+public class RectangularGame {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t = ni();
-        for (int ii = 0; ii < t; ii++) {
+        int n= ni();
+        int ans= 0;
 
+        while(n%2==0)
+        {
+            ans+= n;
+            n>>=1;
         }
+
+        for(int i=3;i<=Math.sqrt(n);i+=2)
+        {
+            while(n%i==0)
+            {
+                ans+= n;
+                n= n/i;
+            }
+        }
+
+        if(n>2)
+            ans+= n;
+
+        out.println(ans+1);
     }
 
     void run() throws Exception {
@@ -22,7 +40,7 @@ public class PhysicalEducation {
     }
 
     public static void main(String[] args) throws Exception {
-        new PhysicalEducation().run();
+        new RectangularGame().run();
     }
 
     private byte[] inbuf = new byte[1024];

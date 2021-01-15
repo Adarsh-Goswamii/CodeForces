@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class BalancedBitString {
+public class DigitalRoot {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
@@ -9,30 +9,9 @@ public class BalancedBitString {
     void solve() throws IOException {
         int t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), k= ni();
-            char[] arr= ns(n);
-
-            int start= 0, last= 0;
-            ArrayList<Integer> ques= new ArrayList<>();
-            int[] map= new int[]{0,0};
-            while(last< n)
-            {
-                while(last!= start+k-1)
-                {
-                    if(arr[last]== '0')
-                        map[0]++;
-                    else if(arr[last]== '1')
-                        map[1]++;
-                    else
-                        ques.add(last);
-                }
-
-                if(map[0]!= k/2)
-                { }
-
-            }
-
-
+            long k= nl();
+            int n= ni();
+            out.println(n+(k-1)*9);
         }
     }
 
@@ -45,7 +24,7 @@ public class BalancedBitString {
     }
 
     public static void main(String[] args) throws Exception {
-        new BalancedBitString().run();
+        new DigitalRoot().run();
     }
 
     private byte[] inbuf = new byte[1024];
