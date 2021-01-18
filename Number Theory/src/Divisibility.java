@@ -1,36 +1,14 @@
 import java.util.*;
 import java.io.*;
 
-public class AlltheVowelsPlease {
+public class Divisibility {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int k= ni();
-        for(int i= 1;i<=k;i++)
-        {
-            if(k%i== 0 && k/i>= 5 && i>=5)
-            {
-                char[] vowel= "aeiou".toCharArray();
-                StringBuilder ans= new StringBuilder("");
-                for(int ii=0;ii<i;ii++)
-                {
-                    for(int j= 0;j<k/i;j++)
-                    {
-                        ans.append(vowel[(ii+j)% 5]);
-                    }
-                }
-                out.println(ans);
-                break;
-            }
-            else if(i==k)
-                out.println("-1");
-        }
-
-
-
+    void solve() throws IOException {
+        long n= nl();
+        out.println(n/2520l);
     }
 
     void run() throws Exception {
@@ -42,7 +20,7 @@ public class AlltheVowelsPlease {
     }
 
     public static void main(String[] args) throws Exception {
-        new AlltheVowelsPlease().run();
+        new Divisibility().run();
     }
 
     private byte[] inbuf = new byte[1024];

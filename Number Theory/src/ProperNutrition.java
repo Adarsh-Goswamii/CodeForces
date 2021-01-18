@@ -1,36 +1,91 @@
 import java.util.*;
 import java.io.*;
 
-public class AlltheVowelsPlease {
+public class ProperNutrition {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int k= ni();
-        for(int i= 1;i<=k;i++)
+    void solve() throws IOException {
+        int c= ni(), a= ni(), b= ni();
+
+        long x= 1, y= 0;
+        long xt= 0, yt= 1, at= a, bt= b;
+        while(bt!=0)
         {
-            if(k%i== 0 && k/i>= 5 && i>=5)
-            {
-                char[] vowel= "aeiou".toCharArray();
-                StringBuilder ans= new StringBuilder("");
-                for(int ii=0;ii<i;ii++)
-                {
-                    for(int j= 0;j<k/i;j++)
-                    {
-                        ans.append(vowel[(ii+j)% 5]);
-                    }
-                }
-                out.println(ans);
-                break;
-            }
-            else if(i==k)
-                out.println("-1");
+            long q= at/ bt;
+
+            long temp= xt;
+            xt= x- q*xt;
+            x= temp;
+
+            temp= yt;
+            yt= y- q*yt;
+            y= temp;
+
+            temp= bt;
+            bt= at- q*bt;
+            at= temp;
         }
 
+        if(c% at!=0)
+        {
+            out.println("NO");
+            return;
+        }
 
+        x= x* (c/ at);
+        y= y* (c/ at);
+//        out.println(x+" "+y);
 
+        if(x>=0 && y>=0)
+            out.println("YES\n"+x+" "+y);
+        else if(x<0 && y<0)
+            out.println("NO");
+        else if(x>=0 && y<0)
+        {
+            long k= (y*at/a);
+            x= x+ k*(b/at);
+            y= y- k*(a/at);
+//            out.println(x+" "+y);
+
+            while(true)
+            {
+                if(x<0) {
+                    out.println("NO");
+                    break;
+                }
+                else if(x>=0 && y>=0) {
+                    out.println("YES\n"+x+" "+y);
+                    break;
+                }
+
+                x= x- (b/at);
+                y= y+ (a/at);
+            }
+        }
+        else
+        {
+            long k= x*at/b;
+            x= x+ (k*(b/at));
+            y= y- (k*(a/at));
+
+            while(true)
+            {
+                if(y<0) {
+                    out.println("NO");
+                    break;
+                }
+                else if(x>=0 && y>=0) {
+                    out.println("YES\n"+x+" "+y);
+                    break;
+                }
+
+                x= x+ (b/at);
+                y= y- (a/at);
+
+            }
+        }
     }
 
     void run() throws Exception {
@@ -42,7 +97,7 @@ public class AlltheVowelsPlease {
     }
 
     public static void main(String[] args) throws Exception {
-        new AlltheVowelsPlease().run();
+        new ProperNutrition().run();
     }
 
     private byte[] inbuf = new byte[1024];

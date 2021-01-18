@@ -1,36 +1,81 @@
 import java.util.*;
 import java.io.*;
 
-public class AlltheVowelsPlease {
+public class EbonyAndIvory {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int k= ni();
-        for(int i= 1;i<=k;i++)
+    void solve() throws IOException {
+        int a= ni(), b= ni(), c= ni();
+
+        boolean ans= false;
+        outer :for(int i=0;i<=c;i++)
         {
-            if(k%i== 0 && k/i>= 5 && i>=5)
+            for(int j=0;j<=c;j++)
             {
-                char[] vowel= "aeiou".toCharArray();
-                StringBuilder ans= new StringBuilder("");
-                for(int ii=0;ii<i;ii++)
+                if(a*i+ b*j== c)
                 {
-                    for(int j= 0;j<k/i;j++)
-                    {
-                        ans.append(vowel[(ii+j)% 5]);
-                    }
+                    out.println("Yes");
+                    ans= true;
+                    break outer;
                 }
-                out.println(ans);
-                break;
+                else if(a*i+ b*j> c)
+                    break;
             }
-            else if(i==k)
-                out.println("-1");
         }
 
+        if(!ans)
+            out.println("No");
+    }
 
+    // algo to check if there is any positive solution or not
+    boolean check(int x, int y, int a, int b)
+    {
+        int k= y/a;
 
+        if(x/b>= k)
+            return true;
+        else
+            return false;
+    }
+
+    // algo that returns one of the possible values for the eq: ax+ by= c.
+    int[] extendedEuclideansAlgo(int a, int b, int c)
+    {
+        int x= 1, y= 0;
+        int x1= 0, y1= 1, a1= a, b1= b;
+        while(b1!=0)
+        {
+            int q= a1/ b1;
+
+            int temp= x1;
+            x1= x- q* x1;
+            x= temp;
+
+            temp= y1;
+            y1= y- q* y1;
+            y= temp;
+
+            temp= b1;
+            b1= a1- q* b1;
+            a1= temp;
+        }
+
+        // yes if ans exists
+//        if(c%a1!= 0)
+//            out.println("No");
+//        else
+//            out.println("Yes");
+
+        x= x* c/a1;
+        y= y* c/a1;
+//        out.println(x+" "+y);
+
+        // index 1 for yes = 1, no= 0
+        // index 2 for coefficient of a
+        // index 3 for coefficient of b
+        return new int[]{c%a1==0?1:0, x, y};
     }
 
     void run() throws Exception {
@@ -42,7 +87,7 @@ public class AlltheVowelsPlease {
     }
 
     public static void main(String[] args) throws Exception {
-        new AlltheVowelsPlease().run();
+        new EbonyAndIvory().run();
     }
 
     private byte[] inbuf = new byte[1024];

@@ -1,36 +1,35 @@
 import java.util.*;
 import java.io.*;
 
-public class AlltheVowelsPlease {
+public class Urbanization {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int k= ni();
-        for(int i= 1;i<=k;i++)
+    void solve() throws IOException {
+        long n= ni(), n1= ni(), n2= ni();
+
+        if(n1> n2)
         {
-            if(k%i== 0 && k/i>= 5 && i>=5)
-            {
-                char[] vowel= "aeiou".toCharArray();
-                StringBuilder ans= new StringBuilder("");
-                for(int ii=0;ii<i;ii++)
-                {
-                    for(int j= 0;j<k/i;j++)
-                    {
-                        ans.append(vowel[(ii+j)% 5]);
-                    }
-                }
-                out.println(ans);
-                break;
-            }
-            else if(i==k)
-                out.println("-1");
+            n1= n1^ n2;
+            n2= n1^ n2;
+            n1= n1^ n2;
         }
 
+        List<Integer> arr= new ArrayList<>();
+        for(int i=0;i<n;i++)
+            arr.add(ni());
 
+        Collections.sort(arr);
+        long n11= n1, n22= n2, sum1= 0, sum2= 0;
+        int i=(int)n-1;
+        while(n1--!=0)
+            sum1+= arr.get(i--);
 
+        while(n2--!=0)
+            sum2+= arr.get(i--);
+
+        out.println((sum1/(1.0d*n11))+((sum2*1.0d)/n22));
     }
 
     void run() throws Exception {
@@ -42,7 +41,7 @@ public class AlltheVowelsPlease {
     }
 
     public static void main(String[] args) throws Exception {
-        new AlltheVowelsPlease().run();
+        new Urbanization().run();
     }
 
     private byte[] inbuf = new byte[1024];

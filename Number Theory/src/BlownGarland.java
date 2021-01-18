@@ -1,36 +1,33 @@
 import java.util.*;
 import java.io.*;
 
-public class AlltheVowelsPlease {
+public class BlownGarland {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
+    int[] ans= new int[4];
 
-    void solve() throws IOException
-    {
-        int k= ni();
-        for(int i= 1;i<=k;i++)
+    void solve() throws IOException {
+        char[] arr= ns().toCharArray();
+        int[] map= new int[4];
+
+        for(int i=0;i<arr.length;i++)
+            if(arr[i]=='R')
+                map[0]= i%4;
+            else if(arr[i]=='B')
+                map[1]= i%4;
+            else if(arr[i]== 'Y')
+                map[2]= i%4;
+            else if(arr[i]== 'G')
+                map[3]= i%4;
+
+        for(int i=0;i<arr.length;i++)
         {
-            if(k%i== 0 && k/i>= 5 && i>=5)
-            {
-                char[] vowel= "aeiou".toCharArray();
-                StringBuilder ans= new StringBuilder("");
-                for(int ii=0;ii<i;ii++)
-                {
-                    for(int j= 0;j<k/i;j++)
-                    {
-                        ans.append(vowel[(ii+j)% 5]);
-                    }
-                }
-                out.println(ans);
-                break;
-            }
-            else if(i==k)
-                out.println("-1");
+            if(arr[i]== '!')
+                ans[i%4]++;
         }
 
-
-
+        out.println(ans[map[0]]+" "+ans[map[1]]+" "+ans[map[2]]+" "+ans[map[3]]);
     }
 
     void run() throws Exception {
@@ -42,7 +39,7 @@ public class AlltheVowelsPlease {
     }
 
     public static void main(String[] args) throws Exception {
-        new AlltheVowelsPlease().run();
+        new BlownGarland().run();
     }
 
     private byte[] inbuf = new byte[1024];

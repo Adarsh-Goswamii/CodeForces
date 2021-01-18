@@ -1,36 +1,48 @@
 import java.util.*;
 import java.io.*;
 
-public class AlltheVowelsPlease {
+public class WeirdSubtractionProcess {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int k= ni();
-        for(int i= 1;i<=k;i++)
+    void solve() throws IOException {
+        long[] power= new long[60];
+        long val= 2l;
+        for(int i=1;i<=60;i++, val<<= 1)
+            power[i-1]= val;
+
+//        for(int i=0;i<60;i++)
+//            out.println(power[i]+" ");
+//        out.println();
+
+        long a= nl(), b= nl();
+        while(true)
         {
-            if(k%i== 0 && k/i>= 5 && i>=5)
-            {
-                char[] vowel= "aeiou".toCharArray();
-                StringBuilder ans= new StringBuilder("");
-                for(int ii=0;ii<i;ii++)
-                {
-                    for(int j= 0;j<k/i;j++)
-                    {
-                        ans.append(vowel[(ii+j)% 5]);
-                    }
-                }
-                out.println(ans);
+            //System.out.println(a+" "+b);
+            if(a== 0|| b== 0)
                 break;
+            else if(a>= 2*b)
+            {
+                int i= 0;
+                while(a>=power[i]*b)
+                    i++;
+
+                a-= power[i-1]*b;
             }
-            else if(i==k)
-                out.println("-1");
+            else if(b>= 2*a)
+            {
+                int i= 0;
+                while(b>=power[i]*a)
+                    i++;
+
+                b-= power[i-1]*a;
+            }
+            else
+                break;
         }
 
-
-
+        out.println(a+" "+b);
     }
 
     void run() throws Exception {
@@ -42,7 +54,7 @@ public class AlltheVowelsPlease {
     }
 
     public static void main(String[] args) throws Exception {
-        new AlltheVowelsPlease().run();
+        new WeirdSubtractionProcess().run();
     }
 
     private byte[] inbuf = new byte[1024];
