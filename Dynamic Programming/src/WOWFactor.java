@@ -1,42 +1,51 @@
 import java.util.*;
 import java.io.*;
 
-class test {
+public class WOWFactor {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t=ni();
-        for(int ii=0;ii<t;ii++)
+        char[] arr= ns().toCharArray();
+        int[] prefix= new int[arr.length];
+        int[] suffix= new int[arr.length];
+
+        int count= 0, w= 0;
+        for(int i=0;i<arr.length;i++)
         {
-            int n=ni();
-            int b=ni();
-            int [] arr= new int[n];
-            for(int i=n-1;i>=0;i--)
+            if(arr[i]== 'o')
             {
-                arr[i] = b%10;
-                b=b/10;
+                w+= count!=0? count-1: 0;
+                count= 0;
+                prefix[i]= w;
             }
-            int prev=-1;
-            StringBuilder s= new StringBuilder();
-            for(int i=0;i<n;i++)
-            {
-                if(arr[i]+1!=prev)
-                {
-                    s.append("1");
-                    prev=arr[i]+1;
-                }
-                else
-                {
-                    prev= arr[i];
-                    s.append("0");
-                }
-            }
-            out.println(s);
+            else
+                count++;
         }
+
+        count= 0;
+        w= 0;
+        for(int i=arr.length-1;i>=0;i--)
+        {
+            if(arr[i]== 'o')
+            {
+                w+= count!=0? count-1: 0;
+                count= 0;
+                suffix[i]= w;
+            }
+            else
+                count++;
+        }
+
+        long ans= 0;
+        for(int i= 0;i<prefix.length;i++)
+            ans+= prefix[i]* 1l* suffix[i];
+
+        out.println(ans);
     }
 
+    // prefix
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
@@ -46,7 +55,7 @@ class test {
     }
 
     public static void main(String[] args) throws Exception {
-        new test().run();
+        new WOWFactor().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -159,3 +168,4 @@ class test {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+

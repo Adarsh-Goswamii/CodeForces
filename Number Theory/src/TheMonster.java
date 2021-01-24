@@ -1,40 +1,41 @@
 import java.util.*;
 import java.io.*;
 
-class test {
+// TODO: 25th january 2021
+
+public class TheMonster {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t=ni();
-        for(int ii=0;ii<t;ii++)
+        int a= ni(), b= ni();
+        int c= ni(), d= ni();
+
+    }
+
+    int[] gcd(int a, int b)
+    {
+        int x= 1, y= 0;
+        int x_temp= 0, y_temp= 1, a_temp= a, b_temp= b;
+
+        while(b_temp!= 0)
         {
-            int n=ni();
-            int b=ni();
-            int [] arr= new int[n];
-            for(int i=n-1;i>=0;i--)
-            {
-                arr[i] = b%10;
-                b=b/10;
-            }
-            int prev=-1;
-            StringBuilder s= new StringBuilder();
-            for(int i=0;i<n;i++)
-            {
-                if(arr[i]+1!=prev)
-                {
-                    s.append("1");
-                    prev=arr[i]+1;
-                }
-                else
-                {
-                    prev= arr[i];
-                    s.append("0");
-                }
-            }
-            out.println(s);
+            int q= a_temp/ b_temp;
+            int temp= x_temp;
+            x_temp= x- q* x_temp;
+            x= temp;
+
+            temp= y_temp;
+            y_temp= y- q* y_temp;
+            y= temp;
+
+            temp= b_temp;
+            b_temp= a_temp- q* b_temp;
+            a_temp= temp;
         }
+
+        return new int[]{a_temp, x, y};
     }
 
     void run() throws Exception {
@@ -46,7 +47,7 @@ class test {
     }
 
     public static void main(String[] args) throws Exception {
-        new test().run();
+        new TheMonster().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -159,3 +160,4 @@ class test {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+

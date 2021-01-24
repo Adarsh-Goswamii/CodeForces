@@ -1,52 +1,49 @@
 import java.util.*;
 import java.io.*;
 
-class test {
+// TODO: 25 jan 2021
+
+public class MoveandTurn {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
+    int[][] dir= {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    //int left= 1, right= 0, down= 2, up= 3;
+    boolean[][] visited;
+    int ans;
 
     void solve() throws IOException {
-        int t=ni();
-        for(int ii=0;ii<t;ii++)
+        int n= ni();
+        dfs(1000, 1000, n, 4);
+
+        out.println(ans);
+    }
+
+    private void dfs(int row, int col, int n, int direction)
+    {
+        if(visited[row][col] && n== 0) return;
+        if(n== 0) { ans++; visited[row][col]= true; return; }
+
+        for(int i=0;i<4;i++)
         {
-            int n=ni();
-            int b=ni();
-            int [] arr= new int[n];
-            for(int i=n-1;i>=0;i--)
-            {
-                arr[i] = b%10;
-                b=b/10;
-            }
-            int prev=-1;
-            StringBuilder s= new StringBuilder();
-            for(int i=0;i<n;i++)
-            {
-                if(arr[i]+1!=prev)
-                {
-                    s.append("1");
-                    prev=arr[i]+1;
-                }
-                else
-                {
-                    prev= arr[i];
-                    s.append("0");
-                }
-            }
-            out.println(s);
+            if(direction== i) continue;
+            dfs(row+ dir[i][0], col+ dir[i][1], n-1, i);
         }
+
     }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
+        visited= new boolean[2001][2001];
+        ans= 0;
 
         solve();
         out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new test().run();
+        new MoveandTurn().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -159,3 +156,4 @@ class test {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+

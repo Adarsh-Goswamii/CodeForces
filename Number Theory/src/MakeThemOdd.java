@@ -1,39 +1,39 @@
 import java.util.*;
 import java.io.*;
 
-class test {
+public class MakeThemOdd {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t=ni();
-        for(int ii=0;ii<t;ii++)
+        int t = ni();
+        for (int ii = 0; ii < t; ii++)
         {
-            int n=ni();
-            int b=ni();
-            int [] arr= new int[n];
-            for(int i=n-1;i>=0;i--)
+            int n= ni();
+            HashSet<Integer> set= new HashSet<>();
+            for (int i = 0; i < n; i++)
             {
-                arr[i] = b%10;
-                b=b/10;
+                int key= ni();
+                if((key&1)== 1) continue;
+                set.add(key);
             }
-            int prev=-1;
-            StringBuilder s= new StringBuilder();
-            for(int i=0;i<n;i++)
+
+            PriorityQueue<Integer> q= new PriorityQueue<>(Collections.reverseOrder());
+            for(int i: set)
+                q.add(i);
+
+            int ans= 0;
+            while(!q.isEmpty())
             {
-                if(arr[i]+1!=prev)
-                {
-                    s.append("1");
-                    prev=arr[i]+1;
-                }
-                else
-                {
-                    prev= arr[i];
-                    s.append("0");
-                }
+                ans++;
+                int key= q.poll();
+                key>>=1;
+                if(key%2== 0 && !set.contains(key)) q.add(key);
             }
-            out.println(s);
+
+            //out.println();
+            out.println(ans);
         }
     }
 
@@ -46,7 +46,7 @@ class test {
     }
 
     public static void main(String[] args) throws Exception {
-        new test().run();
+        new MakeThemOdd().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -159,3 +159,4 @@ class test {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+

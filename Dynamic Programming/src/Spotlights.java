@@ -1,41 +1,97 @@
 import java.util.*;
 import java.io.*;
 
-class test {
+public class Spotlights {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
+    int up= 1, down= 2, left= 3, right= 4;
 
     void solve() throws IOException {
-        int t=ni();
-        for(int ii=0;ii<t;ii++)
+        int n = ni(), m = ni();
+        int[][][] arr = new int[n][m][5];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+                arr[i][j] = new int[]{ni(), 0, 0, 0, 0};
+
+        boolean found = false;
+        for (int i = 0; i < n; i++)
         {
-            int n=ni();
-            int b=ni();
-            int [] arr= new int[n];
-            for(int i=n-1;i>=0;i--)
+            found= false;
+            for (int j = 0; j < m; j++)
             {
-                arr[i] = b%10;
-                b=b/10;
+                if (arr[i][j][0] == 1) found = true;
+                else arr[i][j][left] = found ? 1 : 0;
             }
-            int prev=-1;
-            StringBuilder s= new StringBuilder();
-            for(int i=0;i<n;i++)
-            {
-                if(arr[i]+1!=prev)
-                {
-                    s.append("1");
-                    prev=arr[i]+1;
-                }
-                else
-                {
-                    prev= arr[i];
-                    s.append("0");
-                }
-            }
-            out.println(s);
         }
+
+        for (int i = 0; i < n; i++)
+        {
+            found= false;
+            for (int j = m-1; j>=0; j--)
+            {
+                if (arr[i][j][0] == 1) found = true;
+                else arr[i][j][right] = found ? 1 : 0;
+            }
+        }
+
+        for (int i = 0; i < m; i++)
+        {
+            found= false;
+            for (int j = 0; j < n; j++)
+            {
+                if (arr[j][i][0] == 1) found = true;
+                else arr[j][i][up] = found ? 1 : 0;
+            }
+        }
+
+        for (int i = 0; i < m; i++)
+        {
+            found= false;
+            for (int j = n-1; j>= 0; j--)
+            {
+                if (arr[j][i][0] == 1) found = true;
+                else arr[j][i][down] = found ? 1 : 0;
+            }
+        }
+
+        int ans= 0;
+        for(int i=0;i<n;i++)
+            for(int j=0;j<m;j++)
+                if(arr[i][j][0]== 0)
+                    for(int k=1;k<5;k++)
+                        ans+= arr[i][j][k];
+
+        out.println(ans);
+
+//        for(int i=0;i<n;i++) {
+//            for (int j = 0; j < m; j++) {
+//                out.println(i + " " + j + " ");
+//                for (int k = 0; k < 5; k++)
+//                    out.print(arr[i][j][k] + " ");
+//                out.println();
+//            }
+//        }
     }
+
+//    private void one(int[][][] arr, int row, int col, int n, int m)
+//    {
+//        // up
+//        for(int i= row+1;i<n;i++)
+//            arr[i][col][up]= 1;
+//
+//        // down
+//        for(int i=0;i<row;i++)
+//            arr[i][col][down]= 1;
+//
+//        // left
+//        for(int i= col+1;i<m;i++)
+//            arr[row][i][left]= 1;
+//
+//        // right
+//        for(int i=0;i<col;i++)
+//            arr[row][i][right]= 1;
+//    }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
@@ -46,7 +102,7 @@ class test {
     }
 
     public static void main(String[] args) throws Exception {
-        new test().run();
+        new Spotlights().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -159,3 +215,4 @@ class test {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+
