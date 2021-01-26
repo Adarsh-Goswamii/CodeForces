@@ -1,53 +1,26 @@
 import java.util.*;
 import java.io.*;
 
-public class TheMonster {
+public class NewSkateboard {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int _a= ni(), _b= ni();
-        int _c= ni(), _d= ni();
+        char[] arr= ns().toCharArray();
 
-        long[] arr= gcd2(_b, _c, _d- _a);
-        if(arr[0]== -1)
-            out.println(-1);
-        else
+        long ans= 0;
+        HashSet<Integer> set= new HashSet<>(Arrays.asList(0, 4, 8));
+        for(int i=arr.length-1;i>=0;i--)
         {
-            out.println(arr[1]+" "+arr[2]);
-            out.println(_d+ arr[2]*_b);
-        }
-    }
+            if(set.contains(arr[i]-48))
+                ans++;
 
-    long[] gcd2(long a, long b, long c)
-    {
-        long x= 1, y= 0;
-        long xt= 0, yt= 1, at= a, bt= b;
-        while(bt!=0)
-        {
-            long q= at/ bt;
-
-            long temp= xt;
-            xt= x- q*xt;
-            x= temp;
-
-            temp= yt;
-            yt= y- q*yt;
-            y= temp;
-
-            temp= bt;
-            bt= at- q*bt;
-            at= temp;
+            if(i!=0 && (((arr[i-1]- 48)*10+ (arr[i]-48))%4 == 0))
+                ans+= i;
         }
 
-        if(c% at!=0)
-            return new long[]{-1l, 0l, 0l}; // solution does not exists
-
-        x= x* (c/ at);
-        y= y* (c/ at);
-
-        return new long[]{at, x, y};
+        out.println(ans);
     }
 
     void run() throws Exception {
@@ -59,7 +32,7 @@ public class TheMonster {
     }
 
     public static void main(String[] args) throws Exception {
-        new TheMonster().run();
+        new NewSkateboard().run();
     }
 
     private byte[] inbuf = new byte[1024];

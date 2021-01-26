@@ -1,53 +1,29 @@
 import java.util.*;
 import java.io.*;
 
-public class TheMonster {
+public class MaximumSplitting {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int _a= ni(), _b= ni();
-        int _c= ni(), _d= ni();
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni();
 
-        long[] arr= gcd2(_b, _c, _d- _a);
-        if(arr[0]== -1)
-            out.println(-1);
-        else
-        {
-            out.println(arr[1]+" "+arr[2]);
-            out.println(_d+ arr[2]*_b);
+            if(n<4)
+                out.println(-1);
+            else if(n%4== 0)
+                out.println(n/4);
+            else if(n>=6 && (n-6)%4== 0)
+                out.println((n-6)/4+ 1);
+            else if(n>=9 && (n-9)%4== 0)
+                out.println((n-9)/4+ 1);
+            else if(n>=15 && (n-15)%4== 0)
+                out.println((n-15)/4+ 2);
+            else
+                out.println(-1);
         }
-    }
-
-    long[] gcd2(long a, long b, long c)
-    {
-        long x= 1, y= 0;
-        long xt= 0, yt= 1, at= a, bt= b;
-        while(bt!=0)
-        {
-            long q= at/ bt;
-
-            long temp= xt;
-            xt= x- q*xt;
-            x= temp;
-
-            temp= yt;
-            yt= y- q*yt;
-            y= temp;
-
-            temp= bt;
-            bt= at- q*bt;
-            at= temp;
-        }
-
-        if(c% at!=0)
-            return new long[]{-1l, 0l, 0l}; // solution does not exists
-
-        x= x* (c/ at);
-        y= y* (c/ at);
-
-        return new long[]{at, x, y};
     }
 
     void run() throws Exception {
@@ -59,7 +35,7 @@ public class TheMonster {
     }
 
     public static void main(String[] args) throws Exception {
-        new TheMonster().run();
+        new MaximumSplitting().run();
     }
 
     private byte[] inbuf = new byte[1024];

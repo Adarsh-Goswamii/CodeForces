@@ -9,8 +9,10 @@ public class AdvertisingAgency {
     String INPUT = "";
     int MOD= 1000000007;
 
-    void solve() throws IOException {
+    void solve() throws IOException
+    {
         int t = ni();
+        initialize();
         for (int ii = 0; ii < t; ii++) {
             int n= ni(), k= ni();
 
@@ -33,72 +35,37 @@ public class AdvertisingAgency {
                 if(val<= k)
                     k-= val;
                 else{
-
+                    ans= nCr(val, k);
                     break;
                 }
                 i++;
             }
 
-            out.println(ans);
+            out.println(ans% MOD);
         }
     }
 
-    long power(int x, int y, int p)
+    long l[][] = new long[1001][1001];
+
+     void initialize()
     {
 
-        // Initialize result
-        long res = 1;
+        // 0C0 = 1
+        l[0][0] = 1;
+        for (int i = 1; i < 1001; i++) {
+            // Set every nCr = 1 where r = 0
+            l[i][0] = 1;
+            for (int j = 1; j < i + 1; j++) {
 
-        // Update x if it is more than or
-        // equal to p
-        x = x % p;
-
-        while (y > 0) {
-
-            // If y is odd, multiply x
-            // with result
-            if (y % 2 == 1)
-                res = (res * x) % p;
-
-            // y must be even now
-            y = y >> 1; // y = y/2
-            x = (x * x) % p;
+                // Value for the current cell of Pascal's triangle
+                l[i][j] = (l[i - 1][j - 1] + l[i - 1][j]);
+            }
         }
-
-        return res;
     }
 
-    // Returns n^(-1) mod p
-    long modInverse(int n, int p)
+    long nCr(int n, int r)
     {
-        return power(n, p - 2, p);
-    }
-
-    // Returns nCr % p using Fermat's
-    // little theorem.
-    long nCrModPFermat(int n, int r,
-                             int p)
-    {
-
-        if (n<r)
-            return 0;
-        // Base case
-        if (r == 0)
-            return 1;
-
-        // Fill factorial array so that we
-        // can find all factorial of r, n
-        // and n-r
-        int[] fac = new int[n + 1];
-        fac[0] = 1;
-
-        for (int i = 1; i <= n; i++)
-            fac[i] = fac[i - 1] * i % p;
-
-        return (fac[n] * modInverse(fac[r], p)
-                % p * modInverse(fac[n - r], p)
-                % p)
-                % p;
+        return l[n][r];
     }
 
     void run() throws Exception {

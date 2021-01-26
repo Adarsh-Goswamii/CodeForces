@@ -1,53 +1,47 @@
 import java.util.*;
 import java.io.*;
 
-public class TheMonster {
+public class MikeAndStrings {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int _a= ni(), _b= ni();
-        int _c= ni(), _d= ni();
+        int n = ni();
+        char[][] arr= new char[n][];
+        for (int i = 0; i < n; i++)
+            arr[i]= ns().toCharArray();
 
-        long[] arr= gcd2(_b, _c, _d- _a);
-        if(arr[0]== -1)
-            out.println(-1);
-        else
+        int ans= Integer.MAX_VALUE;
+        for(int i=0;i<arr[0].length;i++)// index
         {
-            out.println(arr[1]+" "+arr[2]);
-            out.println(_d+ arr[2]*_b);
+            int cost= 0;
+            for(int j=0;j<arr.length;j++)// get all strings
+            {
+                boolean found= false;
+                kth :for(int k=0;k<arr[0].length;k++)// start with k pos and match till arr[0].length
+                {
+                    for(int l=0;l<arr[0].length;l++)
+                    {
+                        if(arr[0][(i+l)%arr[0].length]!= arr[j][(k+l)%arr[0].length])
+                            break;
+                        else if(l== arr[0].length-1)
+                        {
+                            cost+= k;
+                            found= true;
+                            break kth;
+                        }
+                    }
+                }
+
+                if(!found)
+                    break;
+                else if(j== arr.length-1)
+                    ans= Math.min(ans, cost);
+            }
         }
-    }
 
-    long[] gcd2(long a, long b, long c)
-    {
-        long x= 1, y= 0;
-        long xt= 0, yt= 1, at= a, bt= b;
-        while(bt!=0)
-        {
-            long q= at/ bt;
-
-            long temp= xt;
-            xt= x- q*xt;
-            x= temp;
-
-            temp= yt;
-            yt= y- q*yt;
-            y= temp;
-
-            temp= bt;
-            bt= at- q*bt;
-            at= temp;
-        }
-
-        if(c% at!=0)
-            return new long[]{-1l, 0l, 0l}; // solution does not exists
-
-        x= x* (c/ at);
-        y= y* (c/ at);
-
-        return new long[]{at, x, y};
+        out.println(ans==Integer.MAX_VALUE? -1: ans);
     }
 
     void run() throws Exception {
@@ -59,7 +53,7 @@ public class TheMonster {
     }
 
     public static void main(String[] args) throws Exception {
-        new TheMonster().run();
+        new MikeAndStrings().run();
     }
 
     private byte[] inbuf = new byte[1024];
