@@ -1,43 +1,29 @@
 import java.util.*;
 import java.io.*;
 
-public class Homecoming {
+public class SimpleStrings {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t = ni();
-        for (int ii = 0; ii < t; ii++)
+        char[] arr= ns().toCharArray();
+        HashSet<Character> set= new HashSet<>();
+        for (int i = 0; i < 26; i++)
+            set.add((char)(i+ 'a'));
+
+        for (int i = 1; i < arr.length; i++)
         {
-            int a= ni(), b= ni(), p= ni();
-            char[] arr= ns().toCharArray();
-
-            long cost= 0l;
-            for(int i=1;i<arr.length;i++)
+            if(arr[i]== arr[i-1])
             {
-                if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    cost+= arr[i-1]== 'A'? a: b;
-            }
-
-            if(cost<= p)
-                out.println(1);
-            else
-            {
-                for(int i=1;i<arr.length;i++)
-                {
-                    if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    {
-                        cost-= arr[i-1]== 'A'? a: b;
-                        if(cost<= p)
-                        {
-                            out.println(i+1);
-                            break;
-                        }
-                    }
-                }
+                for(char c: set)
+                    if(c!= arr[i-1] && (i== arr.length-1 || arr[i+1]!= c))
+                    { arr[i]= c; break; }
             }
         }
+
+        out.println(new String(arr));
+
     }
 
     void run() throws Exception {
@@ -49,7 +35,7 @@ public class Homecoming {
     }
 
     public static void main(String[] args) throws Exception {
-        new Homecoming().run();
+        new SimpleStrings().run();
     }
 
     private byte[] inbuf = new byte[1024];

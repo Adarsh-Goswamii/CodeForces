@@ -1,42 +1,15 @@
 import java.util.*;
 import java.io.*;
 
-public class Homecoming {
+public class BearAndCompressing {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
         int t = ni();
-        for (int ii = 0; ii < t; ii++)
-        {
-            int a= ni(), b= ni(), p= ni();
-            char[] arr= ns().toCharArray();
+        for (int ii = 0; ii < t; ii++) {
 
-            long cost= 0l;
-            for(int i=1;i<arr.length;i++)
-            {
-                if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    cost+= arr[i-1]== 'A'? a: b;
-            }
-
-            if(cost<= p)
-                out.println(1);
-            else
-            {
-                for(int i=1;i<arr.length;i++)
-                {
-                    if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    {
-                        cost-= arr[i-1]== 'A'? a: b;
-                        if(cost<= p)
-                        {
-                            out.println(i+1);
-                            break;
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -49,7 +22,7 @@ public class Homecoming {
     }
 
     public static void main(String[] args) throws Exception {
-        new Homecoming().run();
+        new BearAndCompressing().run();
     }
 
     private byte[] inbuf = new byte[1024];

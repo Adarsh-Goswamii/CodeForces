@@ -1,44 +1,45 @@
 import java.util.*;
 import java.io.*;
 
-public class Homecoming {
+public class ShashlikCooking {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t = ni();
-        for (int ii = 0; ii < t; ii++)
+        int n= ni(), k= ni();
+
+        if(n<=2*k+1)
         {
-            int a= ni(), b= ni(), p= ni();
-            char[] arr= ns().toCharArray();
-
-            long cost= 0l;
-            for(int i=1;i<arr.length;i++)
-            {
-                if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    cost+= arr[i-1]== 'A'? a: b;
-            }
-
-            if(cost<= p)
-                out.println(1);
-            else
-            {
-                for(int i=1;i<arr.length;i++)
-                {
-                    if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    {
-                        cost-= arr[i-1]== 'A'? a: b;
-                        if(cost<= p)
-                        {
-                            out.println(i+1);
-                            break;
-                        }
-                    }
-                }
-            }
+            out.println(1);
+            out.println(n/2+1);
+            return;
         }
+
+        ArrayList<Integer> list= new ArrayList<>();
+        for(int i=1;i<=n;i+= 2*k+1)
+            list.add(i+k);
+
+        if(list.get(list.size()-1)> n)
+            list.remove(list.size()-1);
+
+        int val= list.get(list.size()-1)+k+1, sub;
+        //out.println(list);
+        if(val>n)
+            sub= 0;
+        else
+        {
+            sub= val+k-n;
+            list.add(n+sub);
+        }
+
+        out.println(list.size());
+        for(int i: list)
+            out.print((i-sub)+" ");
+        out.println();
+
     }
+
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
@@ -49,7 +50,7 @@ public class Homecoming {
     }
 
     public static void main(String[] args) throws Exception {
-        new Homecoming().run();
+        new ShashlikCooking().run();
     }
 
     private byte[] inbuf = new byte[1024];

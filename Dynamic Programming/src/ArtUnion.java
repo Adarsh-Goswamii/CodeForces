@@ -1,43 +1,37 @@
 import java.util.*;
 import java.io.*;
 
-public class Homecoming {
+public class ArtUnion {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t = ni();
-        for (int ii = 0; ii < t; ii++)
+        int m= ni(), n= ni();
+        int[][] time= new int[m][n];
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                time[i][j]= ni();
+
+        int[] ans= new int[m];
+        for(int i=0;i<n;i++)
         {
-            int a= ni(), b= ni(), p= ni();
-            char[] arr= ns().toCharArray();
-
-            long cost= 0l;
-            for(int i=1;i<arr.length;i++)
+            int t= ans[0];
+            for(int j=0;j<m;j++)
             {
-                if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    cost+= arr[i-1]== 'A'? a: b;
+                ans[j]= Math.max(ans[j], t)+ time[j][i];
+                t= ans[j];
             }
 
-            if(cost<= p)
-                out.println(1);
-            else
-            {
-                for(int i=1;i<arr.length;i++)
-                {
-                    if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    {
-                        cost-= arr[i-1]== 'A'? a: b;
-                        if(cost<= p)
-                        {
-                            out.println(i+1);
-                            break;
-                        }
-                    }
-                }
-            }
+//            for (int k = 0; k < ans.length; k++)
+//                out.print(ans[k]+" ");
+//            out.println();
         }
+
+        for (int i = 0; i < ans.length; i++)
+            out.print(ans[i]+" ");
+        out.println();
+
     }
 
     void run() throws Exception {
@@ -49,7 +43,7 @@ public class Homecoming {
     }
 
     public static void main(String[] args) throws Exception {
-        new Homecoming().run();
+        new ArtUnion().run();
     }
 
     private byte[] inbuf = new byte[1024];

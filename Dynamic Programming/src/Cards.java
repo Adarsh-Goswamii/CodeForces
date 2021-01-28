@@ -1,55 +1,105 @@
 import java.util.*;
 import java.io.*;
 
-public class Homecoming {
+public class Cards {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
+    int b= 0, r= 1, g= 2;
+    boolean[][][] memo;
+    List<Character> ans;
 
-    void solve() throws IOException {
-        int t = ni();
-        for (int ii = 0; ii < t; ii++)
+    void solve() throws IOException
+    {
+        int n= ni();
+        char[] arr= ns(n);
+        int[] map= new int[3];
+
+        for(char c: arr)
         {
-            int a= ni(), b= ni(), p= ni();
-            char[] arr= ns().toCharArray();
-
-            long cost= 0l;
-            for(int i=1;i<arr.length;i++)
-            {
-                if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    cost+= arr[i-1]== 'A'? a: b;
-            }
-
-            if(cost<= p)
-                out.println(1);
+            if(c== 'B')
+                map[b]++;
+            else if(c== 'R')
+                map[r]++;
             else
-            {
-                for(int i=1;i<arr.length;i++)
-                {
-                    if(i== arr.length-1 || arr[i]!= arr[i-1])
-                    {
-                        cost-= arr[i-1]== 'A'? a: b;
-                        if(cost<= p)
-                        {
-                            out.println(i+1);
-                            break;
-                        }
-                    }
-                }
-            }
+                map[g]++;
         }
+
+        memo= new boolean[201][201][201];
+        DFSREC(map);
+
+        Collections.sort(ans);
+        for(char c: ans)
+            out.print(c);
+        out.println();
+    }
+
+    private void DFSREC(int[] map)
+    {
+        //out.println(map[0]+" "+map[1]+" "+map[2]);
+        if(map[0]<0 || map[1]< 0 || map[2]<0) return;
+        if(memo[map[0]][map[1]][map[2]]) return;
+        memo[map[0]][map[1]][map[2]]= true;
+
+        if(map[0]+ map[1]+ map[2]== 1)
+        {
+            if(map[r]== 1)
+                ans.add('R');
+            else if(map[b]== 1)
+                ans.add('B');
+            else
+                ans.add('G');
+
+            return;
+        }
+
+
+        map[0]--; map[1]--; map[2]++;
+        DFSREC(map);
+        map[0]++; map[1]++; map[2]--;
+
+        map[0]--; map[1]++; map[2]--;
+        DFSREC(map);
+        map[0]++; map[1]--; map[2]++;
+
+        map[0]++; map[1]--; map[2]--;
+        DFSREC(map);
+        map[0]--; map[1]++; map[2]++;
+
+        if(map[0]>=2)
+        {
+            map[0]--;
+            DFSREC(map);
+            map[0]++;
+        }
+
+        if(map[1]>= 2)
+        {
+            map[1]--;
+            DFSREC(map);
+            map[1]++;
+        }
+
+        if(map[2]>= 2)
+        {
+            map[2]--;
+            DFSREC(map);
+            map[2]++;
+        }
+
     }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
+        ans= new ArrayList<>();
 
         solve();
         out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new Homecoming().run();
+        new Cards().run();
     }
 
     private byte[] inbuf = new byte[1024];
