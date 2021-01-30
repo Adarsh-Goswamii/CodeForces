@@ -1,82 +1,15 @@
 import java.util.*;
 import java.io.*;
 
-public class TheMonster {
+public class LCM {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int _a= ni(), _b= ni();
-        int _c= ni(), _d= ni();
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
 
-        long x= gcd2(_a, _c, _d- _b);
-        out.println(x==-1? "-1": (_b+ x*_a));
-    }
-
-    long gcd2(long a, long b, long c)
-    {
-        long x= 1, y= 0;
-        long xt= 0, yt= 1, at= a, bt= b;
-        while(bt!=0)
-        {
-            long q= at/ bt;
-
-            long temp= xt;
-            xt= x- q*xt;
-            x= temp;
-
-            temp= yt;
-            yt= y- q*yt;
-            y= temp;
-
-            temp= bt;
-            bt= at- q*bt;
-            at= temp;
-        }
-
-        if(c% at!=0)
-            return -1;
-
-        x= x* (c/ at);
-        y= y* (c/ at);
-
-        // debug
-        //out.println(x+" "+y);
-
-        long ans= -1;
-        if(x>=0 && y<0)
-        {
-            ans= x;
-            while(true)
-            {
-                if(x<0) {
-                    return ans;
-                }
-                else if(x>=0 && y<=0)
-                    ans= x;
-
-                x= x- (b/at);
-                y= y+ (a/at);
-            }
-        }
-        else
-        {
-            long k= y*at/a;
-            x= x+ (k*(b/at));
-            y= y- (k*(a/at));
-
-            while(true)
-            {
-                //out.println(x+" "+y);
-                if(x>=0 && y<=0) {
-                    return x;
-                }
-
-                x= x+ (b/at);
-                y= y- (a/at);
-
-            }
         }
     }
 
@@ -89,7 +22,7 @@ public class TheMonster {
     }
 
     public static void main(String[] args) throws Exception {
-        new TheMonster().run();
+        new LCM().run();
     }
 
     private byte[] inbuf = new byte[1024];
