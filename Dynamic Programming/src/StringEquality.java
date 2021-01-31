@@ -1,53 +1,89 @@
 import java.util.*;
 import java.io.*;
 
-public class BearAndCompressing {
+public class StringEquality {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    int[][] memo;
 
     void solve() throws IOException {
-        int n= ni(), q= ni();
-        HashMap<Character, List<char[]>> map= new HashMap<>();
-        for (int i = 0; i < q; i++)
+        int t = ni();
+        for (int ii = 0; ii < t; ii++)
         {
-            char val[]= ns(2), key= ns(1)[0];
+            int n= ni(), k= ni();
 
-            if(map.containsKey(key))
-                map.get(key).add(val);
+            char[] src= ns(n);
+            char[] target= ns(n);
+
+            HashMap<Character, Integer> map= new HashMap<>();
+            HashMap<Character, Integer> map2= new HashMap<>();
+            for(char c: src)
+                map.put(c, map.getOrDefault(c, 0)+1);
+
+            for(char c: target)
+                map2.put(c, map2.getOrDefault(c, 0)+1);
+
+            for(char c: map.keySet())
+            {
+                if(map2.containsKey(c))
+                {
+                    int val1= map.get(c);
+                    int val2= map2.get(c);
+                    map.put(c, val1- Math.min(val1, val2));
+                    map2.put(c, val2- Math.min(val1, val2));
+                }
+            }
+
+            boolean possible= true;
+            List<Character> one= new ArrayList<>();
+            List<Character> two= new ArrayList<>();
+
+            for(char c: map.keySet())
+            {
+                int val= map.get(c);
+                while(val!= 0)
+                {
+                    one.add(c);
+                    val--;
+                }
+            }
+
+            for(char c: map2.keySet())
+            {
+                int val= map2.get(c);
+                while(val!= 0)
+                {
+                    two.add(c);
+                    val--;
+                }
+            }
+
+            Collections.sort(one);
+            Collections.sort(two);
+
+            if(one.size()%k!= 0) possible= false;
+            for(int i=k-1;i< one.size();i+= k)
+            {
+                int temp= i;
+                if(one.get(temp)> two.get(temp))
+                    possible= false;
+
+                while(temp!=i-k+1)
+                {
+                    if(one.get(temp)!= one.get(temp-1))
+                        possible= false;
+
+                    if(two.get(temp)!= two.get(temp-1))
+                        possible= false;
+                    temp--;
+                }
+            }
+
+            if(possible)
+                out.println("YES");
             else
-                map.put(key, new ArrayList<>(Arrays.asList(val)));
+                out.println("NO");
         }
-
-        memo= new int[n][6];
-        for(int i=0;i<n;i++)
-            Arrays.fill(memo[i], -1);
-
-        DFSREC(map, n-1, 'a');
-
-        out.println(memo[n-1][0]== -1? 0: memo[n-1][0]);
-    }
-
-    private int DFSREC(HashMap<Character, List<char[]>> map, int n, char curr)
-    {
-        if(n== 0)
-            return 1;
-        else if(memo[n][curr-'a']!= -1)
-            return memo[n][curr-'a'];
-        else
-        {
-            int val =0;
-            if(!map.containsKey(curr))
-                return val;
-
-            for(char[] i: map.get(curr))
-                val+= DFSREC(map, n-1, i[0]);
-
-            memo[n][curr-'a']= val;
-            return val;
-        }
-
     }
 
     void run() throws Exception {
@@ -59,7 +95,7 @@ public class BearAndCompressing {
     }
 
     public static void main(String[] args) throws Exception {
-        new BearAndCompressing().run();
+        new StringEquality().run();
     }
 
     private byte[] inbuf = new byte[1024];

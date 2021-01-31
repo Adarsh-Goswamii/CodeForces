@@ -1,53 +1,59 @@
 import java.util.*;
 import java.io.*;
 
-public class BearAndCompressing {
+public class GIvenLengthSumOfDigits {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
-    int[][] memo;
 
     void solve() throws IOException {
-        int n= ni(), q= ni();
-        HashMap<Character, List<char[]>> map= new HashMap<>();
-        for (int i = 0; i < q; i++)
+        int m= ni(), s= ni();
+        char[] ans= new char[m];
+        Arrays.fill(ans, '0');
+        if(s== 0 && m!= 1)
         {
-            char val[]= ns(2), key= ns(1)[0];
-
-            if(map.containsKey(key))
-                map.get(key).add(val);
-            else
-                map.put(key, new ArrayList<>(Arrays.asList(val)));
+            out.println(-1+ " "+ -1);
+            return;
         }
 
-        memo= new int[n][6];
-        for(int i=0;i<n;i++)
-            Arrays.fill(memo[i], -1);
+        if(m==1 && s==0)
+        {
+            out.println(0+" "+0);
+            return;
+        }
 
-        DFSREC(map, n-1, 'a');
+        int i= 0;
+        while(i!=m && s!= 0)
+        {
+            ans[i]= (char)(Math.min(9, s)+ '0');
+            s-= (ans[i]-'0');
+            i++;
+            //out.println(s);
+        }
 
-        out.println(memo[n-1][0]== -1? 0: memo[n-1][0]);
-    }
+        if(s!= 0) {
+            out.println(-1+" "+-1);
+            return;
+        }
+        String large= new String(ans);
 
-    private int DFSREC(HashMap<Character, List<char[]>> map, int n, char curr)
-    {
-        if(n== 0)
-            return 1;
-        else if(memo[n][curr-'a']!= -1)
-            return memo[n][curr-'a'];
+        char[] ans2= new char[m];
+        if(ans[m-1]== '0')
+        {
+            int temp= m-1;
+            while(ans[temp]== '0')
+                temp--;
+
+            ans[temp]= (char)(ans[temp]-1);
+            ans[m-1]= '1';
+            StringBuilder br= new StringBuilder(new String(ans));
+            out.println(br.reverse()+" "+large);
+        }
         else
         {
-            int val =0;
-            if(!map.containsKey(curr))
-                return val;
-
-            for(char[] i: map.get(curr))
-                val+= DFSREC(map, n-1, i[0]);
-
-            memo[n][curr-'a']= val;
-            return val;
+            StringBuilder br= new StringBuilder(new String(ans));
+            out.println(br.reverse()+" "+large);
         }
-
     }
 
     void run() throws Exception {
@@ -59,7 +65,7 @@ public class BearAndCompressing {
     }
 
     public static void main(String[] args) throws Exception {
-        new BearAndCompressing().run();
+        new GIvenLengthSumOfDigits().run();
     }
 
     private byte[] inbuf = new byte[1024];
