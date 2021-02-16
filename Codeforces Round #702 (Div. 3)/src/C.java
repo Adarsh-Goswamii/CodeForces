@@ -1,36 +1,59 @@
 import java.util.*;
 import java.io.*;
 
-public class LCM {
+public class C {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
+    HashSet<Long> cubesset;
+    List<Long> cubeslist;
 
     void solve() throws IOException {
-        long key= nl();
-        HashSet<Long> set= new HashSet<>();
-        for (int i = 1; i <=Math.sqrt(key); i++)
-        {
-            if(key%i== 0)
-            {
-                set.add(i*1l);
-                set.add(key/i);
-            }
-        }
 
-        out.println(set.size());
+        precomputations(10000);
+//        out.println(cubeslist);
+        int t = ni();
+        outer: for (int ii = 0; ii < t; ii++)
+        {
+            long x= nl();
+            for(long i: cubeslist)
+            {
+
+                long find= x-i;
+                if(cubesset.contains(find))
+                {
+//                    out.println(i+" "+find);
+                    out.println("YES");
+                    continue outer;
+                }
+            }
+
+            out.println("NO");
+        }
+    }
+
+    private void precomputations(int n)
+    {
+        for(int i=1;i<=n;i++)
+        {
+            long val= i*1l*i*1l*i;
+            cubesset.add(val);
+            cubeslist.add(val);
+        }
     }
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
         out = new PrintWriter(System.out);
+        cubesset= new HashSet<>();
+        cubeslist= new ArrayList<>();
 
         solve();
         out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new LCM().run();
+        new C().run();
     }
 
     private byte[] inbuf = new byte[1024];

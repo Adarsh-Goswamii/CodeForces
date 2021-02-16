@@ -1,25 +1,113 @@
 import java.util.*;
 import java.io.*;
 
-public class LCM {
+
+
+public class D {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException {
-        long key= nl();
-        HashSet<Long> set= new HashSet<>();
-        for (int i = 1; i <=Math.sqrt(key); i++)
+    class Node{
+        Node left, right;
+        int val;
+
+        Node(int val)
         {
-            if(key%i== 0)
+            this.val= val;
+            left= null;
+            right= null;
+        }
+
+        Node(int val, Node left, Node right)
+        {
+            this.val= val;
+            this.left= left;
+            this.right= right;
+        }
+    }
+
+    void solve() throws IOException {
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni();
+            int[] arr= new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i]= ni();
+
+            List<List<Integer>> tree= new ArrayList<>();
+            Node root= new Node(-1);
+            makeTree(root, arr, 0, n-1);
+
+            int[] depth= new int[n+1];
+            Queue<Node> q= new LinkedList<>();
+            q.add(root);
+
+            int level= 0;
+            while(!q.isEmpty())
             {
-                set.add(i*1l);
-                set.add(key/i);
+                int size= q.size();
+                for(int i=0;i<size;i++)
+                {
+                    Node curr= q.poll();
+                    depth[curr.val]= level;
+
+                    if(curr.left!= null)
+                        q.add(curr.left);
+
+                    if(curr.right!= null)
+                        q.add(curr.right);
+                }
+
+                level++;
+            }
+
+            for (int i = 0; i < n; i++)
+                out.print(depth[arr[i]]+" ");
+            out.println();
+        }
+    }
+
+    private void makeTree(Node root, int[] arr, int start, int last)
+    {
+        if(start> last)
+            return;
+        else
+        {
+            int[] max= findmax(arr, start, last);
+            root.val= max[0];
+
+            if(start!= max[1])
+            {
+                Node left= new Node(0);
+                root.left= left;
+                makeTree(left, arr, start, max[1]-1);
+            }
+
+            if(last!= max[1])
+            {
+                Node right= new Node(0);
+                root.right= right;
+                makeTree(right, arr, max[1]+1, last);
+            }
+        }
+    }
+
+    private int[] findmax(int[] arr, int start, int last)
+    {
+        int val= 0, index= -1;
+        for(int i= start;i<= last;i++)
+        {
+            if(val< arr[i])
+            {
+                val= arr[i];
+                index= i;
             }
         }
 
-        out.println(set.size());
+        return new int[]{val, index};
     }
+
 
     void run() throws Exception {
         is = INPUT.isEmpty() ? System.in : new ByteArrayInputStream(INPUT.getBytes());
@@ -30,7 +118,7 @@ public class LCM {
     }
 
     public static void main(String[] args) throws Exception {
-        new LCM().run();
+        new D().run();
     }
 
     private byte[] inbuf = new byte[1024];

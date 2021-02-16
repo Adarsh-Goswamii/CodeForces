@@ -1,24 +1,63 @@
 import java.util.*;
 import java.io.*;
 
-public class LCM {
+public class E {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        long key= nl();
-        HashSet<Long> set= new HashSet<>();
-        for (int i = 1; i <=Math.sqrt(key); i++)
-        {
-            if(key%i== 0)
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni();
+            Long[] arr= new Long[n];
+            Long[] tarr= new Long[n];
+            for (int i = 0; i < n; i++)
             {
-                set.add(i*1l);
-                set.add(key/i);
+                arr[i]= nl();
+                tarr[i]= arr[i];
             }
-        }
 
-        out.println(set.size());
+            Arrays.sort(arr);
+            long[] prefix= new long[n];
+            for (int i = 0; i < n; i++)
+                prefix[i]= arr[i];
+            for(int i=1;i<n;i++)
+                prefix[i]+= prefix[i-1];
+
+//            for(int i=0;i<n;i++)
+//                out.print(arr[i]+" ");
+//            out.println();
+//
+//            for(int i=0;i<n;i++)
+//                out.print(prefix[i]+" ");
+//            out.println();
+
+            long win= 0;
+            for(int i=n-2;i>=0;i--)
+            {
+                if(prefix[i]< arr[i+1])
+                {
+                    win= arr[i+1];
+                    break;
+                }
+            }
+
+//            out.println(win);
+
+            StringBuilder br= new StringBuilder("");
+            int freq= 0;
+            for(int i=0;i<n;i++)
+            {
+                if(tarr[i]>= win)
+                {
+                    br.append((i+1)+" ");
+                    freq++;
+                }
+            }
+
+            out.println(freq+"\n"+br);
+        }
     }
 
     void run() throws Exception {
@@ -30,7 +69,7 @@ public class LCM {
     }
 
     public static void main(String[] args) throws Exception {
-        new LCM().run();
+        new E().run();
     }
 
     private byte[] inbuf = new byte[1024];

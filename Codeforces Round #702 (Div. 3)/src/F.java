@@ -1,24 +1,47 @@
 import java.util.*;
 import java.io.*;
 
-public class LCM {
+public class F {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        long key= nl();
-        HashSet<Long> set= new HashSet<>();
-        for (int i = 1; i <=Math.sqrt(key); i++)
-        {
-            if(key%i== 0)
-            {
-                set.add(i*1l);
-                set.add(key/i);
-            }
-        }
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni();
+            long[] arr= new long[n];
+            for (int i = 0; i < n; i++)
+                arr[i]= nl();
 
-        out.println(set.size());
+            HashMap<Long, Integer> map= new HashMap<>();
+            for (int i = 0; i < n; i++)
+                map.put(arr[i], map.getOrDefault(arr[i], 0)+1);
+
+
+            List<Integer> freq= new ArrayList<>();
+            for(long i: map.keySet())
+                freq.add(map.get(i));
+
+            Collections.sort(freq);
+            List<Integer> prefix= new ArrayList<>();
+            for(int i=0;i<freq.size();i++)
+                prefix.add(freq.get(i)+(i!=0? prefix.get(i-1): 0));
+
+            int ans= Integer.MAX_VALUE;
+            for(int i=0;i<freq.size();i++)
+            {
+                if(i!=0 && freq.get(i)== freq.get(i-1)) continue;
+
+                int val= i!=0? prefix.get(i-1): 0;
+                for(int j= i+1;j<freq.size();j++)
+                    val+= freq.get(j)- freq.get(i);
+
+                ans= Math.min(ans, val);
+            }
+
+            out.println(ans);
+        }
     }
 
     void run() throws Exception {
@@ -30,7 +53,7 @@ public class LCM {
     }
 
     public static void main(String[] args) throws Exception {
-        new LCM().run();
+        new F().run();
     }
 
     private byte[] inbuf = new byte[1024];

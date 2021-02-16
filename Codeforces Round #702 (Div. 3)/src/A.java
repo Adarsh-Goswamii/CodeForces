@@ -1,24 +1,36 @@
 import java.util.*;
 import java.io.*;
 
-public class LCM {
+public class A {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        long key= nl();
-        HashSet<Long> set= new HashSet<>();
-        for (int i = 1; i <=Math.sqrt(key); i++)
-        {
-            if(key%i== 0)
-            {
-                set.add(i*1l);
-                set.add(key/i);
-            }
-        }
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni();
+            int[] arr= new int[n];
+            for (int i = 0; i < n; i++)
+                arr[i]= ni();
 
-        out.println(set.size());
+            int count= 0;
+            for (int i = 1; i < n; i++)
+            {
+                int max= Math.max(arr[i], arr[i-1]);
+                int min= Math.min(arr[i], arr[i-1]);
+                if(max*1.0/min>2)
+                {
+                    while(min*2< max)
+                    {
+                        min*=2;
+                        count++;
+                    }
+                }
+            }
+
+            out.println(count);
+        }
     }
 
     void run() throws Exception {
@@ -30,7 +42,7 @@ public class LCM {
     }
 
     public static void main(String[] args) throws Exception {
-        new LCM().run();
+        new A().run();
     }
 
     private byte[] inbuf = new byte[1024];

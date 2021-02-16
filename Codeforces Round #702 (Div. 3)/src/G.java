@@ -1,24 +1,65 @@
 import java.util.*;
 import java.io.*;
 
-public class LCM {
+public class G {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        long key= nl();
-        HashSet<Long> set= new HashSet<>();
-        for (int i = 1; i <=Math.sqrt(key); i++)
-        {
-            if(key%i== 0)
-            {
-                set.add(i*1l);
-                set.add(key/i);
-            }
-        }
+        int t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni(), m= ni();
 
-        out.println(set.size());
+            long[] arrn= new long[n];
+            long[] arrm= new long[m];
+            for (int i = 0; i < n; i++)
+                arrn[i]= ni();
+
+            for (int i = 0; i < m; i++)
+                arrm[i]= ni();
+
+            long[] prefix= new long[n];
+            for (int i = 0; i < n; i++)
+                prefix[i]= (i!=0? prefix[i-1]: 0)+ arrn[i];
+
+            long max= Long.MIN_VALUE;
+            for(long i: prefix)
+                max= Math.max(max, i);
+
+            TreeMap<Long, Integer> map= new TreeMap<>();
+            long maxx= Long.MIN_VALUE;
+            for(int i=0;i<prefix.length;i++)
+            {
+                if(prefix[i]<=maxx) continue;
+                maxx= Math.max(maxx, prefix[i]);
+                map.put(prefix[i], i);
+            }
+
+            long[] ans= new long[m];
+            for(int i=0;i<m;i++)
+            {
+                if(arrm[i]> max)
+                {
+                    if(prefix[n-1]<=0)
+                        ans[i]= -1;
+                    else
+                    {
+                        long iter=(long)Math.ceil((double)(arrm[i]-map.lastKey())/prefix[n-1]);
+                        ans[i]=n*iter;
+                        ans[i]+=map.get(map.ceilingKey(arrm[i]-iter*prefix[n-1]));
+                    }
+                }
+                else
+                    ans[i]+= map.get(map.ceilingKey(arrm[i]));
+            }
+
+            for(int i=0;i<m;i++)
+                out.print(ans[i]+" ");
+            out.println();
+
+
+        }
     }
 
     void run() throws Exception {
@@ -30,7 +71,7 @@ public class LCM {
     }
 
     public static void main(String[] args) throws Exception {
-        new LCM().run();
+        new G().run();
     }
 
     private byte[] inbuf = new byte[1024];

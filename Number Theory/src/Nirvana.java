@@ -1,24 +1,36 @@
 import java.util.*;
 import java.io.*;
 
-public class LCM {
+public class Nirvana {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        long key= nl();
-        HashSet<Long> set= new HashSet<>();
-        for (int i = 1; i <=Math.sqrt(key); i++)
+        char[] arr= (nl()+"").toCharArray();
+        long max= 0;
+        for(int i=0;i<=arr.length;i++)
         {
-            if(key%i== 0)
+            long temp= 1l;
+            for(int j=0;j<arr.length;j++)
             {
-                set.add(i*1l);
-                set.add(key/i);
+                char c= arr[j];
+                int val= c- '0';
+                if(i== j)
+                {
+                    if(j== 0 && val-1==0)
+                        continue;
+                    val-=1;
+                }
+                else if(j>i)
+                    val= 9;
+                temp*= val;
             }
+
+            max= Math.max(max, temp);
         }
 
-        out.println(set.size());
+        out.println(max);
     }
 
     void run() throws Exception {
@@ -30,7 +42,7 @@ public class LCM {
     }
 
     public static void main(String[] args) throws Exception {
-        new LCM().run();
+        new Nirvana().run();
     }
 
     private byte[] inbuf = new byte[1024];
