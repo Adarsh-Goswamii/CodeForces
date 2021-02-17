@@ -1,58 +1,50 @@
 import java.util.*;
 import java.io.*;
 
-public class MikeandFun {
+public class KoalaAndLights {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    // naive approach
     void solve() throws IOException {
-        int n= ni(), m= ni(), q= ni();
-        int[][] arr= new int[n][m];
+        int n= ni();
+        char[] state= ns(n);
+
+        int[][] arr= new int[n][2];
         for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
-                arr[i][j]= ni();
+            arr[i]= new int[]{ni(), ni()};
 
-        int[] dp= new int[n];
-        for(int i=0;i<n;i++)
+        int[] ans= new int[1001];
+        for (int i = 0; i < n; i++)
         {
-            int count= 0;
-            for(int j=0;j<m;j++)
+            int initial= state[i]- 48;
+            if(initial== 1) { ans[0]++; initial= -1; }
+            else {initial=1;}
+//            out.println(initial);
+            for (int j = 0; arr[i][1]+j*arr[i][0] <=1000; j++, initial*=-1)
             {
-                if(arr[i][j]== 1)
-                    count+= arr[i][j];
-                else
-                    count= 0;
-
-                dp[i]= Math.max(count, dp[i]);
+                int pos= arr[i][1]+j*arr[i][0];
+                ans[pos]+= initial;
             }
         }
 
-        for (int i = 0; i < q; i++)
+        for(int i=1;i<=1000;i++)
         {
-            int row= ni()-1, col= ni()-1;
-            int count= 0;
-            dp[row]= 0;
-            for(int j=0;j<m;j++)
-            {
-                if(j== col)
-                    arr[row][col]= (arr[row][col]+1)%2;
-
-                if(arr[row][j]== 1)
-                    count+= arr[row][j];
-                else
-                    count= 0;
-
-                dp[row]= Math.max(count, dp[row]);
-            }
-
-            int ans= 0;
-            for(int j: dp)
-                ans= Math.max(ans, j);
-
-            out.println(ans);
+//            out.print(ans[i]+" ");
+//            if(i==0)
+//            {
+//                continue;
+//            }
+            ans[i]+= ans[i-1];
         }
+
+//        out.println();
+
+        int max= 0;
+        for(int i: ans)
+            max= Math.max(max, i);
+
+        out.println(max);
     }
 
     void run() throws Exception {
@@ -64,7 +56,7 @@ public class MikeandFun {
     }
 
     public static void main(String[] args) throws Exception {
-        new MikeandFun().run();
+        new KoalaAndLights().run();
     }
 
     private byte[] inbuf = new byte[1024];

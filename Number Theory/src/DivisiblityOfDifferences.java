@@ -1,58 +1,44 @@
 import java.util.*;
 import java.io.*;
 
-public class MikeandFun {
+public class DivisiblityOfDifferences {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    // naive approach
     void solve() throws IOException {
-        int n= ni(), m= ni(), q= ni();
-        int[][] arr= new int[n][m];
+        int n= ni(), k= ni(), m= ni();
+        Map<Integer, List<Integer>> map= new HashMap<>();
+
         for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
-                arr[i][j]= ni();
-
-        int[] dp= new int[n];
-        for(int i=0;i<n;i++)
         {
-            int count= 0;
-            for(int j=0;j<m;j++)
+            int key= ni();
+            if(map.containsKey(key%m))
+                map.get(key%m).add(key);
+            else
             {
-                if(arr[i][j]== 1)
-                    count+= arr[i][j];
-                else
-                    count= 0;
-
-                dp[i]= Math.max(count, dp[i]);
+                List<Integer> temp= new ArrayList<>();
+                temp.add(key);
+                map.put(key%m, temp);
             }
         }
 
-        for (int i = 0; i < q; i++)
+        List<Integer> ans= new ArrayList<>();
+        for(int i: map.keySet())
         {
-            int row= ni()-1, col= ni()-1;
-            int count= 0;
-            dp[row]= 0;
-            for(int j=0;j<m;j++)
-            {
-                if(j== col)
-                    arr[row][col]= (arr[row][col]+1)%2;
-
-                if(arr[row][j]== 1)
-                    count+= arr[row][j];
-                else
-                    count= 0;
-
-                dp[row]= Math.max(count, dp[row]);
-            }
-
-            int ans= 0;
-            for(int j: dp)
-                ans= Math.max(ans, j);
-
-            out.println(ans);
+            if(map.get(i).size()>= k)
+                ans= map.get(i);
         }
+
+        if(ans.size()!= 0)
+        {
+            out.println("Yes");
+            for(int i=0;i<k;i++)
+                out.print(ans.get(i)+" ");
+            out.println();
+        }
+        else
+            out.println("No");
     }
 
     void run() throws Exception {
@@ -64,7 +50,7 @@ public class MikeandFun {
     }
 
     public static void main(String[] args) throws Exception {
-        new MikeandFun().run();
+        new DivisiblityOfDifferences().run();
     }
 
     private byte[] inbuf = new byte[1024];
