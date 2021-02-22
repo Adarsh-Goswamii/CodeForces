@@ -1,39 +1,33 @@
 import java.util.*;
 import java.io.*;
 
-public class SashaAndMagneticMachines
-{
+public class ATrivialProblem {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int n= ni();
-        long sum= 0, min= Integer.MAX_VALUE;
-        HashSet<Integer> set= new HashSet<>();
-        for (int i = 0; i < n; i++)
-        {
-            int val= ni();
-            sum+= val;
-            set.add(val);
-            min= Math.min(min, val);
-        }
+    void solve() throws IOException {
+        int m= ni();
+        List<Long> ans= new ArrayList<>();
 
-        long ans= sum;
-        for(long max: set)
+        long i= 1, count5= 0;
+        while(count5<= m)
         {
-            long sub= min+ max;
-            for(int i=1;i< max;i++)
+            long temp= i;
+            while(temp%5== 0)
             {
-                if(max%i== 0)
-                    sub= Math.min(sub, min*i+ max/i);
+                temp/=5;
+                count5++;
             }
 
-            ans= Math.min(sum- (max+min)+ sub, ans);
+            if(count5== m)
+                ans.add(i);
+            i++;
         }
 
-        out.println(ans);
+        out.println(ans.size());
+        for(long j: ans)
+            out.print(j+" ");
     }
 
     void run() throws Exception {
@@ -45,7 +39,7 @@ public class SashaAndMagneticMachines
     }
 
     public static void main(String[] args) throws Exception {
-        new SashaAndMagneticMachines().run();
+        new ATrivialProblem().run();
     }
 
     private byte[] inbuf = new byte[1024];

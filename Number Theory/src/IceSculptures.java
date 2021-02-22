@@ -1,36 +1,29 @@
 import java.util.*;
 import java.io.*;
 
-public class SashaAndMagneticMachines
-{
+public class IceSculptures {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
+    void solve() throws IOException {
         int n= ni();
-        long sum= 0, min= Integer.MAX_VALUE;
-        HashSet<Integer> set= new HashSet<>();
+        int[] arr= new int[n];
         for (int i = 0; i < n; i++)
-        {
-            int val= ni();
-            sum+= val;
-            set.add(val);
-            min= Math.min(min, val);
-        }
+            arr[i]= ni();
 
-        long ans= sum;
-        for(long max: set)
+        int ans= Integer.MIN_VALUE;
+        for(int i=1;i<=n/3;i++)
         {
-            long sub= min+ max;
-            for(int i=1;i< max;i++)
+            if(n%i!= 0) continue;
+            for(int j=1;j<=i+1;j++)
             {
-                if(max%i== 0)
-                    sub= Math.min(sub, min*i+ max/i);
-            }
+                int val= 0;
+                for(int k=j;k<j+n;k+=i)
+                    val+= arr[k%n];
 
-            ans= Math.min(sum- (max+min)+ sub, ans);
+                ans= Math.max(ans, val);
+            }
         }
 
         out.println(ans);
@@ -45,7 +38,7 @@ public class SashaAndMagneticMachines
     }
 
     public static void main(String[] args) throws Exception {
-        new SashaAndMagneticMachines().run();
+        new IceSculptures().run();
     }
 
     private byte[] inbuf = new byte[1024];

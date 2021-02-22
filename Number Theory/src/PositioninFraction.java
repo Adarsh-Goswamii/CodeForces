@@ -1,39 +1,35 @@
 import java.util.*;
 import java.io.*;
 
-public class SashaAndMagneticMachines
-{
+public class PositioninFraction {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int n= ni();
-        long sum= 0, min= Integer.MAX_VALUE;
-        HashSet<Integer> set= new HashSet<>();
-        for (int i = 0; i < n; i++)
-        {
-            int val= ni();
-            sum+= val;
-            set.add(val);
-            min= Math.min(min, val);
-        }
+    void solve() throws IOException {
+        int a= ni(), b= ni(), c= ni();
 
-        long ans= sum;
-        for(long max: set)
+        a= a%b;
+        HashSet<Integer> set= new HashSet<>();
+        int index= 0;
+        while(true)
         {
-            long sub= min+ max;
-            for(int i=1;i< max;i++)
+            if(set.contains(a))
             {
-                if(max%i== 0)
-                    sub= Math.min(sub, min*i+ max/i);
+                index= -1;
+                break;
             }
 
-            ans= Math.min(sum- (max+min)+ sub, ans);
+            set.add(a);
+            a= a*10;
+            index++;
+            if(c== a/b)
+                break;
+
+            a= a%b;
         }
 
-        out.println(ans);
+        out.println(index);
     }
 
     void run() throws Exception {
@@ -45,7 +41,7 @@ public class SashaAndMagneticMachines
     }
 
     public static void main(String[] args) throws Exception {
-        new SashaAndMagneticMachines().run();
+        new PositioninFraction().run();
     }
 
     private byte[] inbuf = new byte[1024];

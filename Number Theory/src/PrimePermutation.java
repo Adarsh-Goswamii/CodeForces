@@ -1,39 +1,65 @@
 import java.util.*;
 import java.io.*;
 
-public class SashaAndMagneticMachines
-{
+public class PrimePermutation {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
+    HashSet<Integer> prime= new HashSet<>();
 
-    void solve() throws IOException
-    {
-        int n= ni();
-        long sum= 0, min= Integer.MAX_VALUE;
-        HashSet<Integer> set= new HashSet<>();
-        for (int i = 0; i < n; i++)
-        {
-            int val= ni();
-            sum+= val;
-            set.add(val);
-            min= Math.min(min, val);
-        }
+    void solve() throws IOException {
+        char[] arr= ns().toCharArray();
+        findPrimes(arr.length);
 
-        long ans= sum;
-        for(long max: set)
+        HashMap<Integer, Integer> map= new HashMap<>();
+        for(char c: arr)
+            map.put(c+0, map.getOrDefault(c+0, 0)+1);
+
+        PriorityQueue<int[]> q= new PriorityQueue<>((a, b)->(b[1]- a[1]));
+        for(int i: map.keySet())
+            q.add(new int[]{i, map.get(i)});
+
+        HashSet<Integer> diff= new HashSet<>();
+        diff.add(1);
+        for(int i=2;i<=arr.length;i++)
+            if(prime.contains(i) && i*2> arr.length)
+                diff.add(i);
+
+        if(q.peek()[1]< arr.length- diff.size())
+            out.println("NO");
+        else
         {
-            long sub= min+ max;
-            for(int i=1;i< max;i++)
+            char[] ans= new char[arr.length];
+            int[] curr= q.poll();
+            for(int i=1;i<=arr.length;i++)
+                if(!diff.contains(i)) ans[i-1]= (char)curr[0];
+            q.add(new int[]{curr[0], curr[1]- (arr.length- diff.size())});
+
+            for(int i: diff)
             {
-                if(max%i== 0)
-                    sub= Math.min(sub, min*i+ max/i);
+                while(q.peek()[1]==0)
+                    q.poll();
+
+                curr= q.poll();
+                ans[i-1]= (char)curr[0];
+                q.add(new int[]{curr[0], curr[1]- 1});
             }
 
-            ans= Math.min(sum- (max+min)+ sub, ans);
+            out.println("YES");
+            out.println(new String(ans));
         }
+    }
 
-        out.println(ans);
+    void findPrimes(int n)
+    {
+        outer: for(int i=2;i<=n;i++)
+        {
+            for(int j=2;j<=Math.sqrt(i);j++)
+                if(i%j== 0)
+                    continue outer;
+
+            prime.add(i);
+        }
     }
 
     void run() throws Exception {
@@ -45,7 +71,7 @@ public class SashaAndMagneticMachines
     }
 
     public static void main(String[] args) throws Exception {
-        new SashaAndMagneticMachines().run();
+        new PrimePermutation().run();
     }
 
     private byte[] inbuf = new byte[1024];

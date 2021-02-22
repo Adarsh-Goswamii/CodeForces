@@ -1,39 +1,85 @@
 import java.util.*;
 import java.io.*;
 
-public class SashaAndMagneticMachines
-{
+public class DrazilAndHisHappyFriends {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException
-    {
-        int n= ni();
-        long sum= 0, min= Integer.MAX_VALUE;
-        HashSet<Integer> set= new HashSet<>();
+    void solve() throws IOException {
+        int n= ni(), m= ni();
+        HashSet<Integer> boy= new HashSet<>();
+        HashSet<Integer> girl= new HashSet<>();
         for (int i = 0; i < n; i++)
-        {
-            int val= ni();
-            sum+= val;
-            set.add(val);
-            min= Math.min(min, val);
-        }
+            boy.add(i);
 
-        long ans= sum;
-        for(long max: set)
+        for (int i = 0; i < m; i++)
+            girl.add(i);
+
+        int b= ni();
+        for (int i = 0; i < b; i++)
+            boy.remove(ni());
+
+        int g= ni();
+        for(int i = 0; i < g ; i++)
+            girl.remove(ni());
+
+        HashSet<Integer> remove= new HashSet<>();
+        for(int i: boy)
         {
-            long sub= min+ max;
-            for(int i=1;i< max;i++)
+            HashSet<Integer> temp= new HashSet<>();
+            int index= i;
+            boolean cured= false;
+            while(!temp.contains(index%m))
             {
-                if(max%i== 0)
-                    sub= Math.min(sub, min*i+ max/i);
+                if(!girl.contains(index%m))
+                {
+                    cured= true;
+                    break;
+                }
+                else
+                    temp.add(index%m);
+
+                index+= n;
             }
 
-            ans= Math.min(sum- (max+min)+ sub, ans);
+            if(cured)
+                remove.add(i);
         }
 
-        out.println(ans);
+        for(int i: remove)
+            boy.remove(i);
+
+        remove= new HashSet<>();
+        for(int i: girl)
+        {
+            HashSet<Integer> temp= new HashSet<>();
+            int index= i;
+            boolean cured= false;
+            while(!temp.contains(index%n))
+            {
+                if(!boy.contains(index%n))
+                {
+                    cured= true;
+                    break;
+                }
+                else
+                    temp.add(index%n);
+
+                index+= m;
+            }
+
+            if(cured)
+                remove.add(i);
+        }
+
+        for(int i: remove)
+            girl.remove(i);
+
+        if(boy.size()==0 || girl.size()== 0)
+            out.println("Yes");
+        else
+            out.println("No");
     }
 
     void run() throws Exception {
@@ -45,7 +91,7 @@ public class SashaAndMagneticMachines
     }
 
     public static void main(String[] args) throws Exception {
-        new SashaAndMagneticMachines().run();
+        new DrazilAndHisHappyFriends().run();
     }
 
     private byte[] inbuf = new byte[1024];
