@@ -1,50 +1,42 @@
 import java.util.*;
 import java.io.*;
 
-// ONHOLD
-
-public class OracandModels {
+public class MashmokhAndACM {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t = ni();
-        for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] arr= new int[n+1];
-            for (int i = 1; i <=n; i++)
-                arr[i]= ni();
+        int n= ni(), k= ni();
+        Map<Integer, List<Integer>> map= new HashMap<>();
+        for (int i = 1; i <=n; i++)
+        {
+            List<Integer> list= new ArrayList<>();
+            for (int j = i; j <=n; j+=i)
+                list.add(j);
 
-            memo= new int[arr.length];
-            call(arr, 0);
-
-            int max= Integer.MIN_VALUE;
-            for(int i: memo)
-                max= Math.max(max, i);
-
-            out.println(max);
+            map.put(i, list);
         }
+
+        ans= 0l;
+        memo= new long[n+1][k+1];
+        out.println(call(map, k, 1));
     }
 
-    int[] memo;
-    private int call(int[] arr, int index)
+    long ans;
+    long[][] memo;
+    long call(Map<Integer, List<Integer>> map, int k, int prev)
     {
-        if(memo[index]!= 0)
-            return memo[index];
-        else {
-            if(index== 0)for (int i = index + 1; i < arr.length; i++) {
-                if (arr[index] < arr[i] && (index == 0 || i % index == 0))
-                    memo[index] = Math.max(1 + call(arr, i), memo[index]);
-            }
+        if(memo[prev][k]!= 0)
+            return memo[prev][k];
+        else if(k==0)
+            return 1l;
+        else
+        {
+            for(int i: map.get(prev))
+                memo[prev][k]= (memo[prev][k]+ call(map, k-1, i))%1000000007;
 
-            if(index!= 0) for (int i = index * 2; i < arr.length; i += index)
-            {
-                if(arr[index]< arr[i])
-                    memo[index] = Math.max(1 + call(arr, i), memo[index]);
-            }
-
-            return memo[index];
+            return memo[prev][k];
         }
     }
 
@@ -57,7 +49,7 @@ public class OracandModels {
     }
 
     public static void main(String[] args) throws Exception {
-        new OracandModels().run();
+        new MashmokhAndACM().run();
     }
 
     private byte[] inbuf = new byte[1024];

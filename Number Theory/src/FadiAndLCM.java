@@ -1,51 +1,34 @@
 import java.util.*;
 import java.io.*;
 
-// ONHOLD
-
-public class OracandModels {
+public class FadiAndLCM {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
-        int t = ni();
-        for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] arr= new int[n+1];
-            for (int i = 1; i <=n; i++)
-                arr[i]= ni();
+        long x= nl();
 
-            memo= new int[arr.length];
-            call(arr, 0);
-
-            int max= Integer.MIN_VALUE;
-            for(int i: memo)
-                max= Math.max(max, i);
-
-            out.println(max);
+        long ans= x;
+        for(long i=1;i<=Math.sqrt(x);i++)
+        {
+            if(x%i==0 && lcm(i, x/i)== x)
+                ans= Math.min(ans, Math.max(i, x/i));
         }
+
+        out.println(x/ans+" "+ans);
     }
 
-    int[] memo;
-    private int call(int[] arr, int index)
+    long lcm(long a, long b)
     {
-        if(memo[index]!= 0)
-            return memo[index];
-        else {
-            if(index== 0)for (int i = index + 1; i < arr.length; i++) {
-                if (arr[index] < arr[i] && (index == 0 || i % index == 0))
-                    memo[index] = Math.max(1 + call(arr, i), memo[index]);
-            }
+        return a*b/ gcd(a, b);
+    }
 
-            if(index!= 0) for (int i = index * 2; i < arr.length; i += index)
-            {
-                if(arr[index]< arr[i])
-                    memo[index] = Math.max(1 + call(arr, i), memo[index]);
-            }
-
-            return memo[index];
-        }
+    long gcd(long a, long b)
+    {
+        if(b==0)
+            return a;
+        return gcd(b, a%b);
     }
 
     void run() throws Exception {
@@ -57,7 +40,7 @@ public class OracandModels {
     }
 
     public static void main(String[] args) throws Exception {
-        new OracandModels().run();
+        new FadiAndLCM().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -170,3 +153,4 @@ public class OracandModels {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+

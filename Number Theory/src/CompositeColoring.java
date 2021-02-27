@@ -1,50 +1,42 @@
 import java.util.*;
 import java.io.*;
 
-// ONHOLD
-
-public class OracandModels {
+public class CompositeColoring {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
+        int[] primes= new int[]{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31};
+
         int t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
-            int[] arr= new int[n+1];
-            for (int i = 1; i <=n; i++)
+            int[] arr= new int[n];
+            for (int i = 0; i < n; i++)
                 arr[i]= ni();
 
-            memo= new int[arr.length];
-            call(arr, 0);
-
-            int max= Integer.MIN_VALUE;
-            for(int i: memo)
-                max= Math.max(max, i);
-
-            out.println(max);
-        }
-    }
-
-    int[] memo;
-    private int call(int[] arr, int index)
-    {
-        if(memo[index]!= 0)
-            return memo[index];
-        else {
-            if(index== 0)for (int i = index + 1; i < arr.length; i++) {
-                if (arr[index] < arr[i] && (index == 0 || i % index == 0))
-                    memo[index] = Math.max(1 + call(arr, i), memo[index]);
-            }
-
-            if(index!= 0) for (int i = index * 2; i < arr.length; i += index)
+            HashMap<Integer, Integer> map= new HashMap<>();
+            int c= 1;
+            for(int i: arr)
             {
-                if(arr[index]< arr[i])
-                    memo[index] = Math.max(1 + call(arr, i), memo[index]);
+                for(int j: primes)
+                {
+                    if(i%j== 0 && !map.containsKey(j))
+                    {
+                        map.put(j, c++);
+                        break;
+                    }
+                    else if(i%j== 0) break;
+                }
             }
 
-            return memo[index];
+            out.println(map.size());
+            for(int i: arr)
+                for(int j: primes)
+                    if(i%j== 0)
+                    { out.print(map.get(j)+" "); break; }
+            out.println();
         }
     }
 
@@ -57,7 +49,7 @@ public class OracandModels {
     }
 
     public static void main(String[] args) throws Exception {
-        new OracandModels().run();
+        new CompositeColoring().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -170,3 +162,4 @@ public class OracandModels {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+
