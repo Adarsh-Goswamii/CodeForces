@@ -1,46 +1,42 @@
 import java.util.*;
 import java.io.*;
 
-public class C {
+public class A {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
         int t = ni();
-        for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            long[] arr= new long[n];
-            for (int i = 0; i < n; i++)
-                arr[i]= nl();
+        outer: for (int ii = 0; ii < t; ii++) {
+            char[] arr= ns().toCharArray();
 
-            long ans= 0l;
-            long[] minus= new long[n+1];
-            long sub= 0;
-
-            for(int i=0;i<n;i++)
+            for(int A= -1;A<=1;A+=2)
             {
-                if(arr[i]==1) continue;
-                minus[Math.min(n, i+2)]+=1;
-                minus[(int)Math.min(arr[i]+i+1, n)]-=1;
+                for(int B= -1;B<=1;B+=2)
+                {
+                    for(int C= -1;C<=1;C+=2)
+                    {
+                        int val= 0;
+                        for(char c: arr)
+                        {
+                            if(c=='A')
+                                val+= A;
+                            else if(c== 'B')
+                                val+= B;
+                            else
+                                val+= C;
+
+                            if(val<0)
+                                break;
+                        }
+
+                        if(val== 0)
+                        { out.println("YES"); continue outer; }
+                    }
+                }
             }
-
-            for (int i = 0; i < n; i++)
-            {
-                sub+= minus[i];
-                arr[i]-= sub;
-
-                if(arr[i]==1) continue;
-                minus[Math.min(n, i+2)]+=1;
-                minus[(int)Math.min(arr[i]+i+1, n)]-=1;
-
-                if(arr[i]<=1) continue;
-                ans+= arr[i]-1;
-
-                out.print(ans+" ");
-            }
-
-            out.println(ans);
+            out.println("NO");
         }
     }
 
@@ -53,7 +49,7 @@ public class C {
     }
 
     public static void main(String[] args) throws Exception {
-        new C().run();
+        new A().run();
     }
 
     private byte[] inbuf = new byte[1024];

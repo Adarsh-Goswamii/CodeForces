@@ -1,46 +1,41 @@
 import java.util.*;
 import java.io.*;
 
-public class C {
+public class B {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
         int t = ni();
-        for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            long[] arr= new long[n];
-            for (int i = 0; i < n; i++)
-                arr[i]= nl();
+        outer: for (int ii = 0; ii < t; ii++) {
+            int n= ni(), u= ni(), r= ni(), d= ni(), l= ni();
+            if(Math.max(Math.max(u, r), Math.max(d, l))> n)
+                out.println("NO");
 
-            long ans= 0l;
-            long[] minus= new long[n+1];
-            long sub= 0;
-
-            for(int i=0;i<n;i++)
+            for (int ul = 0; ul <= 1; ul++)
             {
-                if(arr[i]==1) continue;
-                minus[Math.min(n, i+2)]+=1;
-                minus[(int)Math.min(arr[i]+i+1, n)]-=1;
+                for (int ur = 0; ur <= 1; ur++)
+                {
+                    for (int dl = 0; dl <= 1; dl++)
+                    {
+                        for (int dr = 0; dr <= 1; dr++)
+                        {
+                            if((u- ul- ur <= n-2) && (u>= ul+ ur) &&
+                                    (d- dl- dr<= n-2) && (d>= dl+ dr) &&
+                                    (l- ul- dl<= n-2) && (l>= dl+ ul) &&
+                                    (r- ur- dr<= n-2)&& (r>= ur+ dr))
+                            {
+                                out.println("YES");
+                                continue outer;
+                            }
+
+                        }
+                    }
+                }
             }
 
-            for (int i = 0; i < n; i++)
-            {
-                sub+= minus[i];
-                arr[i]-= sub;
-
-                if(arr[i]==1) continue;
-                minus[Math.min(n, i+2)]+=1;
-                minus[(int)Math.min(arr[i]+i+1, n)]-=1;
-
-                if(arr[i]<=1) continue;
-                ans+= arr[i]-1;
-
-                out.print(ans+" ");
-            }
-
-            out.println(ans);
+            out.println("NO");
         }
     }
 
@@ -53,7 +48,7 @@ public class C {
     }
 
     public static void main(String[] args) throws Exception {
-        new C().run();
+        new B().run();
     }
 
     private byte[] inbuf = new byte[1024];
