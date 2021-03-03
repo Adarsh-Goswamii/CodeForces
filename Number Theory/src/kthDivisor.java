@@ -1,40 +1,36 @@
 import java.util.*;
 import java.io.*;
 
-public class AddingPowers {
+public class kthDivisor {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
-    void solve() throws IOException {
-        int t = ni();
-        outer:for (int ii = 0; ii < t; ii++) {
-            int n= ni(), k= ni();
-            Long[] arr= new Long[n];
-            for (int i = 0; i < n; i++)
-                arr[i]= nl();
+    void solve() throws IOException
+    {
+        long n= nl(), k= nl();
 
-            Arrays.sort(arr, Collections.reverseOrder());
-            int index= 0;
-            for(int i= (int)(Math.log(1e16)/Math.log(k)); i>=0 && index< n;i--)
+        ArrayList<Long> factors= new ArrayList<>();
+        HashSet<Long> set= new HashSet<>();
+        for(long i= 1;i<=Math.sqrt(n);i++)
+        {
+            if(n%i== 0)
             {
-                if(index== n) break;
-
-                long val= (long)Math.pow(k, i);
-                if(val<= arr[index])
-                    arr[index]-= val;
-
-                Arrays.sort(arr, Collections.reverseOrder());
+                factors.add(i);
+                set.add(i);
+                if(!set.contains(n/i))
+                {
+                    factors.add(n/i);
+                    set.contains(n/i);
+                }
             }
-
-            while(index< n && arr[index]== 0)
-                index++;
-
-            if(index== n)
-                out.println("YES");
-            else
-                out.println("NO");
         }
+
+        Collections.sort(factors);
+        if(k<=factors.size())
+            out.println(factors.get((int)(k-1)));
+        else
+            out.println(-1);
     }
 
     void run() throws Exception {
@@ -46,7 +42,7 @@ public class AddingPowers {
     }
 
     public static void main(String[] args) throws Exception {
-        new AddingPowers().run();
+        new kthDivisor().run();
     }
 
     private byte[] inbuf = new byte[1024];

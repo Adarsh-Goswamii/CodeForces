@@ -1,39 +1,20 @@
 import java.util.*;
 import java.io.*;
 
-public class AddingPowers {
+public class EveryoneIsAWinner {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
 
     void solve() throws IOException {
         int t = ni();
-        outer:for (int ii = 0; ii < t; ii++) {
-            int n= ni(), k= ni();
-            Long[] arr= new Long[n];
-            for (int i = 0; i < n; i++)
-                arr[i]= nl();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni();
+            out.println(n/2+2);
+            for(int i=0; i<= n/2;i++)
+                out.print(i+" ");
 
-            Arrays.sort(arr, Collections.reverseOrder());
-            int index= 0;
-            for(int i= (int)(Math.log(1e16)/Math.log(k)); i>=0 && index< n;i--)
-            {
-                if(index== n) break;
-
-                long val= (long)Math.pow(k, i);
-                if(val<= arr[index])
-                    arr[index]-= val;
-
-                Arrays.sort(arr, Collections.reverseOrder());
-            }
-
-            while(index< n && arr[index]== 0)
-                index++;
-
-            if(index== n)
-                out.println("YES");
-            else
-                out.println("NO");
+            out.println(n);
         }
     }
 
@@ -46,7 +27,7 @@ public class AddingPowers {
     }
 
     public static void main(String[] args) throws Exception {
-        new AddingPowers().run();
+        new EveryoneIsAWinner().run();
     }
 
     private byte[] inbuf = new byte[1024];
