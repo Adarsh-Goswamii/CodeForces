@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class EveryoneIsAWinner {
+public class C {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
@@ -9,12 +9,10 @@ public class EveryoneIsAWinner {
     void solve() throws IOException {
         int t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            out.println(n/2+2);
-            for(int i=0; i<= n/2;i++)
-                out.print(i+" ");
+            int k= ni(), n= ni();
+            char[] arr= ns(n);
 
-            out.println(n);
+
         }
     }
 
@@ -27,7 +25,7 @@ public class EveryoneIsAWinner {
     }
 
     public static void main(String[] args) throws Exception {
-        new EveryoneIsAWinner().run();
+        new C().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -140,3 +138,4 @@ public class EveryoneIsAWinner {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+

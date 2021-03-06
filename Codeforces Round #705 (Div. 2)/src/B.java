@@ -1,21 +1,95 @@
 import java.util.*;
 import java.io.*;
 
-public class EveryoneIsAWinner {
+public class B {
     InputStream is;
     PrintWriter out;
     String INPUT = "";
+    int h, m;
 
     void solve() throws IOException {
+        map= new HashMap<>();
+
+        map.put('0', '0');
+        map.put('1', '1');
+        map.put('2', '5');
+        map.put('5', '2');
+        map.put('8', '8');
+
         int t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            out.println(n/2+2);
-            for(int i=0; i<= n/2;i++)
-                out.print(i+" ");
+            h= ni(); m= ni();
+            String s= ns();
+            char[] arr= s.toCharArray();
 
-            out.println(n);
+            while(true)
+            {
+                String ans= reflection_valid(arr);
+                if(ans!= null)
+                {
+                    out.println(new String(arr));
+                    break;
+                }
+
+                int hour= Integer.parseInt(s.substring(0, s.indexOf(':')));
+                int minute= Integer.parseInt(s.substring(s.indexOf(':')+1, s.length()));
+                minute++;
+                if(minute== m)
+                {
+                    hour++;
+                    minute= 0;
+                }
+
+                if(hour== h)
+                    hour= 0;
+
+                arr= new char[]{'0', '0', ':', '0', '0'};
+
+                int index= 1;
+                while(hour!= 0)
+                {
+                    arr[index--]= (char)(hour%10+48);
+                    hour/= 10;
+                }
+
+                index= 4;
+                while(minute!= 0)
+                {
+                    arr[index--]= (char)(minute%10+48);
+                    minute/= 10;
+                }
+
+                s= new String(arr);
+            }
+
         }
+    }
+
+    Map<Character, Character> map;
+    private String reflection_valid(char[] arr)
+    {
+        StringBuilder br= new StringBuilder(new String(arr));
+        br.reverse();
+        arr= br.toString().toCharArray();
+
+
+        for(int i=0;i<arr.length;i++)
+        {
+            if(arr[i]== ':') continue;
+            if(map.containsKey(arr[i]))
+                arr[i]= map.get(arr[i]);
+            else
+                return null;
+        }
+        String s= new String(arr);
+
+        int hour= Integer.parseInt(s.substring(0, s.indexOf(':')));
+        int minute= Integer.parseInt(s.substring(s.indexOf(':')+1, s.length()));
+
+        if(hour<h && minute< m)
+            return s;
+
+        return null;
     }
 
     void run() throws Exception {
@@ -27,7 +101,7 @@ public class EveryoneIsAWinner {
     }
 
     public static void main(String[] args) throws Exception {
-        new EveryoneIsAWinner().run();
+        new B().run();
     }
 
     private byte[] inbuf = new byte[1024];
@@ -140,3 +214,4 @@ public class EveryoneIsAWinner {
         if (INPUT.length() > 0) System.out.println(Arrays.deepToString(o));
     }
 }
+
