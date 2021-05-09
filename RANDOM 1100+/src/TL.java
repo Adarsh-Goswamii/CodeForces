@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class ReplaceAndKeepSorted {
+public class TL {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -13,44 +13,25 @@ public class ReplaceAndKeepSorted {
      */
 
     void solve() throws Exception {
-        int n= ni(), q= ni(), k= ni();
-        int[] arr= new int[n+2];
-        arr[0]= 0;
-        arr[n+1]= k+1;
-        for (int i = 1; i <= n; i++) {
-            arr[i]= ni();
+        int n= ni(), m= ni();
+        int max_p= -1, min_p= 101;
+        int min_f= 101;
+
+        for(int i=0;i<n;i++) {
+            int time= ni();
+            max_p= Math.max(max_p, time);
+            min_p= Math.min(min_p, time);
         }
 
-        int[] ans= new int[n];
-        for(int i=1;i<= n;i++) ans[i-1]= arr[i+1]- arr[i-1]- 2;
+        for(int i=0;i<m;i++) min_f= Math.min(min_f, ni());
 
-        long[] prefix= new long[n];
-        for(int i=0 ;i< n;i++) prefix[i]= (i!= 0? prefix[i-1]: 0)+ ans[i];
-
-//        print(arr);
-//        print(ans);
-//        print(prefix);
-
-        for(int i=0;i<q;i++) {
-            int l= ni(), r= ni();
-            l--; r--;
-
-            if(l== r) {
-                out.println(k-1);
-                continue;
-            }
-
-            long val= arr[l+2]- 2;
-//            out.println(val);
-            val+= k- arr[r]- 1;
-//            out.println(val);
-            val+= prefix[r-1]- prefix[l];
-            out.println(val);
-        }
+        int ans= Math.max(max_p, min_p*2);
+        if(ans< min_f) out.println(ans);
+        else out.println(-1);
     }
 
     public static void main(String[] args) throws Exception {
-        new ReplaceAndKeepSorted().run();
+        new TL().run();
     }
 
     void run() throws Exception {

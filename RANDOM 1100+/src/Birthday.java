@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class ReplaceAndKeepSorted {
+public class Birthday {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -13,44 +13,25 @@ public class ReplaceAndKeepSorted {
      */
 
     void solve() throws Exception {
-        int n= ni(), q= ni(), k= ni();
-        int[] arr= new int[n+2];
-        arr[0]= 0;
-        arr[n+1]= k+1;
-        for (int i = 1; i <= n; i++) {
-            arr[i]= ni();
+        int n= ni();
+        List<Integer> arr= new ArrayList<>();
+        for (int i = 0; i < n; i++) arr.add(ni());
+
+        Collections.sort(arr);
+        if(n%2== 0) {
+            for(int i=0;i<n;i+=2) out.print(arr.get(i)+" ");
+            for(int i=n-1;i>=0;i-=2) out.print(arr.get(i)+" ");
+        }
+        else {
+            for(int i=1;i<n;i+=2) out.print(arr.get(i)+" ");
+            for(int i=n-1;i>=0;i-=2) out.print(arr.get(i)+" ");
         }
 
-        int[] ans= new int[n];
-        for(int i=1;i<= n;i++) ans[i-1]= arr[i+1]- arr[i-1]- 2;
-
-        long[] prefix= new long[n];
-        for(int i=0 ;i< n;i++) prefix[i]= (i!= 0? prefix[i-1]: 0)+ ans[i];
-
-//        print(arr);
-//        print(ans);
-//        print(prefix);
-
-        for(int i=0;i<q;i++) {
-            int l= ni(), r= ni();
-            l--; r--;
-
-            if(l== r) {
-                out.println(k-1);
-                continue;
-            }
-
-            long val= arr[l+2]- 2;
-//            out.println(val);
-            val+= k- arr[r]- 1;
-//            out.println(val);
-            val+= prefix[r-1]- prefix[l];
-            out.println(val);
-        }
+        out.println();
     }
 
     public static void main(String[] args) throws Exception {
-        new ReplaceAndKeepSorted().run();
+        new Birthday().run();
     }
 
     void run() throws Exception {
