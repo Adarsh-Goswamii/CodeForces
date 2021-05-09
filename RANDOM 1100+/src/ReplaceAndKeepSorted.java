@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class CorruptedArray {
+public class ReplaceAndKeepSorted {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -17,50 +17,12 @@ public class CorruptedArray {
         t = ni();
 
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            long[] arr= new long[n+2];
 
-            long sum= 0l;
-            Map<Long, Integer> map = new HashMap<>();
-            for (int i = 0; i < arr.length; i++) {
-                arr[i]= ni();
-                sum+= arr[i];
-                map.put(arr[i], map.getOrDefault(arr[i], 0)+ 1);
-            }
-
-            boolean found= false;
-            for(int i=0;i<arr.length;i++) {
-                long key= sum- arr[i];
-                if(map.get(arr[i])== 1) map.remove(arr[i]);
-
-                if(key%2== 0 && map.containsKey(key/2)) {
-                    boolean bool= true;
-                    for (int j = 0; j < arr.length; j++) {
-                        if(i!= j) {
-                            if(arr[j]== key/2) {
-                                if(bool) {
-                                    bool= false;
-                                    continue;
-                                }
-                            }
-                            out.print(arr[j]+" ");
-                        }
-                    }
-                    out.println();
-                    found= true;
-                    break;
-                }
-
-                if(!map.containsKey(arr[i]))
-                map.put(arr[i], 1);
-            }
-
-            if(!found) out.println(-1);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new CorruptedArray().run();
+        new ReplaceAndKeepSorted().run();
     }
 
     void run() throws Exception {
