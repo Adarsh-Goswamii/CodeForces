@@ -1,8 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-public class AlphabeticRemovals {
+public class A {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -14,43 +13,30 @@ public class AlphabeticRemovals {
      */
 
     void solve() throws Exception {
-        int n= ni(), k= ni();
-        char[] arr= ns().toCharArray();
-        char[] ans= new char[n];
+        int t = 1;
+        t = ni();
 
-        List<Integer>[] map= new ArrayList[26];
-        for (int i = 0; i < 26; i++) map[i]= new ArrayList<>();
+        for (int ii = 0; ii < t; ii++) {
+            int a= ni(), b= ni();
 
-        int index= 0;
-        for(char c: arr) map[c-'a'].add(index++);
-
-        for(int i=0;i<26;i++) {
-            if(map[i].size()<= k) {
-                k-= map[i].size();
-                map[i]= new ArrayList<>();
-
-                if(k== 0) break;
+            if(b== 1) out.println("NO");
+            else if(b== 2) {
+                out.println("YES");
+                out.println(a+" "+3*a+" "+a*4);
             }
             else {
-                List<Integer> temp= new ArrayList<>();
-                for(int j= k;j<map[i].size();j++)
-                    temp.add(map[i].get(j));
+                long x= a;
+                long y= (b-1)*1l*a;
+                long z= a*1l*b;
 
-                map[i]= temp;
-                break;
+                out.println("YES");
+                out.println(x+" "+y+" "+z);
             }
         }
-
-        for(int i=0;i<26;i++) {
-            for(int j: map[i]) ans[j]= (char)(i+'a');
-        }
-
-        for(char c: ans) if(c!= '\u0000') out.print(c);
-        out.println();
     }
 
     public static void main(String[] args) throws Exception {
-        new AlphabeticRemovals().run();
+        new A().run();
     }
 
     void run() throws Exception {

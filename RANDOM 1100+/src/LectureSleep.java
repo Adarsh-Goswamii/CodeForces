@@ -1,8 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-public class AlphabeticRemovals {
+public class LectureSleep {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -15,42 +14,27 @@ public class AlphabeticRemovals {
 
     void solve() throws Exception {
         int n= ni(), k= ni();
-        char[] arr= ns().toCharArray();
-        char[] ans= new char[n];
+        int[] arr= new int[n];
+        for (int i = 0; i < n; i++) arr[i]= ni();
 
-        List<Integer>[] map= new ArrayList[26];
-        for (int i = 0; i < 26; i++) map[i]= new ArrayList<>();
+        short[] awake= new short[n];
+        for (int i = 0; i < n; i++) awake[i]= nsh();
 
-        int index= 0;
-        for(char c: arr) map[c-'a'].add(index++);
+        long[] prefix= new long[n];
+        for (int i = 0; i < n; i++)
+            prefix[i]= (i!= 0? prefix[i-1]: 0) + (awake[i]== 0? arr[i]: 0);
 
-        for(int i=0;i<26;i++) {
-            if(map[i].size()<= k) {
-                k-= map[i].size();
-                map[i]= new ArrayList<>();
+        long max= 0;
+        for(int i=0;i<=n-k;i++) max= Math.max(max, prefix[i+k-1]- (i!= 0? prefix[i-1]: 0));
 
-                if(k== 0) break;
-            }
-            else {
-                List<Integer> temp= new ArrayList<>();
-                for(int j= k;j<map[i].size();j++)
-                    temp.add(map[i].get(j));
+        long sum= 0l;
+        for(int i=0;i<n;i++) if(awake[i]== 1) sum+= arr[i];
 
-                map[i]= temp;
-                break;
-            }
-        }
-
-        for(int i=0;i<26;i++) {
-            for(int j: map[i]) ans[j]= (char)(i+'a');
-        }
-
-        for(char c: ans) if(c!= '\u0000') out.print(c);
-        out.println();
+        out.println(sum+ max);
     }
 
     public static void main(String[] args) throws Exception {
-        new AlphabeticRemovals().run();
+        new LectureSleep().run();
     }
 
     void run() throws Exception {
@@ -82,6 +66,13 @@ public class AlphabeticRemovals {
             read();
 
         return Integer.parseInt(st.nextToken());
+    }
+
+    short nsh() throws Exception {
+        if (!st.hasMoreTokens())
+            read();
+
+        return Short.parseShort(st.nextToken());
     }
 
     long nl() throws Exception {

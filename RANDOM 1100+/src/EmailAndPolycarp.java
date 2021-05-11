@@ -1,8 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-public class AlphabeticRemovals {
+public class EmailAndPolycarp {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -14,43 +13,36 @@ public class AlphabeticRemovals {
      */
 
     void solve() throws Exception {
-        int n= ni(), k= ni();
-        char[] arr= ns().toCharArray();
-        char[] ans= new char[n];
+        int t = 1;
+        t = ni();
 
-        List<Integer>[] map= new ArrayList[26];
-        for (int i = 0; i < 26; i++) map[i]= new ArrayList<>();
+        for (int ii = 0; ii < t; ii++) {
+            char[] word= ns().toCharArray();
+            char[] arr= ns().toCharArray();
 
-        int index= 0;
-        for(char c: arr) map[c-'a'].add(index++);
+            int index= 0;
+            boolean ans= true;
+            for (int i = 0; i < word.length && ans; i++) {
+                int j= i+1;
+                while(j< word.length && word[j]== word[i]) j++;
 
-        for(int i=0;i<26;i++) {
-            if(map[i].size()<= k) {
-                k-= map[i].size();
-                map[i]= new ArrayList<>();
+                int freq= j- i;
+                i= j-1;
 
-                if(k== 0) break;
+                int prev= index;
+                while(index< arr.length && arr[index]== word[i]) index++;
+
+//                out.println(word[i]+" "+index+" "+prev);
+                if(index- prev< freq) ans= false;
             }
-            else {
-                List<Integer> temp= new ArrayList<>();
-                for(int j= k;j<map[i].size();j++)
-                    temp.add(map[i].get(j));
 
-                map[i]= temp;
-                break;
-            }
+            if(index!= arr.length) ans= false;
+            print(ans);
         }
-
-        for(int i=0;i<26;i++) {
-            for(int j: map[i]) ans[j]= (char)(i+'a');
-        }
-
-        for(char c: ans) if(c!= '\u0000') out.print(c);
-        out.println();
     }
 
     public static void main(String[] args) throws Exception {
-        new AlphabeticRemovals().run();
+        new EmailAndPolycarp().run();
     }
 
     void run() throws Exception {

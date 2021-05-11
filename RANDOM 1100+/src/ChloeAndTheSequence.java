@@ -1,8 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-public class AlphabeticRemovals {
+public class ChloeAndTheSequence {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -14,43 +13,30 @@ public class AlphabeticRemovals {
      */
 
     void solve() throws Exception {
-        int n= ni(), k= ni();
-        char[] arr= ns().toCharArray();
-        char[] ans= new char[n];
+        int n= ni();
+        long k= nl();
 
-        List<Integer>[] map= new ArrayList[26];
-        for (int i = 0; i < 26; i++) map[i]= new ArrayList<>();
-
-        int index= 0;
-        for(char c: arr) map[c-'a'].add(index++);
-
-        for(int i=0;i<26;i++) {
-            if(map[i].size()<= k) {
-                k-= map[i].size();
-                map[i]= new ArrayList<>();
-
-                if(k== 0) break;
-            }
-            else {
-                List<Integer> temp= new ArrayList<>();
-                for(int j= k;j<map[i].size();j++)
-                    temp.add(map[i].get(j));
-
-                map[i]= temp;
+        for(int i=0;i<=50;i++) {
+            long index= 1l<< i;
+            if((k- index)% (1l<<i+1)== 0) {
+                out.println(i+1);
                 break;
             }
         }
+    }
 
-        for(int i=0;i<26;i++) {
-            for(int j: map[i]) ans[j]= (char)(i+'a');
-        }
+    private void print(List<Integer> arr) {
 
-        for(char c: ans) if(c!= '\u0000') out.print(c);
-        out.println();
+        int index= 0;
+        for(int i: arr)
+        {
+            if(index%2== 1) out.print(i+" ");
+            index++;
+        }out.println();
     }
 
     public static void main(String[] args) throws Exception {
-        new AlphabeticRemovals().run();
+        new ChloeAndTheSequence().run();
     }
 
     void run() throws Exception {
