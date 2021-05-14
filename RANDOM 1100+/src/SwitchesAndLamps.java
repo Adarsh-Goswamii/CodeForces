@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class TwoCakes {
+public class SwitchesAndLamps {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -17,42 +17,30 @@ public class TwoCakes {
 //        t = ni();
 
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] arr= new int[2*n];
-            for (int i = 0; i < 2*n; i++) arr[i]= ni();
+            int n= ni(), m= ni();
 
-            Map<Integer, int[]> map = new HashMap<>();
-            for(int i=0;i<2*n;i++) {
-                if(map.containsKey(arr[i])) map.get(arr[i])[1]= i;
-                else map.put(arr[i], new int[]{i, 0});
+            char[][] arr=  new char[n][];
+            for (int i = 0; i < n; i++) arr[i]= ns().toCharArray();
+
+            int[] lamps= new int[m];
+            for(char[] c: arr)
+                for (int i = 0; i < c.length; i++) if(c[i]== '1') lamps[i]++;
+
+            boolean ans= false;
+            for(int i=0;i<n && !ans;i++) {
+                boolean found= true;
+                for (int j = 0; j < arr[i].length && found; j++)
+                    if(arr[i][j]== '1' && lamps[j]== 1) found= false;
+
+                if(found) ans= true;
             }
 
-            int tier= 2, cake1= map.get(1)[0], cake2= map.get(1)[1];
-            long distance= cake1+ cake2;
-            while(tier<= n) {
-                int[] val= map.get(tier);
-                if(abs(val[0],  cake1)+ abs(val[1], cake2)>= abs(val[1],  cake1)+ abs(val[0], cake2)) {
-                    distance+= abs(cake1, val[1])+ abs(cake2, val[0]);
-                    cake1= val[1];
-                    cake2= val[0];
-                }
-                else {
-                    distance+= abs(cake1, val[0])+ abs(cake2, val[1]);
-                    cake1= val[0];
-                    cake2= val[1];
-                }
-
-                tier++;
-            }
-
-            out.println(distance);
+            print(ans);
         }
     }
 
-    private int abs(int a, int b) { return Math.abs(a- b); }
-
     public static void main(String[] args) throws Exception {
-        new TwoCakes().run();
+        new SwitchesAndLamps().run();
     }
 
     void run() throws Exception {

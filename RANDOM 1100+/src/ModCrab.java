@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class TwoCakes {
+public class ModCrab {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -17,42 +17,31 @@ public class TwoCakes {
 //        t = ni();
 
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] arr= new int[2*n];
-            for (int i = 0; i < 2*n; i++) arr[i]= ni();
+            int h1= ni(), a1= ni(), c1= ni();
+            int h2= ni(), a2= ni();
 
-            Map<Integer, int[]> map = new HashMap<>();
-            for(int i=0;i<2*n;i++) {
-                if(map.containsKey(arr[i])) map.get(arr[i])[1]= i;
-                else map.put(arr[i], new int[]{i, 0});
-            }
-
-            int tier= 2, cake1= map.get(1)[0], cake2= map.get(1)[1];
-            long distance= cake1+ cake2;
-            while(tier<= n) {
-                int[] val= map.get(tier);
-                if(abs(val[0],  cake1)+ abs(val[1], cake2)>= abs(val[1],  cake1)+ abs(val[0], cake2)) {
-                    distance+= abs(cake1, val[1])+ abs(cake2, val[0]);
-                    cake1= val[1];
-                    cake2= val[0];
+            int count= 0;
+            StringBuilder ans= new StringBuilder("");
+            while(h2> 0) {
+                count++;
+                if(h1<= a2 && h2-a1> 0) {
+                    ans.append("HEAL\n");
+                    h1+= c1;
                 }
                 else {
-                    distance+= abs(cake1, val[0])+ abs(cake2, val[1]);
-                    cake1= val[0];
-                    cake2= val[1];
+                    ans.append("STRIKE\n");
+                    h2-= a1;
                 }
 
-                tier++;
+                h1-= a2;
             }
 
-            out.println(distance);
+            out.print(count+"\n"+ans);
         }
     }
 
-    private int abs(int a, int b) { return Math.abs(a- b); }
-
     public static void main(String[] args) throws Exception {
-        new TwoCakes().run();
+        new ModCrab().run();
     }
 
     void run() throws Exception {

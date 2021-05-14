@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class TwoCakes {
+public class EquationsOfMathematicalMagic {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -14,45 +14,23 @@ public class TwoCakes {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
 
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
-            int[] arr= new int[2*n];
-            for (int i = 0; i < 2*n; i++) arr[i]= ni();
 
-            Map<Integer, int[]> map = new HashMap<>();
-            for(int i=0;i<2*n;i++) {
-                if(map.containsKey(arr[i])) map.get(arr[i])[1]= i;
-                else map.put(arr[i], new int[]{i, 0});
+            int count= 0;
+            while(n!= 0) {
+                if((n&1)== 1) count++;
+                n>>= 1;
             }
 
-            int tier= 2, cake1= map.get(1)[0], cake2= map.get(1)[1];
-            long distance= cake1+ cake2;
-            while(tier<= n) {
-                int[] val= map.get(tier);
-                if(abs(val[0],  cake1)+ abs(val[1], cake2)>= abs(val[1],  cake1)+ abs(val[0], cake2)) {
-                    distance+= abs(cake1, val[1])+ abs(cake2, val[0]);
-                    cake1= val[1];
-                    cake2= val[0];
-                }
-                else {
-                    distance+= abs(cake1, val[0])+ abs(cake2, val[1]);
-                    cake1= val[0];
-                    cake2= val[1];
-                }
-
-                tier++;
-            }
-
-            out.println(distance);
+            out.println(1<<count);
         }
     }
 
-    private int abs(int a, int b) { return Math.abs(a- b); }
-
     public static void main(String[] args) throws Exception {
-        new TwoCakes().run();
+        new EquationsOfMathematicalMagic().run();
     }
 
     void run() throws Exception {

@@ -1,15 +1,22 @@
 import java.util.*;
 import java.io.*;
 
-public class TwoCakes {
+public class Unary {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
     final int imax = Integer.MAX_VALUE, imin = Integer.MIN_VALUE;
-    final int mod = 1000000007;
+    final int mod = (int)(1e6+ 3);
 
     /**
-     *
+     * ">"  →  1000,
+     * "<"  →  1001,
+     * "+"  →  1010,
+     * "-"  →  1011,
+     * "."  →  1100,
+     * ","  →  1101,
+     * "["  →  1110,
+     * "]"  →  1111.
      */
 
     void solve() throws Exception {
@@ -17,42 +24,33 @@ public class TwoCakes {
 //        t = ni();
 
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] arr= new int[2*n];
-            for (int i = 0; i < 2*n; i++) arr[i]= ni();
+            Map<Character, String> map= new HashMap<>();
+            map.put('>', "1000");
+            map.put('<', "1001");
+            map.put('+', "1010");
+            map.put('-', "1011");
+            map.put('.', "1100");
+            map.put(',', "1101");
+            map.put('[', "1110");
+            map.put(']', "1111");
 
-            Map<Integer, int[]> map = new HashMap<>();
-            for(int i=0;i<2*n;i++) {
-                if(map.containsKey(arr[i])) map.get(arr[i])[1]= i;
-                else map.put(arr[i], new int[]{i, 0});
+            char[] arr= ns().toCharArray();
+            StringBuilder ans= new StringBuilder();
+            for(char c: arr) ans.append(map.get(c));
+
+            int power= 1, ans_num= 0;
+            for(int i=ans.length()-1;i>=0;i--) {
+                if(i!= ans.length()-1) power= mul(power, 2);
+
+                if(ans.charAt(i)== 49) ans_num= add(ans_num, power);
             }
 
-            int tier= 2, cake1= map.get(1)[0], cake2= map.get(1)[1];
-            long distance= cake1+ cake2;
-            while(tier<= n) {
-                int[] val= map.get(tier);
-                if(abs(val[0],  cake1)+ abs(val[1], cake2)>= abs(val[1],  cake1)+ abs(val[0], cake2)) {
-                    distance+= abs(cake1, val[1])+ abs(cake2, val[0]);
-                    cake1= val[1];
-                    cake2= val[0];
-                }
-                else {
-                    distance+= abs(cake1, val[0])+ abs(cake2, val[1]);
-                    cake1= val[0];
-                    cake2= val[1];
-                }
-
-                tier++;
-            }
-
-            out.println(distance);
+            out.println(ans_num);
         }
     }
 
-    private int abs(int a, int b) { return Math.abs(a- b); }
-
     public static void main(String[] args) throws Exception {
-        new TwoCakes().run();
+        new Unary().run();
     }
 
     void run() throws Exception {
@@ -133,14 +131,14 @@ public class TwoCakes {
         }
     }
 
-    long add(long a, long b) {
+    int add(int a, int b) {
         if (a + b >= mod)
             return (a + b) - mod;
         else
             return a + b >= 0 ? a + b : a + b + mod;
     }
 
-    long mul(long a, long b) {
+    int mul(int a, int b) {
         return (a * b) % mod;
     }
 
