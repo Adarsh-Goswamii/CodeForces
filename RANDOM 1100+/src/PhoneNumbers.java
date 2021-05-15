@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class And {
+public class PhoneNumbers {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,7 +9,9 @@ public class And {
     final int mod = 1000000007;
 
     /**
-     *
+     *  If you want to call a taxi, you should call: Rogulenko.
+     * If you want to order a pizza, you should call: Fedorov, Rogulenko, Kaluzhin.
+     * If you want to go to a cafe with a wonderful girl, you should call: Melnikov.
      */
 
     void solve() throws Exception {
@@ -17,31 +19,65 @@ public class And {
 //        t = ni();
 
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), x= ni();
-            int[] arr= new int[n];
-            Set<Integer> set = new HashSet<>();
-            boolean found= false;
+            int n= ni();
+
+            List<String> name = new ArrayList<>();
+            List<int[]> num= new ArrayList<>();
             for (int i = 0; i < n; i++) {
-                arr[i]= ni();
-                if(set.contains(arr[i])) found= true;
-                else set.add(arr[i]);
+                num.add(new int[]{0, 0, 0});
+
+                int val= ni();
+                String na= st.nextToken(); name.add(na);
+                for (int j = 0; j < val; j++) {
+                    char[] arr= ns().toCharArray();
+                    int index= checkNo(arr);
+
+                    num.get(i)[index]++;
+                }
             }
 
-            if(found) { out.println(0); break; }
 
-            for(int i: arr) if(set.contains(i&x) && (i&x)!= i) found= true;
-            if(found) { out.println(1); break; }
+            int[] max= new int[]{0, 0, 0};
+            for(int[] i: num) {
+                max[0]= Math.max(max[0], i[0]);
+                max[1]= Math.max(max[1], i[1]);
+                max[2]= Math.max(max[2], i[2]);
+            }
 
-            set= new HashSet<>();
-            for(int i: arr) if(set.contains(i&x)) found= true; else set.add(i&x);
+            for(int i=0;i<3;i++) {
+                StringBuilder str= new StringBuilder();
+                if(i==0)
+                    str.append("If you want to call a taxi, you should call: ");
+                else if(i== 1)
+                    str.append("If you want to order a pizza, you should call: ");
+                else
+                    str.append("If you want to go to a cafe with a wonderful girl, you should call: ");
 
-            if(found) out.println(2);
-            else out.println(-1);
+                for (int j = 0; j < n; j++) if(max[i]== num.get(j)[i]) str.append(name.get(j)+", ");
+
+                out.println(str.substring(0, str.length()-2)+".");
+            }
         }
     }
 
+    private int checkNo(char[] arr) {
+        Set<Character> set = new HashSet<>();
+        for(char c: arr) if(c!= '-') set.add(c);
+
+        if(set.size()== 1) return 0;
+
+        char max= (char)('9'+1);
+        for(char c: arr) {
+            if(c== '-') continue;
+            if(c>= max) return 2;
+            max= c;
+        }
+
+        return 1;
+    }
+
     public static void main(String[] args) throws Exception {
-        new And().run();
+        new PhoneNumbers().run();
     }
 
     void run() throws Exception {
@@ -136,5 +172,13 @@ public class And {
     void print(boolean b) {
         if (b) out.println("YES");
         else out.println("NO");
+    }
+
+    private void sort(int[] arr) {
+        List<Integer> list = new ArrayList<>();
+        for (int i : arr) list.add(i);
+
+        Collections.sort(list);
+        for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
     }
 }

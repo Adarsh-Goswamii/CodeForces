@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class And {
+public class KvassAndTheFairNut {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -17,31 +17,39 @@ public class And {
 //        t = ni();
 
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), x= ni();
+            int n= ni(), min= imax;
+            long s= nl();
+
             int[] arr= new int[n];
-            Set<Integer> set = new HashSet<>();
-            boolean found= false;
             for (int i = 0; i < n; i++) {
                 arr[i]= ni();
-                if(set.contains(arr[i])) found= true;
-                else set.add(arr[i]);
+                min= Math.min(min, arr[i]);
             }
 
-            if(found) { out.println(0); break; }
+            int start= 0, last= min, ans= -1;
+            while(start<= last) {
+                int mid= start+ (last- start)/2;
 
-            for(int i: arr) if(set.contains(i&x) && (i&x)!= i) found= true;
-            if(found) { out.println(1); break; }
+                if(predicate(arr, mid, s)) {
+                    ans= mid;
+                    start= mid+1;
+                }
+                else last= mid-1;
+            }
 
-            set= new HashSet<>();
-            for(int i: arr) if(set.contains(i&x)) found= true; else set.add(i&x);
-
-            if(found) out.println(2);
-            else out.println(-1);
+            out.println(ans);
         }
     }
 
+    private boolean predicate(int[] arr, int mid, long s) {
+        long sum= 0l;
+        for(long i: arr) if(i>= mid) sum+= i- mid; else return false;
+
+        return sum>= s;
+    }
+
     public static void main(String[] args) throws Exception {
-        new And().run();
+        new KvassAndTheFairNut().run();
     }
 
     void run() throws Exception {
