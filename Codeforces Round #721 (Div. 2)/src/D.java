@@ -1,9 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: ONHOLD
-
-public class AsSimpleAsOneAndTwo {
+public class D {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,39 +10,14 @@ public class AsSimpleAsOneAndTwo {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n =ni();
-            char[][] arr= new char[n][];
-            for (int i = 0; i < n; i++) arr[i]= ns().toCharArray();
 
-            for (int i = 0; i < n; i++) {
-                List<Integer> ind= new ArrayList<>();
-                for (int j = 0; j <=arr[i].length-3; j++) {
-                    if(j+4<arr[i].length && check2(arr[i], j)) { ind.add(j+2); j+=4;}
-                    else if(check(arr[i], j))
-                    { ind.add(j+1); j+= 2; }
-                }
-                out.println(ind.size());
-                for(int j: ind) out.print(j+1+" ");
-                out.println();
-            }
         }
     }
 
-    private boolean check(char[] arr, int i) {
-        if(arr[i]== 'o' && arr[i+1]== 'n' && arr[i+2]== 'e') return true;
-        if(arr[i]== 't' && arr[i+1]== 'w' && arr[i+2]== 'o') return true;
-
-        return false;
-    }
-
-    private boolean check2(char[] arr, int i) {
-        return arr[i]=='t' && check(arr, i) && check(arr, i+2);
-    }
-
     public static void main(String[] args) throws Exception {
-        new AsSimpleAsOneAndTwo().run();
+        new D().run();
     }
 
     void run() throws Exception {

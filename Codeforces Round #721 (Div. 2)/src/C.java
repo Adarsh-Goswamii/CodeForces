@@ -1,9 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: ONHOLD
-
-public class AsSimpleAsOneAndTwo {
+public class C {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,39 +10,55 @@ public class AsSimpleAsOneAndTwo {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n =ni();
-            char[][] arr= new char[n][];
-            for (int i = 0; i < n; i++) arr[i]= ns().toCharArray();
+            int n= ni();
+            char[] arr= ns().toCharArray();
 
-            for (int i = 0; i < n; i++) {
-                List<Integer> ind= new ArrayList<>();
-                for (int j = 0; j <=arr[i].length-3; j++) {
-                    if(j+4<arr[i].length && check2(arr[i], j)) { ind.add(j+2); j+=4;}
-                    else if(check(arr[i], j))
-                    { ind.add(j+1); j+= 2; }
-                }
-                out.println(ind.size());
-                for(int j: ind) out.print(j+1+" ");
-                out.println();
-            }
+            int a= palin(arr);
+
+            B(arr, n);
+
         }
     }
 
-    private boolean check(char[] arr, int i) {
-        if(arr[i]== 'o' && arr[i+1]== 'n' && arr[i+2]== 'e') return true;
-        if(arr[i]== 't' && arr[i+1]== 'w' && arr[i+2]== 'o') return true;
+    private void B(char[] arr, int n) {
+        int count= 0;
+        for(char c: arr) if(c== '0') count++;
 
-        return false;
+        int a= 0, b= 0;
+        if(n%2== 1 && arr[n/2]== '0') {
+            a++; count--;
+
+            if(count!= 0) {
+
+            }
+        }
+        else {
+            a= imax;
+        }
+
+        if(a< b) out.println("ALICE");
+        else if(b< a) out.println("BOB");
+        else out.println("DRAW");
     }
 
-    private boolean check2(char[] arr, int i) {
-        return arr[i]=='t' && check(arr, i) && check(arr, i+2);
+    private int palin(char[] arr) {
+        int start= 0, last= arr.length-1, count= 0;
+
+        while(start< last) {
+            if(arr[start]!= arr[last]) {
+                if(arr[start]!= '1') arr[start]= '1';
+                else arr[last]= '1';
+                count++;
+            }
+        }
+
+        return count;
     }
 
     public static void main(String[] args) throws Exception {
-        new AsSimpleAsOneAndTwo().run();
+        new C().run();
     }
 
     void run() throws Exception {
