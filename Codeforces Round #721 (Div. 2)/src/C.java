@@ -13,48 +13,35 @@ public class C {
         t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
-            char[] arr= ns().toCharArray();
+            int[] arr= ni(n);
 
-            int a= palin(arr);
+            Map<Integer, List<Integer>> map = new HashMap<>();
+            for(int i=0;i<n;i++) {
+                if(map.containsKey(arr[i])) map.get(arr[i]).add(i+1);
+                else {
+                    List<Integer> l = new ArrayList<>();
+                    l.add(i+1);
+                    map.put(arr[i], l);
+                }
+            }
 
-            B(arr, n);
+            long ans= 0l;
+            for(List<Integer> l: map.values()) {
+                ans+= calc(l, n);
+            }
 
+            out.println(ans);
         }
     }
 
-    private void B(char[] arr, int n) {
-        int count= 0;
-        for(char c: arr) if(c== '0') count++;
-
-        int a= 0, b= 0;
-        if(n%2== 1 && arr[n/2]== '0') {
-            a++; count--;
-
-            if(count!= 0) {
-
-            }
-        }
-        else {
-            a= imax;
+    private long calc(List<Integer> l, int n) {
+        long ret= 0l, sum= 0l;
+        for(int i= l.size()-2;i>= 0;i--) {
+            sum+= n+1- l.get(i+1);
+            ret+= sum*l.get(i);
         }
 
-        if(a< b) out.println("ALICE");
-        else if(b< a) out.println("BOB");
-        else out.println("DRAW");
-    }
-
-    private int palin(char[] arr) {
-        int start= 0, last= arr.length-1, count= 0;
-
-        while(start< last) {
-            if(arr[start]!= arr[last]) {
-                if(arr[start]!= '1') arr[start]= '1';
-                else arr[last]= '1';
-                count++;
-            }
-        }
-
-        return count;
+        return ret;
     }
 
     public static void main(String[] args) throws Exception {

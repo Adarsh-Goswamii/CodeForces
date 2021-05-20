@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class D {
+public class B2 {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,12 +12,58 @@ public class D {
         int t = 1;
         t = ni();
         for (int ii = 0; ii < t; ii++) {
+            int n= ni();
+            char[] arr= ns().toCharArray();
 
+            if(palin(arr)) out.println(helper(arr, 0, 0, false));
+            else {
+                int a= 0, b= 0, s= 0, l= n-1;
+
+                while(s<l) {
+                    if(arr[s++]!= arr[l--]) {
+                        if(arr[s-1]== '0') arr[s-1]= '1';
+                        else arr[l+1]= '1';
+                        b++;
+                    }
+                }
+
+                String w= helper(arr, a, b, false);
+                String w2= helper(arr, a+1, b-1, true);
+                if(w.equals("ALICE") || w2.equals("ALICE")) out.println("ALICE");
+                else if(w.equals("DRAW") || w2.equals("DRAW")) out.println("DRAW");
+                else out.println("BOB");
+            }
         }
     }
 
+    private boolean palin(char[] arr) {
+        int s= 0, l= arr.length-1;
+        while(s< l) if(arr[s++]!= arr[l--]) return false;
+
+        return true;
+    }
+
+    private String helper(char[] arr, int a, int b, boolean bob) {
+        int count= 0;
+        for(char c: arr) if(c== '0') count++;
+
+        if(count%2== 1) {
+            a++; count--;
+            bob= !bob;
+        }
+
+        while(count!= 0) {
+            if(count== 2) { if(bob) b+=2; else a+= 2; count= 0; }
+            else { if(bob) b++; else a++; count--; bob= !bob; }
+        }
+
+        if(a< b) return "ALICE";
+        else if(b< a) return "BOB";
+        else return "DRAW";
+    }
+
     public static void main(String[] args) throws Exception {
-        new D().run();
+        new B2().run();
     }
 
     void run() throws Exception {

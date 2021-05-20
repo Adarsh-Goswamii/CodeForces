@@ -18,13 +18,16 @@ public class B {
             for(char c: arr) if(c== '0') count++;
 
             int a= 0, b= 0;
-            if(n%2== 1 && arr[n/2]== '0') {
+            boolean bob;
+            if(count%2== 1) {
                 a++; count--;
-
-                if(count!= 0) b= imax;
+                bob= true;
             }
-            else {
-                a= imax;
+            else bob= false;
+
+            while(count!= 0) {
+                if(count== 2) { if(bob) b+=2; else a+= 2; count= 0; }
+                else { if(bob) b++; else a++; count--; bob= !bob; }
             }
 
             if(a< b) out.println("ALICE");
