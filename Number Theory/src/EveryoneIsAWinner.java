@@ -10,11 +10,18 @@ public class EveryoneIsAWinner {
         int t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
-            out.println(n/2+2);
-            for(int i=0; i<= n/2;i++)
-                out.print(i+" ");
 
-            out.println(n);
+            HashSet<Integer> ans= new HashSet<>();
+            ans.add(0);
+            for (int i = 1; i*i <= n; i++) {
+                if(n%i== 0) {
+                    ans.add(n/i);
+                    ans.add(n/(n/i));
+                }
+            }
+
+            out.println(ans.size());
+            out.println(ans);
         }
     }
 

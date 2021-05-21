@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class AsSimpleAsOneAndTwo {
+public class FindSpruce {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,40 +9,77 @@ public class AsSimpleAsOneAndTwo {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        int t = 1;
-//        t = ni();
-        for (int ii = 0; ii < t; ii++) {
-            int n =ni();
-            char[][] arr= new char[n][];
-            for (int i = 0; i < n; i++) arr[i]= ns().toCharArray();
+        int tt = 1;
+        tt = ni();
+        for (int ii = 0; ii < tt; ii++) {
+            int n= ni(), m= ni();
 
+            char[][] a= new char[n][];
+            for (int i = 0; i < n; i++) a[i]= ns().toCharArray();
+
+            // we need left right and top
+            int[][] l= new int[n][m];
+            int[][] r= new int[n][m];
+            int[][] t= new int[n][m];
+
+            left(a, l);
+            right(a, r);
+            top(a, t);
+
+            long sum= 0l;
             for (int i = 0; i < n; i++) {
-                List<Integer> ind= new ArrayList<>();
-                for (int j = 0; j <=arr[i].length-3; j++) {
-                    if(j+4<arr[i].length && check2(arr[i], j)) { ind.add(j+2); j+=4;}
-                    else if(check(arr[i], j))
-                    { ind.add(j+1); j+= 2; }
+                for (int j = 0; j < m; j++) {
+                    int len = Math.min(t[i][j], Math.min(l[i][j], r[i][j]));
+                    for (int k = 0; k < len; k++) {
+                        int temp= Math.min(t[i-k][j], Math.min(l[i-k][j], r[i-k][j]));
+                        temp= Math.min(temp, len-k);
+                        int sub= Math.abs(temp- (len-k));
+                        len-= sub;
+                    }
+                    sum+= len;
                 }
-                out.println(ind.size());
-                for(int j: ind) out.print(j+1+" ");
-                out.println();
+            }
+
+            out.println(sum);
+        }
+    }
+
+    private void top(char[][] a, int[][] t) {
+        for (int j = 0; j < a[0].length; j++) {
+            int c= 0;
+            for (int i = 0; i < a.length; i++) {
+                if(a[i][j]== '.') c= 0;
+                else c++;
+                t[i][j]= c;
             }
         }
     }
 
-    private boolean check(char[] arr, int i) {
-        if(arr[i]== 'o' && arr[i+1]== 'n' && arr[i+2]== 'e') return true;
-        if(arr[i]== 't' && arr[i+1]== 'w' && arr[i+2]== 'o') return true;
-
-        return false;
+    private void right(char[][] a, int[][] r) {
+        for (int i = 0; i < a.length; i++) {
+            int c= 0;
+            for (int j = a[0].length-1; j>= 0; j--) {
+                if(a[i][j]== '.') c= 0;
+                else c++;
+                r[i][j]= c;
+            }
+        }
     }
 
-    private boolean check2(char[] arr, int i) {
-        return arr[i]=='t' && check(arr, i) && check(arr, i+2);
+    private void left(char[][] a, int[][] l) {
+        for (int i = 0; i < a.length; i++) {
+            int c= 0;
+            for (int j = 0; j < a[0].length; j++) {
+                if(a[i][j]== '.') c= 0;
+                else c++;
+
+                l[i][j]= c;
+            }
+        }
     }
 
     public static void main(String[] args) throws Exception {
-        new AsSimpleAsOneAndTwo().run();
+        new FindSpruce().run();
     }
 
     void run() throws Exception {

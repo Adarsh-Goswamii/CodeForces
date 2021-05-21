@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class AsSimpleAsOneAndTwo {
+public class Palindromifier {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,37 +12,29 @@ public class AsSimpleAsOneAndTwo {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n =ni();
-            char[][] arr= new char[n][];
-            for (int i = 0; i < n; i++) arr[i]= ns().toCharArray();
+            String ss= ns();
+            String sb= ss.substring(1, ss.length()-1);
+            String bs= new StringBuilder(sb).reverse().toString();
+            char a= ss.charAt(0);
+            char b= ss.charAt(ss.length()-1);
+            StringBuilder ans= new StringBuilder();
+            ans.append(bs);
+            ans.append(a);
+            ans.append(sb);
+            ans.append(b);
+            ans.append(bs);
+            ans.append(a);
+            ans.append(sb);
 
-            for (int i = 0; i < n; i++) {
-                List<Integer> ind= new ArrayList<>();
-                for (int j = 0; j <=arr[i].length-3; j++) {
-                    if(j+4<arr[i].length && check2(arr[i], j)) { ind.add(j+2); j+=4;}
-                    else if(check(arr[i], j))
-                    { ind.add(j+1); j+= 2; }
-                }
-                out.println(ind.size());
-                for(int j: ind) out.print(j+1+" ");
-                out.println();
-            }
+            out.println(3);
+            out.println("L "+(ss.length()-1));
+            out.println("R "+(bs.length()+1));
+            out.println("R "+(sb.length()*2+ 3));
         }
     }
 
-    private boolean check(char[] arr, int i) {
-        if(arr[i]== 'o' && arr[i+1]== 'n' && arr[i+2]== 'e') return true;
-        if(arr[i]== 't' && arr[i+1]== 'w' && arr[i+2]== 'o') return true;
-
-        return false;
-    }
-
-    private boolean check2(char[] arr, int i) {
-        return arr[i]=='t' && check(arr, i) && check(arr, i+2);
-    }
-
     public static void main(String[] args) throws Exception {
-        new AsSimpleAsOneAndTwo().run();
+        new Palindromifier().run();
     }
 
     void run() throws Exception {

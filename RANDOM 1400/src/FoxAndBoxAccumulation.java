@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class AsSimpleAsOneAndTwo {
+public class FoxAndBoxAccumulation {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -13,36 +13,43 @@ public class AsSimpleAsOneAndTwo {
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n =ni();
-            char[][] arr= new char[n][];
-            for (int i = 0; i < n; i++) arr[i]= ns().toCharArray();
+            int[] arr= ni(n);
 
-            for (int i = 0; i < n; i++) {
-                List<Integer> ind= new ArrayList<>();
-                for (int j = 0; j <=arr[i].length-3; j++) {
-                    if(j+4<arr[i].length && check2(arr[i], j)) { ind.add(j+2); j+=4;}
-                    else if(check(arr[i], j))
-                    { ind.add(j+1); j+= 2; }
+            sort(arr);
+            int start= 1, last= n, ans= n;
+            while(start<= last) {
+                int mid= start+ (last- start)/2;
+
+                if(p(arr, mid)) {
+                    ans= mid;
+                    last= mid-1;
                 }
-                out.println(ind.size());
-                for(int j: ind) out.print(j+1+" ");
-                out.println();
+                else start= mid+1;
             }
+
+            out.println(ans);
         }
     }
 
-    private boolean check(char[] arr, int i) {
-        if(arr[i]== 'o' && arr[i+1]== 'n' && arr[i+2]== 'e') return true;
-        if(arr[i]== 't' && arr[i+1]== 'w' && arr[i+2]== 'o') return true;
+    private boolean p(int[] arr, int mid) {
+        int[] pile= new int[mid];
+        Arrays.fill(pile, -1);
 
-        return false;
-    }
+        int ind= 0;
+        for (int i = 0; i < arr.length; i++, ind= (ind+1)% mid) {
+            if(pile[ind]== -1) pile[ind]= arr[i];
+            else {
+                if(ind== 0 && pile[0]== 0) return false;
+                if(pile[ind]== 0) { i--; }
+                pile[ind]= Math.min(arr[i], pile[ind]-1);
+            }
+        }
 
-    private boolean check2(char[] arr, int i) {
-        return arr[i]=='t' && check(arr, i) && check(arr, i+2);
+        return true;
     }
 
     public static void main(String[] args) throws Exception {
-        new AsSimpleAsOneAndTwo().run();
+        new FoxAndBoxAccumulation().run();
     }
 
     void run() throws Exception {
@@ -184,7 +191,7 @@ public class AsSimpleAsOneAndTwo {
     private void sort(int[] arr) {
         List<Integer> list = new ArrayList<>();
         for (int i : arr) list.add(i);
-        Collections.sort(list);
+        Collections.sort(list, Collections.reverseOrder());
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
     }
 }
