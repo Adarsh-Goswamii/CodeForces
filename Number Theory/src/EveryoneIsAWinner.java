@@ -11,13 +11,26 @@ public class EveryoneIsAWinner {
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
 
-            HashSet<Integer> ans= new HashSet<>();
-            ans.add(0);
-            for (int i = 1; i*i <= n; i++) {
-                if(n%i== 0) {
-                    ans.add(n/i);
-                    ans.add(n/(n/i));
+            int i= n+1;
+            List<Integer> ans = new ArrayList<>();
+            while(true) {
+
+                int val= -1, start= 1, last= n;
+                while(start<= last) {
+                    int mid= start+ (last- start)/2;
+
+                    if(n/mid< i) {
+                        start = mid + 1;
+                        val = mid;
+                    }
+                    else last= mid - 1;
                 }
+
+                if(val!= -1) {
+                    i= n/val;
+                    ans.add(n/val);
+                }
+                else break;
             }
 
             out.println(ans.size());
