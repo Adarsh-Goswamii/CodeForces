@@ -1,65 +1,89 @@
 import java.util.*;
 import java.io.*;
 
-public class NewYearAndAscentSequence {
+public class Tape {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
     final int imax = Integer.MAX_VALUE, imin = Integer.MIN_VALUE;
     final int mod = 1000000007;
 
+    /**
+     *
+     */
+
     void solve() throws Exception {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[][] a= new int[n][];
-            for (int i = 0; i < n; i++) { int l =ni(); a[i]= ni(l); }
+            int n= ni(), m= ni(), k= ni();
+            int[] a= ni(n);
 
-            List<int[]> list= new ArrayList<>();
-            for(int[] i: a) {
-                if(check(i)) list.add(i);
-            }
+            List<Integer> diff = new ArrayList<>();
+            for (int i = 1; i < n; i++) diff.add(a[i]- a[i-1]);
+            Collections.sort(diff);
 
-            long ans= 0l;
-            Collections.sort(list, (x, y)-> (x[0]- y[0]));
-            for(int[] i: a) {
-                if(check(i)) {
-                    int ind= bin(list, 0, list.size()-1, i[i.length-1]);
-                    ans+= (list.size()- ind-1)+ n- list.size();
+            Map<Integer, Integer> map = new HashMap<>();
+            for(int i=0;i<n-k;i++) map.put(diff.get(i), map.getOrDefault(diff.get(i), 0)+1);
+
+            long len= 0l;
+            UnionFind u= new UnionFind(n);
+            for (int i = 1; i < n; i++) {
+                if(map.containsKey(a[i]- a[i-1])) {
+                    u.union(i, i-1);
+                    if(map.get(a[i]- a[i-1])== 1) map.remove(a[i]- a[i-1]);
+                    else map.put(a[i]- a[i-1], map.get(a[i]- a[i-1])-1);
                 }
-                else ans+= n;
             }
 
-            out.println(ans);
+            Map<Integer, List<Integer>> ma= u.length();
+            for(int i: ma.keySet()) {
+                List<Integer> val= ma.get(i);
+                if(ma.get(i).size()== 1) len++;
+                else {
+                    len+= (1 + a[val.get(val.size() - 1)] - a[ma.get(i).get(0)]);
+                }
+            }
+
+            out.println(len);
         }
     }
 
-    private boolean check(int[] a) {
-        for (int i = 1; i < a.length; i++) {
-            if(a[i-1]< a[i]) return false;
+    class UnionFind {
+        int[] p;
+        UnionFind(int n) {
+            p= new int[n];
+            for (int i = 0; i < n; i++) p[i]= i;
         }
 
-        return true;
-    }
+        void union(int a, int b) {
+            while(p[a]!= a) a= p[a];
+            while(p[b]!= b) b= p[b];
 
-    private int bin(List<int[]> arr, int s, int l, int f) {
-        int ret= -1;
-        while(s<= l) {
-            int m= s+(l-s)/2;
+            p[a]= b;
+        }
 
-            if(arr.get(m)[0]<= f) {
-                ret= m;
-                s= m+1;
+        int par(int a) {
+            while(p[a]!= a) a= p[a];
+            return a;
+        }
+
+        Map<Integer, List<Integer>> length() {
+            Map<Integer, List<Integer>> map= new HashMap<>();
+            for (int i = 0; i < p.length; i++) {
+                if(map.containsKey(par(i))) map.get(p[i]).add(i);
+                else {
+                    List<Integer> temp = new ArrayList<>(); temp.add(i);
+                    map.put(p[i] ,temp);
+                }
             }
-            else l= m-1;
-        }
 
-        return ret;
+            return map;
+        }
     }
 
     public static void main(String[] args) throws Exception {
-        new NewYearAndAscentSequence().run();
+        new Tape().run();
     }
 
     void run() throws Exception {

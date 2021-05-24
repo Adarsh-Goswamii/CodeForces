@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class NewYearAndAscentSequence {
+public class SillyMistake {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -13,53 +13,50 @@ public class NewYearAndAscentSequence {
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
-            int[][] a= new int[n][];
-            for (int i = 0; i < n; i++) { int l =ni(); a[i]= ni(l); }
+            int[] a= ni(n);
 
-            List<int[]> list= new ArrayList<>();
-            for(int[] i: a) {
-                if(check(i)) list.add(i);
-            }
+            Set<Integer> room = new HashSet<>();
+            Set<Integer> visited = new HashSet<>();
+            List<Integer> count = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
 
-            long ans= 0l;
-            Collections.sort(list, (x, y)-> (x[0]- y[0]));
-            for(int[] i: a) {
-                if(check(i)) {
-                    int ind= bin(list, 0, list.size()-1, i[i.length-1]);
-                    ans+= (list.size()- ind-1)+ n- list.size();
+                if(room.size()== 0 && i!= 0) {
+                    count.add(i);
+                    visited= new HashSet<>();
                 }
-                else ans+= n;
+
+                // person leaves
+                if(a[i]< 0) {
+                    if(!room.contains(-1*a[i])) { out.println(-1); return; }
+                    room.remove(-1*a[i]);
+                    visited.add(-1*a[i]);
+                }
+                // person enters
+                else {
+                    // person hasn't left
+                    if(room.contains(a[i])) { out.println(-1); return; }
+                    // if already visited today
+                    if(visited.contains(a[i])) { out.println(-1); return; }
+
+                    room.add(a[i]);
+                }
             }
 
-            out.println(ans);
-        }
-    }
+            if(room.size()== 0) count.add(n);
+            else { out.println(-1); return; }
 
-    private boolean check(int[] a) {
-        for (int i = 1; i < a.length; i++) {
-            if(a[i-1]< a[i]) return false;
-        }
-
-        return true;
-    }
-
-    private int bin(List<int[]> arr, int s, int l, int f) {
-        int ret= -1;
-        while(s<= l) {
-            int m= s+(l-s)/2;
-
-            if(arr.get(m)[0]<= f) {
-                ret= m;
-                s= m+1;
+            out.println(count.size());
+            int sub= 0;
+            for(int i=0;i<count.size();i++) {
+                out.print((count.get(i)- sub)+" ");
+                sub= count.get(i);
             }
-            else l= m-1;
+            out.println();
         }
-
-        return ret;
     }
 
     public static void main(String[] args) throws Exception {
-        new NewYearAndAscentSequence().run();
+        new SillyMistake().run();
     }
 
     void run() throws Exception {

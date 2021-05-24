@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class NewYearAndAscentSequence {
+public class KarenAndCoffee {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,54 +12,26 @@ public class NewYearAndAscentSequence {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[][] a= new int[n][];
-            for (int i = 0; i < n; i++) { int l =ni(); a[i]= ni(l); }
+            int n= ni(), k= ni(), q= ni();
+            int[][] r= new int[n][2];
+            for (int i = 0; i < n; i++) r[i]= ni(2);
 
-            List<int[]> list= new ArrayList<>();
-            for(int[] i: a) {
-                if(check(i)) list.add(i);
+            int[] a= new int[200002];
+            for (int i = 0; i < n; i++) { a[r[i][0]]++; a[r[i][1]+1]--; }
+
+            for (int i = 0; i < a.length; i++) a[i]= i!= 0? a[i-1]+ a[i]: a[i];
+            for (int i = 0; i < a.length; i++) a[i]= a[i]>= k? 1: 0;
+            for (int i = 0; i < a.length; i++) a[i]= i!= 0? a[i-1]+ a[i]: a[i];
+
+            for (int i = 0; i < q; i++) {
+                int s= ni(), l= ni();
+                out.println(a[l]- (s!= 0? a[s-1]: 0));
             }
-
-            long ans= 0l;
-            Collections.sort(list, (x, y)-> (x[0]- y[0]));
-            for(int[] i: a) {
-                if(check(i)) {
-                    int ind= bin(list, 0, list.size()-1, i[i.length-1]);
-                    ans+= (list.size()- ind-1)+ n- list.size();
-                }
-                else ans+= n;
-            }
-
-            out.println(ans);
         }
-    }
-
-    private boolean check(int[] a) {
-        for (int i = 1; i < a.length; i++) {
-            if(a[i-1]< a[i]) return false;
-        }
-
-        return true;
-    }
-
-    private int bin(List<int[]> arr, int s, int l, int f) {
-        int ret= -1;
-        while(s<= l) {
-            int m= s+(l-s)/2;
-
-            if(arr.get(m)[0]<= f) {
-                ret= m;
-                s= m+1;
-            }
-            else l= m-1;
-        }
-
-        return ret;
     }
 
     public static void main(String[] args) throws Exception {
-        new NewYearAndAscentSequence().run();
+        new KarenAndCoffee().run();
     }
 
     void run() throws Exception {

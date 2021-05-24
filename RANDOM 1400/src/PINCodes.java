@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class NewYearAndAscentSequence {
+public class PINCodes {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -10,56 +10,45 @@ public class NewYearAndAscentSequence {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
-            int[][] a= new int[n][];
-            for (int i = 0; i < n; i++) { int l =ni(); a[i]= ni(l); }
+            String[] a= new String[n];
+            for (int i = 0; i < n; i++) a[i]= ns();
 
-            List<int[]> list= new ArrayList<>();
-            for(int[] i: a) {
-                if(check(i)) list.add(i);
+            boolean[] b= new boolean[10];
+            for (int i = 0; i < n; i++) {
+                char[] arr= a[i].toCharArray();
+                b[arr[0]-'0']= true;
             }
 
-            long ans= 0l;
-            Collections.sort(list, (x, y)-> (x[0]- y[0]));
-            for(int[] i: a) {
-                if(check(i)) {
-                    int ind= bin(list, 0, list.size()-1, i[i.length-1]);
-                    ans+= (list.size()- ind-1)+ n- list.size();
+            int ans= 0;
+            for (int i = 0; i < n; i++) {
+                boolean same= false;
+                for (int j = 0; j < n; j++) if(i!= j && a[i].equals(a[j])) same= true;
+
+                if(same) {
+                    fill(a, i, b);
+                    ans++;
                 }
-                else ans+= n;
             }
 
             out.println(ans);
+            for(String s: a) out.println(s);
         }
     }
 
-    private boolean check(int[] a) {
-        for (int i = 1; i < a.length; i++) {
-            if(a[i-1]< a[i]) return false;
+    private void fill(String[] _s, int ind, boolean[] b) {
+        char[] arr= _s[ind].toCharArray();
+        for(int i= 0;i<= 9;i++) {
+            if(!b[i]) { b[i]= true; arr[0]= (char)(i+'0'); break; }
         }
 
-        return true;
-    }
-
-    private int bin(List<int[]> arr, int s, int l, int f) {
-        int ret= -1;
-        while(s<= l) {
-            int m= s+(l-s)/2;
-
-            if(arr.get(m)[0]<= f) {
-                ret= m;
-                s= m+1;
-            }
-            else l= m-1;
-        }
-
-        return ret;
+        _s[ind]= new String(arr);
     }
 
     public static void main(String[] args) throws Exception {
-        new NewYearAndAscentSequence().run();
+        new PINCodes().run();
     }
 
     void run() throws Exception {
