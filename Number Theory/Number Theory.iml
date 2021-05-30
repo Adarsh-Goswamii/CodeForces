@@ -7,5 +7,23 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/3D Objects/poi-5.0.0/poi-5.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/3D Objects/poi-5.0.0/poi-ooxml-5.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/3D Objects/poi-5.0.0/poi-examples-5.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/3D Objects/poi-5.0.0/poi-excelant-5.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/3D Objects/poi-5.0.0/poi-ooxml-full-5.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/3D Objects/poi-5.0.0/poi-ooxml-lite-5.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/3D Objects/poi-5.0.0/poi-scratchpad-5.0.0.jar!/" />
+          <root url="jar://$USER_HOME$/3D Objects/poi-5.0.0/poi-integration-5.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$USER_HOME$/3D Objects/poi-5.0.0/docs/apidocs/dev" />
+        </JAVADOC>
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

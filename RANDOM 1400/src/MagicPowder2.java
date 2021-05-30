@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class RoundCorridor {
+public class MagicPowder2 {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,14 +12,41 @@ public class RoundCorridor {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            for(long i= (long)1e18;i>=0;i--) {
+            int n= ni();
+            long k= ni();
+            long[] a= new long[n];
+            long[] b= new long[n];
 
+            for (int i = 0; i < n; i++) a[i]= ni();
+            for (int i = 0; i < n; i++) b[i]= ni();
+
+            long s= 0, l= 2*((long)1e9), ans= 0;
+            while(s<= l) {
+                long m= s+(l-s)/2;
+                if(predicate(a, b, k, m)) {
+                    s= m+1;
+                    ans= m;
+                }
+                else l= m-1;
             }
+
+            out.println(ans);
         }
     }
 
+    private boolean predicate(long[] a, long[] b, long k, long m) {
+        for (int i = 0; i < a.length; i++) {
+            if(k< 0) return false;
+            if(a[i]*m> b[i]) {
+                k-= (a[i]*m- b[i]);
+            }
+        }
+
+        return k>= 0;
+    }
+
     public static void main(String[] args) throws Exception {
-        new RoundCorridor().run();
+        new MagicPowder2().run();
     }
 
     void run() throws Exception {

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class RoundCorridor {
+public class DZYChemistry {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,14 +12,52 @@ public class RoundCorridor {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            for(long i= (long)1e18;i>=0;i--) {
+            int n= ni(), m= ni();
+            UnionFind dsu= new UnionFind(n+1);
 
-            }
+            for (int i = 0; i < m; i++)
+                dsu.union(ni(), ni());
+
+            int x= dsu.connectedComponents();
+            out.println((1l<<(n-x)));
+        }
+    }
+
+    class UnionFind {
+        int[] rank;
+        int[] par;
+
+        public UnionFind(int n) {
+            rank= new int[n];
+            par= new int[n];
+
+            for (int i = 0; i < n; i++)
+                par[i]= i;
+        }
+
+        public void union(int a, int b) {
+            while (par[a] != a) a = par[a];
+            while (par[b] != b) b = par[b];
+
+            if (rank[a] > rank[b]) par[b] = a;
+            else if (rank[a] < rank[b]) par[a] = b;
+            else { par[b] = a; rank[a]++;}
+        }
+
+        public int findParent(int a) {
+            while (par[a] != a) a = par[a];
+            return a;
+        }
+
+        public int connectedComponents() {
+            Set<Integer> set= new HashSet<>();
+            for(int i=1; i<rank.length;i++) set.add(findParent(i));
+            return set.size();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new RoundCorridor().run();
+        new DZYChemistry().run();
     }
 
     void run() throws Exception {

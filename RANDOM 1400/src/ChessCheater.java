@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class RoundCorridor {
+public class ChessCheater {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -10,16 +10,74 @@ public class RoundCorridor {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            for(long i= (long)1e18;i>=0;i--) {
+            int n= ni(), k= ni();
+            char[] a= ns().toCharArray();
 
+            if(k== 0) {
+                out.println(calcScore(a));
+                continue;
             }
+
+            int win= 0;
+            for(char c: a) win+= c== 'W'? 1: 0;
+            if(win== 0) { a[0]= 'W'; k--; }
+
+            List<int[]> list = new ArrayList<>();
+            int lose= 0;
+            for(int i= 0;i<a.length;i++) {
+                char c= a[i];
+                if(c== 'L') lose++;
+                else {
+                    if(i-lose== 0 || lose== 0) { lose= 0; continue; }
+                    list.add(new int[]{i-lose, i, lose});
+                    lose= 0;
+                }
+            }
+
+            Collections.sort(list, (_a, _b)->(_a[2]- _b[2]));
+//            for(int[] i: list) print(i);
+            for(int i=0;i<list.size();i++) {
+                int[] val= list.get(i);
+                if(val[2]<= k) { fill(a, val); k-= val[2]; }
+            }
+
+            for(int i=0;k!= 0 && i<n-1;i++) {
+                if(a[i]== 'W' && a[i+1]!= 'W') {
+                    a[i+1]= 'W';
+                    k--;
+                }
+            }
+
+            for(int i=n-1;k!= 0 && i>=1;i--) {
+                if(a[i]== 'W' && a[i-1]!= 'W') {
+                    a[i-1]= 'W';
+                    k--;
+                }
+            }
+
+            out.println(calcScore(a));
         }
     }
 
+    private void fill(char[] arr, int[] a) {
+        for(int i= a[0];i<=a[1];i++)
+            arr[i]= 'W';
+    }
+
+    private int calcScore(char[] a) {
+        int score= a[0]=='W'? 1: 0;
+        for(int i=1;i<a.length;i++) {
+            if(a[i]== 'W' && a[i-1]!= 'W') score++;
+            else if(a[i]== 'W' && a[i-1]== 'W') score+=2;
+        }
+//        out.println(new String(a));
+        return score;
+    }
+
     public static void main(String[] args) throws Exception {
-        new RoundCorridor().run();
+        new ChessCheater().run();
     }
 
     void run() throws Exception {

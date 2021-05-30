@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class RoundCorridor {
+public class MagicPowder1 {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,14 +12,30 @@ public class RoundCorridor {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            for(long i= (long)1e18;i>=0;i--) {
+            int n= ni(), k= ni();
+            int[] a= ni(n);
+            int[] b= ni(n);
 
+            int min= imax;
+            for (int i = 0; i < n; i++) min= Math.min(min, b[i]/a[i]);
+
+            for (int i = 0; i < n; i++) b[i]-= min*a[i];
+
+            while(k>= 0) {
+                for (int i = 0; i < n; i++) {
+                    k-= Math.max(0, a[i]- b[i]);
+                    b[i]= Math.max(0, b[i]-a[i]);
+                }
+
+                if(k>=0) min++;
             }
+
+            out.println(min);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new RoundCorridor().run();
+        new MagicPowder1().run();
     }
 
     void run() throws Exception {

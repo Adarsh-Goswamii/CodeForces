@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class RoundCorridor {
+public class MinimumNumberOfSteps {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,14 +12,24 @@ public class RoundCorridor {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            for(long i= (long)1e18;i>=0;i--) {
+            char[] arr= ns().toCharArray();
+            long b= 0;
 
+            long ans= 0l;
+            for (int i = arr.length-1;i>=0; i--) {
+                if(arr[i]== 'a') {
+                    ans= add(ans, b);
+                    b= mul(b, 2);
+                }
+                else b= add(b, 1l);
             }
+
+            out.println(ans);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new RoundCorridor().run();
+        new MinimumNumberOfSteps().run();
     }
 
     void run() throws Exception {

@@ -7,5 +7,27 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/3D Objects/poi-5.0.0" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$USER_HOME$/3D Objects/poi-5.0.0/docs/apidocs/dev" />
+        </JAVADOC>
+        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/3D Objects/poi-5.0.0" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/3D Objects/poi-5.0.0" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/3D Objects/poi-5.0.0" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>

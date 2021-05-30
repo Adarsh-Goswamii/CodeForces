@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class RoundCorridor {
+public class ANDSequences {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -10,16 +10,38 @@ public class RoundCorridor {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
+        fact= new long[2*100001];
+        precomputations();
         for (int ii = 0; ii < t; ii++) {
-            for(long i= (long)1e18;i>=0;i--) {
+            int n= ni();
+            int[] a= ni(n);
 
+            long and= (1l<<32)-1;
+            for(int i: a) and&= i;
+
+            Map<Long, Integer> map = new HashMap<>();
+            for(int i: a) map.put(i*1l, map.getOrDefault(i*1l, 0)+1);
+
+            if(map.containsKey(and) && map.get(and)>= 2) {
+                int freq= map.get(and);
+                long ans= mul(freq, freq-1);
+                ans= mul(fact[n-2], ans);
+                out.println(ans);
             }
+            else out.println(0);
         }
     }
 
+    long[] fact;
+    private void precomputations() {
+        long val= 1l;
+        fact[0]= 1l;
+        for (int i = 1; i < fact.length; i++) fact[i]= val= mul(val, i);
+    }
+
     public static void main(String[] args) throws Exception {
-        new RoundCorridor().run();
+        new ANDSequences().run();
     }
 
     void run() throws Exception {
