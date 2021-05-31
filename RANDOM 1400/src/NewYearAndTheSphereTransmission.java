@@ -1,7 +1,10 @@
+import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-public class TokitsukazeAndDiscardItems {
+// TODO: 31st may
+
+public class NewYearAndTheSphereTransmission {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,57 +12,47 @@ public class TokitsukazeAndDiscardItems {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        int t = 1;
-//        t = ni();
-        for (int ii = 0; ii < t; ii++) {
-            long n= nl();
-            int m= ni();
-            long k= nl();
+//        int t = 1;
+////        t = ni();
+//        for (int ii = 0; ii < t; ii++) {
+//            int n = ni()-1;
+//
+//            sieve(n);
+//            Set<Long> funValue= new HashSet<>();
+//            for(int i: primes) {
+//                long lcm= (i*(n+1))/gcd(i, n+1);
+//                lcm/= i;
+//                out.println(i+" "+lcm);
+//                funValue.add(((lcm*(lcm-1))/2)*i+ lcm);
+//            }
+//
+//            List<Long> list = new ArrayList<>(funValue);
+//            Collections.sort(list);
+//            for(long l: list) out.print(l+" ");
+//            out.println();
+//        }
+    }
 
-            long[] a= new long[m];
-            for (int i = 0; i < m; i++) a[i]= nl();
+    List<Integer> primes;
+    private void sieve ( int n){
+        primes = new ArrayList<>();
+        boolean prime[] = new boolean[n + 1];
+        Arrays.fill(prime, true);
 
-            long last= k, count= 0, ans= 0;
-            for(int i=0;i<m;i++) {
-                if(a[i]<= last) count++;
-                else {
-//                    out.println(last+" "+count+" "+ans);
-                    if(count!= 0) {
-                        last += count;
-                        ans++;
-                    }
-                    else {
-                        long val= (a[i]- last)/k;
-                        last+= (val)*k;
+        for (int p = 2; p * p <= n; p++) {
+            if (prime[p] == true)
+                for (int i = p * p; i <= n; i += p) prime[i] = false;
+        }
 
-                        if(last< a[i]) last+= k;
-                    }
-                    count= 0;
-                    i--;
-                }
-            }
-
-            ans+= (count!= 0? 1: 0);
-            out.println(ans);
+        int count = 0;
+        primes = new ArrayList<>();
+        for (int i = 2; i <= n; i++) {
+            if (prime[i]) primes.add(i);
         }
     }
 
-//    private long bin(long[] a, long find) {
-//        long s= 0, l= a.length-1, ret= -1;
-//        while(s<= l) {
-//            long m= s+ (l-s)/2;
-//
-//            if(a[(int)m]<= find) {
-//                ret= m;
-//                s= m+1;
-//            }
-//            else l= m-1;
-//        }
-//        return ret+1;
-//    }
-
     public static void main(String[] args) throws Exception {
-        new TokitsukazeAndDiscardItems().run();
+        new NewYearAndTheSphereTransmission().run();
     }
 
     void run() throws Exception {

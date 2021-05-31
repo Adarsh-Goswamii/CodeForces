@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class TokitsukazeAndDiscardItems {
+public class RegularBracketSequence {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,54 +12,22 @@ public class TokitsukazeAndDiscardItems {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            long n= nl();
-            int m= ni();
-            long k= nl();
+            char[] arr= ns().toCharArray();
 
-            long[] a= new long[m];
-            for (int i = 0; i < m; i++) a[i]= nl();
+            int ans= arr.length, curr= 0;
+            for(char c: arr) {
+                if(c== ')') curr--;
+                else curr++;
 
-            long last= k, count= 0, ans= 0;
-            for(int i=0;i<m;i++) {
-                if(a[i]<= last) count++;
-                else {
-//                    out.println(last+" "+count+" "+ans);
-                    if(count!= 0) {
-                        last += count;
-                        ans++;
-                    }
-                    else {
-                        long val= (a[i]- last)/k;
-                        last+= (val)*k;
-
-                        if(last< a[i]) last+= k;
-                    }
-                    count= 0;
-                    i--;
-                }
+                if(curr<0) { ans--; curr= 0; }
             }
 
-            ans+= (count!= 0? 1: 0);
-            out.println(ans);
+            out.println(ans- curr);
         }
     }
 
-//    private long bin(long[] a, long find) {
-//        long s= 0, l= a.length-1, ret= -1;
-//        while(s<= l) {
-//            long m= s+ (l-s)/2;
-//
-//            if(a[(int)m]<= find) {
-//                ret= m;
-//                s= m+1;
-//            }
-//            else l= m-1;
-//        }
-//        return ret+1;
-//    }
-
     public static void main(String[] args) throws Exception {
-        new TokitsukazeAndDiscardItems().run();
+        new RegularBracketSequence().run();
     }
 
     void run() throws Exception {
