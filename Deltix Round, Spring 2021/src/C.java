@@ -1,10 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-// TODO: 31st may
-
-public class NewYearAndTheSphereTransmission {
+public class C {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,29 +9,36 @@ public class NewYearAndTheSphereTransmission {
     final int mod = 1000000007;
 
     void solve() throws Exception {
+        int t = 1;
+        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni();
+            int[] a= ni(n);
 
+            List<Integer> stack= new ArrayList<>();
+            for(int i: a) {
+                if(i== 1) stack.add(1);
+                else if(stack.get(stack.size()-1)+1== i) { stack.remove(stack.size()-1); stack.add(i); }
+                else {
+                    while(!stack.isEmpty()) {
+                        int val= stack.remove(stack.size()-1);
+                        if(val+1== i) { stack.add(i); break; }
+                    }
+                }
+
+                print(stack);
+            }
+        }
     }
 
-    List<Integer> primes;
-    private void sieve ( int n){
-        primes = new ArrayList<>();
-        boolean prime[] = new boolean[n + 1];
-        Arrays.fill(prime, true);
-
-        for (int p = 2; p * p <= n; p++) {
-            if (prime[p] == true)
-                for (int i = p * p; i <= n; i += p) prime[i] = false;
-        }
-
-        int count = 0;
-        primes = new ArrayList<>();
-        for (int i = 2; i <= n; i++) {
-            if (prime[i]) primes.add(i);
-        }
+    private void print(List<Integer> stack) {
+        StringBuilder ans= new StringBuilder();
+        for(int i: stack) ans.append(i+".");
+        out.println(ans.substring(0, ans.length()-1));
     }
 
     public static void main(String[] args) throws Exception {
-        new NewYearAndTheSphereTransmission().run();
+        new C().run();
     }
 
     void run() throws Exception {
@@ -47,14 +51,16 @@ public class NewYearAndTheSphereTransmission {
             br = new BufferedReader(new InputStreamReader(System.in));
         }
 
-        long ss = System.currentTimeMillis();
+//        long ss = System.currentTimeMillis();
         st = new StringTokenizer("");
-        while (true) {
-            solve();
-            String s = br.readLine();
-            if (s == null) break;
-            else st = new StringTokenizer(s);
-        }
+//        while (true) {
+//            solve();
+//            String s = br.readLine();
+//            if (s == null) break;
+//            else st = new StringTokenizer(s);
+//        }
+
+        solve();
         //out.println(System.currentTimeMillis()-ss+"ms");
         out.flush();
     }

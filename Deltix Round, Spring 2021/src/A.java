@@ -1,10 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-// TODO: 31st may
-
-public class NewYearAndTheSphereTransmission {
+public class A {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,29 +9,32 @@ public class NewYearAndTheSphereTransmission {
     final int mod = 1000000007;
 
     void solve() throws Exception {
+        int t = 1;
+        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni(), m= ni();
+            char[] arr= ns().toCharArray();
 
-    }
+            int[] l= new int[n];
+            int[] r= new int[n];
+            stack_l(arr, l);
+            stack_r(arr, r);
 
-    List<Integer> primes;
-    private void sieve ( int n){
-        primes = new ArrayList<>();
-        boolean prime[] = new boolean[n + 1];
-        Arrays.fill(prime, true);
+            for (int i = 0; i < n; i++) {
+                if(arr[i]== '0') {
+                    int left= Math.abs(i- l[i]), right= Math.abs(i- r[i]);
+//                    out.println(left+" "+right+" "+i);
+                    if(left<= m || right<= m) if(left!= right) arr[i]= '1';
+//                    else if(left> m && right<= m) arr[i]= '1';
+                }
+            }
 
-        for (int p = 2; p * p <= n; p++) {
-            if (prime[p] == true)
-                for (int i = p * p; i <= n; i += p) prime[i] = false;
-        }
-
-        int count = 0;
-        primes = new ArrayList<>();
-        for (int i = 2; i <= n; i++) {
-            if (prime[i]) primes.add(i);
+            out.println(new String(arr));
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new NewYearAndTheSphereTransmission().run();
+        new A().run();
     }
 
     void run() throws Exception {
@@ -154,22 +154,22 @@ public class NewYearAndTheSphereTransmission {
     }
 
     // strictly smaller on left
-    void stack_l(int[] arr, int[] left) {
+    void stack_l(char[] arr, int[] left) {
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < arr.length; i++) {
-            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) stack.pop();
-            if (stack.isEmpty()) left[i] = -1;
+            while (!stack.isEmpty() && arr[stack.peek()] <= arr[i]) stack.pop();
+            if (stack.isEmpty()) left[i] = imin+10000;
             else left[i] = stack.peek();
             stack.push(i);
         }
     }
 
     // strictly smaller on right
-    void stack_r(int[] arr, int[] right) {
+    void stack_r(char[] arr, int[] right) {
         Stack<Integer> stack = new Stack<>();
         for (int i = arr.length - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) stack.pop();
-            if (stack.isEmpty()) right[i] = arr.length;
+            while (!stack.isEmpty() && arr[stack.peek()] <= arr[i]) stack.pop();
+            if (stack.isEmpty()) right[i] = imax-10000;
             else right[i] = stack.peek();
             stack.push(i);
         }

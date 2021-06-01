@@ -1,10 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-// TODO: 31st may
-
-public class NewYearAndTheSphereTransmission {
+public class Draw {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,29 +9,29 @@ public class NewYearAndTheSphereTransmission {
     final int mod = 1000000007;
 
     void solve() throws Exception {
+        int t = 1;
+//        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni();
 
-    }
+            int a= 0, b= 0, ans= 0, r= -1;
+            for (int i = 0; i < n; i++) {
+                int c= ni(), d= ni();
+                if(a== c && b== d) continue;
+                if(Math.max(a, b)<= Math.min(c, d)) {
+                    ans += Math.abs(Math.max(a, b) - Math.min(c, d)) + (r == Math.max(a, b) ? 0 : 1);
+                    r = Math.min(c, d);
+                }
 
-    List<Integer> primes;
-    private void sieve ( int n){
-        primes = new ArrayList<>();
-        boolean prime[] = new boolean[n + 1];
-        Arrays.fill(prime, true);
+                a= c; b= d;
+            }
 
-        for (int p = 2; p * p <= n; p++) {
-            if (prime[p] == true)
-                for (int i = p * p; i <= n; i += p) prime[i] = false;
-        }
-
-        int count = 0;
-        primes = new ArrayList<>();
-        for (int i = 2; i <= n; i++) {
-            if (prime[i]) primes.add(i);
+            out.println(Math.max(ans, 1));
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new NewYearAndTheSphereTransmission().run();
+        new Draw().run();
     }
 
     void run() throws Exception {

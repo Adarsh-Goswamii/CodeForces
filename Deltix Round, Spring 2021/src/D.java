@@ -1,10 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
-// TODO: 31st may
-
-public class NewYearAndTheSphereTransmission {
+public class D {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,29 +9,15 @@ public class NewYearAndTheSphereTransmission {
     final int mod = 1000000007;
 
     void solve() throws Exception {
+        int t = 1;
+        t = ni();
+        for (int ii = 0; ii < t; ii++) {
 
-    }
-
-    List<Integer> primes;
-    private void sieve ( int n){
-        primes = new ArrayList<>();
-        boolean prime[] = new boolean[n + 1];
-        Arrays.fill(prime, true);
-
-        for (int p = 2; p * p <= n; p++) {
-            if (prime[p] == true)
-                for (int i = p * p; i <= n; i += p) prime[i] = false;
-        }
-
-        int count = 0;
-        primes = new ArrayList<>();
-        for (int i = 2; i <= n; i++) {
-            if (prime[i]) primes.add(i);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new NewYearAndTheSphereTransmission().run();
+        new D().run();
     }
 
     void run() throws Exception {
