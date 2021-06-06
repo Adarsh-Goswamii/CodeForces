@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class YuhaoAndParenthesis {
+public class C {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -10,42 +10,34 @@ public class YuhaoAndParenthesis {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
+            char[] arr= ns().toCharArray();
 
-            Map<Integer, Integer> map = new HashMap<>();
-            for (int i = 0; i < n; i++) {
-                char[] arr= ns().toCharArray();
-                int key= 0, min= imax;
-                for(char c: arr) {
-                    key+= (c== ')'? -1: +1);
-                    min= Math.min(min, key);
-                }
+            Map<Long, Map<Long, Integer>> map = new HashMap<>();
+            long d= 0l, k= 0l;
+            for(int i=0;i<n;i++) {
+                if(arr[i]== 'D') d++;
+                else k++;
 
-                if(min>=0 || (min<0 && min== key))
-                map.put(key, map.getOrDefault(key, 0)+ 1);
-            }
-
-
-            long ans= 0l;
-            List<Integer> list = new ArrayList<>(map.keySet());
-            Collections.sort(list, Collections.reverseOrder());
-            for(int i: list) {
-                if(i<0) break;
-                else if(i>0) {
-                    ans+= Math.min(map.getOrDefault(-1*i, 0), map.get(i));
-                }
+                long gcd= gcd(d, k);
+                if(map.containsKey(d/gcd))
+                    map.get(d/gcd).put(k/gcd, map.get(d/gcd).getOrDefault(k/gcd, 0)+1);
                 else {
-                    ans+= (map.get(0))/2;
+                    Map<Long, Integer> temp = new HashMap<>();
+                    temp.put(k/gcd, 1);
+                    map.put(d/gcd, temp);
                 }
+
+                out.print(map.get(d/gcd).get(k/gcd)+" ");
             }
-            out.println(ans);
+            out.println();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new YuhaoAndParenthesis().run();
+        new C().run();
     }
 
     void run() throws Exception {

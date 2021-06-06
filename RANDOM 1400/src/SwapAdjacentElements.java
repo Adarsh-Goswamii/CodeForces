@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class YuhaoAndParenthesis {
+public class SwapAdjacentElements {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -13,39 +13,87 @@ public class YuhaoAndParenthesis {
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
+            int[] a= ni(n);
+            char[] arr= (ns()+"0").toCharArray();
 
             Map<Integer, Integer> map = new HashMap<>();
+            List<Integer> list = new ArrayList<>();
             for (int i = 0; i < n; i++) {
-                char[] arr= ns().toCharArray();
-                int key= 0, min= imax;
-                for(char c: arr) {
-                    key+= (c== ')'? -1: +1);
-                    min= Math.min(min, key);
-                }
+                map.put(a[i], i);
+                list.add(a[i]);
+            }
+            Collections.sort(list);
 
-                if(min>=0 || (min<0 && min== key))
-                map.put(key, map.getOrDefault(key, 0)+ 1);
+            UnionFind dsu= new UnionFind(n);
+            for (int i = 0; i < n;) {
+                int _i= i;
+                while(_i!=n && arr[_i]!= '0') _i++;
+                if(_i== n) _i--;
+
+                while(i<= _i) dsu.union(i++, _i);
             }
 
+            boolean ans= true;
+            for (int i = 0; i < n && ans; i++)
+                if( !dsu.isConnected(map.get(list.get(i)), i)) ans= false;
 
-            long ans= 0l;
-            List<Integer> list = new ArrayList<>(map.keySet());
-            Collections.sort(list, Collections.reverseOrder());
-            for(int i: list) {
-                if(i<0) break;
-                else if(i>0) {
-                    ans+= Math.min(map.getOrDefault(-1*i, 0), map.get(i));
-                }
-                else {
-                    ans+= (map.get(0))/2;
-                }
+            print(ans);
+//            dsu.debug();
+        }
+    }
+
+    class UnionFind {
+        int[] rank;
+        int[] par;
+
+        public UnionFind(int n) {
+            rank = new int[n];
+            par = new int[n];
+
+            for (int i = 0; i < n; i++)
+                par[i] = i;
+        }
+
+        public void union(int a, int b) {
+            while (par[a] != a) a = par[a];
+            while (par[b] != b) b = par[b];
+
+            if (rank[a] > rank[b]) par[b] = a;
+            else if (rank[a] < rank[b]) par[a] = b;
+            else {
+                par[b] = a;
+                rank[a]++;
             }
-            out.println(ans);
+        }
+
+        public void debug() {
+            print(par);
+        }
+
+        public Boolean isConnected(int a, int b) {
+            int tempA = a, tempB = b;
+            while (par[a] != a) a = par[a];
+
+            while (par[tempA] != tempA) {
+                int temp = tempA;
+                tempA = par[tempA];
+                par[temp] = a;
+            }
+
+            while (par[b] != b) b = par[b];
+
+            while (par[tempB] != tempB) {
+                int temp = tempB;
+                tempB = par[tempB];
+                par[temp] = b;
+            }
+
+            return b == a;
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new YuhaoAndParenthesis().run();
+        new SwapAdjacentElements().run();
     }
 
     void run() throws Exception {

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class YuhaoAndParenthesis {
+public class A {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -10,42 +10,34 @@ public class YuhaoAndParenthesis {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
             int n= ni();
+            int[] a= ni(n);
 
-            Map<Integer, Integer> map = new HashMap<>();
-            for (int i = 0; i < n; i++) {
-                char[] arr= ns().toCharArray();
-                int key= 0, min= imax;
-                for(char c: arr) {
-                    key+= (c== ')'? -1: +1);
-                    min= Math.min(min, key);
+            boolean ans= true;
+            for(int i: a) if(i<0) ans= false;
+
+            if(!ans) out.println("NO");
+            else {
+                List<Integer> arr= new ArrayList<>();
+                for(int i: a) arr.add(i);
+                for(int i=0;i<arr.size();i++) {
+                    for (int j = 0; j < arr.size(); j++) {
+                        if(i!= j && !arr.contains(Math.abs(arr.get(i)- arr.get(j))))
+                            arr.add(Math.abs(arr.get(i)- arr.get(j)));
+                    }
                 }
-
-                if(min>=0 || (min<0 && min== key))
-                map.put(key, map.getOrDefault(key, 0)+ 1);
+                out.println("YES");
+                out.println(arr.size());
+                for(int i: arr) out.print(i+" ");
+                out.println();
             }
-
-
-            long ans= 0l;
-            List<Integer> list = new ArrayList<>(map.keySet());
-            Collections.sort(list, Collections.reverseOrder());
-            for(int i: list) {
-                if(i<0) break;
-                else if(i>0) {
-                    ans+= Math.min(map.getOrDefault(-1*i, 0), map.get(i));
-                }
-                else {
-                    ans+= (map.get(0))/2;
-                }
-            }
-            out.println(ans);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new YuhaoAndParenthesis().run();
+        new A().run();
     }
 
     void run() throws Exception {

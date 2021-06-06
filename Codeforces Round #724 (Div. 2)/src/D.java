@@ -1,7 +1,9 @@
 import java.util.*;
 import java.io.*;
 
-public class YuhaoAndParenthesis {
+// TODO: 7th June 2021.
+
+public class D {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -10,42 +12,14 @@ public class YuhaoAndParenthesis {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
 
-            Map<Integer, Integer> map = new HashMap<>();
-            for (int i = 0; i < n; i++) {
-                char[] arr= ns().toCharArray();
-                int key= 0, min= imax;
-                for(char c: arr) {
-                    key+= (c== ')'? -1: +1);
-                    min= Math.min(min, key);
-                }
-
-                if(min>=0 || (min<0 && min== key))
-                map.put(key, map.getOrDefault(key, 0)+ 1);
-            }
-
-
-            long ans= 0l;
-            List<Integer> list = new ArrayList<>(map.keySet());
-            Collections.sort(list, Collections.reverseOrder());
-            for(int i: list) {
-                if(i<0) break;
-                else if(i>0) {
-                    ans+= Math.min(map.getOrDefault(-1*i, 0), map.get(i));
-                }
-                else {
-                    ans+= (map.get(0))/2;
-                }
-            }
-            out.println(ans);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new YuhaoAndParenthesis().run();
+        new D().run();
     }
 
     void run() throws Exception {

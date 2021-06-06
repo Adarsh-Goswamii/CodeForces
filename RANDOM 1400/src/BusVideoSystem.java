@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class YuhaoAndParenthesis {
+public class BusVideoSystem {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,40 +12,23 @@ public class YuhaoAndParenthesis {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
+            int n= ni(), w= ni();
+            int[] a= ni(n);
 
-            Map<Integer, Integer> map = new HashMap<>();
+            long val= 0, min= 0, max= imin;
             for (int i = 0; i < n; i++) {
-                char[] arr= ns().toCharArray();
-                int key= 0, min= imax;
-                for(char c: arr) {
-                    key+= (c== ')'? -1: +1);
-                    min= Math.min(min, key);
-                }
-
-                if(min>=0 || (min<0 && min== key))
-                map.put(key, map.getOrDefault(key, 0)+ 1);
+                val+= a[i];
+                min= Math.min(min, val);
+                max= Math.max(max, val);
             }
 
-
-            long ans= 0l;
-            List<Integer> list = new ArrayList<>(map.keySet());
-            Collections.sort(list, Collections.reverseOrder());
-            for(int i: list) {
-                if(i<0) break;
-                else if(i>0) {
-                    ans+= Math.min(map.getOrDefault(-1*i, 0), map.get(i));
-                }
-                else {
-                    ans+= (map.get(0))/2;
-                }
-            }
-            out.println(ans);
+            long abs= min*-1; max= Math.max(abs, max+abs);
+            out.println(Math.max(0, w- max+ 1));
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new YuhaoAndParenthesis().run();
+        new BusVideoSystem().run();
     }
 
     void run() throws Exception {
