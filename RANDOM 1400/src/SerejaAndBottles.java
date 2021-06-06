@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class C {
+public class SerejaAndBottles {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,40 +12,22 @@ public class C {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), q= ni();
-            int[] a= ni(n);
-            Map<Integer, Integer> map= new HashMap<>();
-            for (int i = 0; i < n; i++) if(!map.containsKey(a[i])) map.put(a[i], i+1);
+            int n= ni();
+            int[][] a= new int[n][];
+            for (int i = 0; i < n; i++) a[i]= ni(2);
 
-
-            List<Integer> list = new ArrayList<>();
-            for (int i = 0; i < q; i++) {
-                int c= ni();
-                int index= map.get(c)-1;
-
-//                out.println(list);
-                if(list.contains(index)) {
-                    Set<Integer> set = new HashSet<>();
-                    for(int j= list.size()-1;j>=0; j--)
-                        if(list.get(j)== index) break;
-                        else set.add(list.get(j));
-                    out.print(1+set.size()+" ");
+            int ans= n;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if(i!= j && a[i][0]== a[j][1]) { ans--; break; }
                 }
-                else {
-                    int ans= 0;
-                    Set<Integer> set= new HashSet<>();
-                    for(int j: list) if(j> index) set.add(j);
-//                    out.println("set size: "+set);
-                    out.print(index+ set.size()+ 1 +" ");
-                }
-                list.add(index);
             }
-            out.println();
+            out.println(ans);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new C().run();
+        new SerejaAndBottles().run();
     }
 
     void run() throws Exception {

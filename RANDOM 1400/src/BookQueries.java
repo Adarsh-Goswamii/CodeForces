@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class C {
+public class BookQueries {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,40 +12,26 @@ public class C {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), q= ni();
-            int[] a= ni(n);
-            Map<Integer, Integer> map= new HashMap<>();
-            for (int i = 0; i < n; i++) if(!map.containsKey(a[i])) map.put(a[i], i+1);
+            int q= ni();
 
-
-            List<Integer> list = new ArrayList<>();
+            int l= 0, r= 0;
+            Map<Integer, int[]> map = new HashMap<>();
             for (int i = 0; i < q; i++) {
-                int c= ni();
-                int index= map.get(c)-1;
+                char c= nc(); int id= ni();
 
-//                out.println(list);
-                if(list.contains(index)) {
-                    Set<Integer> set = new HashSet<>();
-                    for(int j= list.size()-1;j>=0; j--)
-                        if(list.get(j)== index) break;
-                        else set.add(list.get(j));
-                    out.print(1+set.size()+" ");
-                }
+                if(c== 'L') l++;
+                else if(c== 'R') r++;
                 else {
-                    int ans= 0;
-                    Set<Integer> set= new HashSet<>();
-                    for(int j: list) if(j> index) set.add(j);
-//                    out.println("set size: "+set);
-                    out.print(index+ set.size()+ 1 +" ");
+                    int[] val= map.get(id);
+                    out.println(Math.min(l+val[0]-val[2], r+val[1]-val[3]));
                 }
-                list.add(index);
+                if(c!= '?') map.put(id, new int[]{c== 'L'?0:l+r-1, c== 'R'?0:l+r-1, l, r});
             }
-            out.println();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new C().run();
+        new BookQueries().run();
     }
 
     void run() throws Exception {

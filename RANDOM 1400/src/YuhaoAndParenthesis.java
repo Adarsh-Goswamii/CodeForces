@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class C {
+public class YuhaoAndParenthesis {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -10,42 +10,14 @@ public class C {
 
     void solve() throws Exception {
         int t = 1;
-//        t = ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), q= ni();
-            int[] a= ni(n);
-            Map<Integer, Integer> map= new HashMap<>();
-            for (int i = 0; i < n; i++) if(!map.containsKey(a[i])) map.put(a[i], i+1);
 
-
-            List<Integer> list = new ArrayList<>();
-            for (int i = 0; i < q; i++) {
-                int c= ni();
-                int index= map.get(c)-1;
-
-//                out.println(list);
-                if(list.contains(index)) {
-                    Set<Integer> set = new HashSet<>();
-                    for(int j= list.size()-1;j>=0; j--)
-                        if(list.get(j)== index) break;
-                        else set.add(list.get(j));
-                    out.print(1+set.size()+" ");
-                }
-                else {
-                    int ans= 0;
-                    Set<Integer> set= new HashSet<>();
-                    for(int j: list) if(j> index) set.add(j);
-//                    out.println("set size: "+set);
-                    out.print(index+ set.size()+ 1 +" ");
-                }
-                list.add(index);
-            }
-            out.println();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new C().run();
+        new YuhaoAndParenthesis().run();
     }
 
     void run() throws Exception {
