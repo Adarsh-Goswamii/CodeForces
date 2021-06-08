@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class EhabAndA2OperationTask {
+public class Factory {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,17 +12,23 @@ public class EhabAndA2OperationTask {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] a= ni(n);
+            int a= ni(), m= ni();
+            a%= m;
 
-            out.println(n+1);
-            out.println(1+" "+n+" "+2*n);
-            for (int i = 0; i < n; i++) out.println(2+" "+(i+1)+" "+(a[i]+2*n-i));
+            Set<Integer> set = new HashSet<>();
+            while(!set.contains(a) && a!= 0) {
+                set.add(a);
+                a+= a%m;
+                a%= m;
+            }
+
+            if(a== 0) out.println("Yes");
+            else out.println("No");
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new EhabAndA2OperationTask().run();
+        new Factory().run();
     }
 
     void run() throws Exception {

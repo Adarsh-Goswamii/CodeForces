@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class EhabAndA2OperationTask {
+public class GuessANumber {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,17 +12,31 @@ public class EhabAndA2OperationTask {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
+            boolean possible= true;
+            long s= -2*(int)1e9, l= -1*s;
             int n= ni();
-            int[] a= ni(n);
+            for (int i = 0; i < n; i++) {
+                String sign= nw();
+                int val= ni();
+                char ans= nc();
 
-            out.println(n+1);
-            out.println(1+" "+n+" "+2*n);
-            for (int i = 0; i < n; i++) out.println(2+" "+(i+1)+" "+(a[i]+2*n-i));
+                if(sign.equals(">")) { if(ans== 'Y') s= Math.max(val+1, s); else l= Math.min(l, val); }
+                else if(sign.equals(">=")) { if(ans== 'Y') s= Math.max(s, val); else l= Math.min(val-1, l); }
+                else if(sign.equals("<")) { if(ans== 'Y') l= Math.min(l, val-1); else s= Math.max(s, val); }
+                else if(sign.equals("<=")) { if(ans== 'Y') l= Math.min(l, val); else s= Math.max(s, val+1); }
+
+                if(s>l) possible= false;
+            }
+
+            if(possible) {
+                out.println(s);
+            }
+            else out.println("Impossible");
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new EhabAndA2OperationTask().run();
+        new GuessANumber().run();
     }
 
     void run() throws Exception {
@@ -59,6 +73,11 @@ public class EhabAndA2OperationTask {
     char nc() throws Exception {
         if (!st.hasMoreTokens()) read();
         return st.nextToken().charAt(0);
+    }
+
+    String nw() throws Exception {
+        if(!st.hasMoreTokens()) read();
+        return st.nextToken();
     }
 
     long nl() throws Exception {

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class EhabAndA2OperationTask {
+public class RoutineProblem {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,17 +12,27 @@ public class EhabAndA2OperationTask {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] a= ni(n);
+            long a= ni(), b= ni(), c= ni(), d= ni();
 
-            out.println(n+1);
-            out.println(1+" "+n+" "+2*n);
-            for (int i = 0; i < n; i++) out.println(2+" "+(i+1)+" "+(a[i]+2*n-i));
+            boolean bool= helper(a*c, b*c, c, d);
+            if(!bool) helper(a*d, b*d, c, d);
         }
     }
 
+    boolean helper(long a, long b, long c, long d) {
+        long mul= Math.min(a/c, b/d);
+        c*= mul; d*= mul;
+
+
+        long tv= a*b, movie= c*d, left= tv- movie;
+//        out.println(a+" "+b+" "+c+" "+d);
+        if(a!= c && b!= d) return false;
+        out.println(left/gcd(tv, left)+"/"+tv/gcd(tv, left));
+        return true;
+    }
+
     public static void main(String[] args) throws Exception {
-        new EhabAndA2OperationTask().run();
+        new RoutineProblem().run();
     }
 
     void run() throws Exception {

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class EhabAndA2OperationTask {
+public class DevelopingSkills {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,17 +12,40 @@ public class EhabAndA2OperationTask {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] a= ni(n);
+            int n = ni(), k = ni();
+            int[] map = new int[101];
+            for (int i = 0; i < n; i++) map[ni()]++;
 
-            out.println(n+1);
-            out.println(1+" "+n+" "+2*n);
-            for (int i = 0; i < n; i++) out.println(2+" "+(i+1)+" "+(a[i]+2*n-i));
+            int[] mod = new int[10];
+            for (int i = 0; i <= 100; i++) mod[i % 10] += map[i];
+
+            int ans = 0;
+            for (int i = 0; i <= 100; i++) ans += (i / 10) * map[i];
+
+            for (int i = 9; i >= 1 && k != 0; i--) {
+                int min = Math.min(k / (10 - i), mod[i]);
+                k -= min * (10 - i);
+                ans += min;
+            }
+
+            int min = k / 10, min2= 0, sum= 0;
+            for (int i = 0; i <= 90; i++) {
+                if(i%10== 0) {
+                    sum += map[i];
+                    min2 += sum * (10 - i / 10);
+                    sum=0;
+                }
+                else sum+= map[i];
+            }
+
+//            out.println(min2);
+            ans+= Math.min(min, min2);
+            out.println(ans);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new EhabAndA2OperationTask().run();
+        new DevelopingSkills().run();
     }
 
     void run() throws Exception {

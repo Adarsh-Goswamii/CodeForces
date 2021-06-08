@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class EhabAndA2OperationTask {
+public class StronglyConnectedCity {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,17 +12,41 @@ public class EhabAndA2OperationTask {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] a= ni(n);
+            int n= ni(), m= ni();
+            char[] row= ns().toCharArray();
+            char[] col= ns().toCharArray();
 
-            out.println(n+1);
-            out.println(1+" "+n+" "+2*n);
-            for (int i = 0; i < n; i++) out.println(2+" "+(i+1)+" "+(a[i]+2*n-i));
+
+            boolean ans= true;
+            outer: for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    boolean[][] v= new boolean[row.length][col.length];
+                    dfs(row, col, i, j, v);
+
+                    for (int _i = 0; _i < n; _i++)
+                        for (int _j = 0; _j < m; _j++) if(!v[_i][_j]) ans= false;
+
+                    if(!ans) break outer;
+                }
+            }
+            print(ans);
+        }
+    }
+
+    private void dfs(char[] row, char[] col, int r, int c, boolean[][] v) {
+        if(r== row.length || c== col.length || c<0 || r<0 || v[r][c]) return;
+        else {
+            v[r][c]= true;
+            if(row[r]== '>') dfs(row, col, r, c+1, v);
+            else dfs(row, col, r, c-1, v);
+
+            if(col[c]=='^') dfs(row, col, r-1, c, v);
+            else dfs(row, col, r+1, c, v);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new EhabAndA2OperationTask().run();
+        new StronglyConnectedCity().run();
     }
 
     void run() throws Exception {

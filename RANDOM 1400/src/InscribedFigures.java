@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class EhabAndA2OperationTask {
+public class InscribedFigures {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -15,14 +15,23 @@ public class EhabAndA2OperationTask {
             int n= ni();
             int[] a= ni(n);
 
-            out.println(n+1);
-            out.println(1+" "+n+" "+2*n);
-            for (int i = 0; i < n; i++) out.println(2+" "+(i+1)+" "+(a[i]+2*n-i));
+            // 1: circle, 2: triangle, 3: square
+            long ans= 0l;
+            for(int i=1;i<n;i++) {
+                if(a[i-1]== 1 && a[i]== 3) ans+= 4;
+                else if(a[i-1]== 1 && a[i]== 2) ans+= 3;
+                else if(a[i-1]== 2 && a[i]== 1) ans+= 3;
+                else if(a[i-1]== 2 && a[i]== 3) ans+= imin;
+                else if(a[i-1]== 3 && a[i]== 1) ans+= (i==n-1 || a[i+1]!= 2)? 4: 3;
+                else if(a[i-1]== 3 && a[i]== 2) ans+= imin;
+            }
+
+            out.println(ans>=0? "Finite\n"+ans: "Infinite");
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new EhabAndA2OperationTask().run();
+        new InscribedFigures().run();
     }
 
     void run() throws Exception {

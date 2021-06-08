@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class EhabAndA2OperationTask {
+public class TanyaAndPostcard {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,17 +12,32 @@ public class EhabAndA2OperationTask {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni();
-            int[] a= ni(n);
+            char[] a= ns().toCharArray();
+            char[] b= ns().toCharArray();
 
-            out.println(n+1);
-            out.println(1+" "+n+" "+2*n);
-            for (int i = 0; i < n; i++) out.println(2+" "+(i+1)+" "+(a[i]+2*n-i));
+            int[] map= new int[128];
+            for (int i = 0; i < b.length; i++) map[b[i]]++;
+
+            int y= 0, w= 0;
+            for (int i = 0; i < a.length; i++)
+                if(map[a[i]]!= 0) { y++; map[a[i]]--; a[i]= '.'; }
+
+            for (int i = 0; i < a.length; i++)
+                if(a[i]!= '.' && map[fun(a[i])]!= 0) { w++; map[fun(a[i])]--; }
+
+            out.println(y+" "+w);
         }
     }
 
+    private int fun(char c) {
+        if(c>= 'a' && c<= 'z') c-= 32;
+        else c+= 32;
+
+        return c;
+    }
+
     public static void main(String[] args) throws Exception {
-        new EhabAndA2OperationTask().run();
+        new TanyaAndPostcard().run();
     }
 
     void run() throws Exception {
@@ -59,6 +74,11 @@ public class EhabAndA2OperationTask {
     char nc() throws Exception {
         if (!st.hasMoreTokens()) read();
         return st.nextToken().charAt(0);
+    }
+
+    String nw() throws Exception {
+        if (!st.hasMoreTokens()) read();
+        return st.nextToken();
     }
 
     long nl() throws Exception {
