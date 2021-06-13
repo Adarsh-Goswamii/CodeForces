@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class SuitAndTie {
+public class CuttingBanner {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,25 +9,25 @@ public class SuitAndTie {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        int n= 2*ni();
-        int[] a= ni(n);
-
-        int ans= 0;
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int j, sub= 0;
-            for (j = i+1; j < n; j++) if(a[j]== a[i]) break;
-            for(int k: list) if(k>i && k<j) sub--;
-            if(j!= n) {
-                ans += (j - i - 1) + sub;
-                list.add(j);
+        int t = 1;
+//        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            char[] arr= ns().toCharArray();
+            String s= new String(arr);
+            for(int i=0;i<arr.length;i++) {
+                for(int j=i;j<arr.length;j++) {
+                    if("CODEFORCES".equals(s.substring(0, i)+s.substring(j+1, arr.length))) {
+                        out.println("YES");
+                        return;
+                    }
+                }
             }
+            out.println("NO");
         }
-        out.println(ans);
     }
 
     public static void main(String[] args) throws Exception {
-        new SuitAndTie().run();
+        new CuttingBanner().run();
     }
 
     void run() throws Exception {

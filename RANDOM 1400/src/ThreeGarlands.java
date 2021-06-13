@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class SuitAndTie {
+public class ThreeGarlands {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,25 +9,21 @@ public class SuitAndTie {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        int n= 2*ni();
-        int[] a= ni(n);
+        int t = 1;
+//        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int a= ni(), b= ni(), c= ni();
+            int[] map= new int[5];
+            if(a<= 4) map[a]++;
+            if(b<= 4) map[b]++;
+            if(c<= 4) map[c]++;
 
-        int ans= 0;
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int j, sub= 0;
-            for (j = i+1; j < n; j++) if(a[j]== a[i]) break;
-            for(int k: list) if(k>i && k<j) sub--;
-            if(j!= n) {
-                ans += (j - i - 1) + sub;
-                list.add(j);
-            }
+            print(map[1]>0 || map[2]> 1 || map[3]== 3|| (map[2]== 1 && map[4]== 2));
         }
-        out.println(ans);
     }
 
     public static void main(String[] args) throws Exception {
-        new SuitAndTie().run();
+        new ThreeGarlands().run();
     }
 
     void run() throws Exception {

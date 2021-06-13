@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class SuitAndTie {
+public class Skier {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,25 +9,40 @@ public class SuitAndTie {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        int n= 2*ni();
-        int[] a= ni(n);
+        int t = 1;
+        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            char[] arr= ns().toCharArray();
 
-        int ans= 0;
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int j, sub= 0;
-            for (j = i+1; j < n; j++) if(a[j]== a[i]) break;
-            for(int k: list) if(k>i && k<j) sub--;
-            if(j!= n) {
-                ans += (j - i - 1) + sub;
-                list.add(j);
+            int x= 0, y= 0, ans= 0;
+            int[] m= new int[128]; m['N']= 0; m['S']= 1; m['E']= 2; m['W']= 3;
+            int[] opp= new int[128]; opp['N']= 1; opp['S']= 0; opp['E']= 3; opp['W']= 2;
+
+            TreeSet<int[]> points= new TreeSet<>((a, b)->
+                    (a[0]== b[0]? a[1]== b[1]? a[2]== b[2]? 0: a[2]- b[2]: a[1]- b[1]: a[0]- b[0]));
+            for (char c: arr) {
+                int _x= x, _y= y;
+                if(c== 'N') y++;
+                else if(c=='S') y--;
+                else if(c=='E') x++;
+                else x--;
+
+                if(points.contains(new int[]{x, y, m[c]})) {
+                    ans+= 1;
+                }
+                else {
+                    points.add(new int[]{x, y, m[c]});
+                    points.add(new int[]{_x, _y, opp[c]});
+                    ans+= 5;
+                }
             }
+
+            out.println(ans);
         }
-        out.println(ans);
     }
 
     public static void main(String[] args) throws Exception {
-        new SuitAndTie().run();
+        new Skier().run();
     }
 
     void run() throws Exception {

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class SuitAndTie {
+public class FlagDay {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,25 +9,35 @@ public class SuitAndTie {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        int n= 2*ni();
-        int[] a= ni(n);
+        int t = 1;
+//        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n= ni(), m= ni();
+            boolean[] seen= new boolean[n+1];
+            int[] color= new int[n+1];
+            for (int i = 0; i < m; i++) {
+                int[] a= ni(3);
 
-        int ans= 0;
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int j, sub= 0;
-            for (j = i+1; j < n; j++) if(a[j]== a[i]) break;
-            for(int k: list) if(k>i && k<j) sub--;
-            if(j!= n) {
-                ans += (j - i - 1) + sub;
-                list.add(j);
+                boolean[] avail= {false, true, true, true};
+                if(seen[a[0]]) avail[color[a[0]]]= false;
+                if(seen[a[1]]) avail[color[a[1]]]= false;
+                if(seen[a[2]]) avail[color[a[2]]]= false;
+
+                for(int j=0;j<avail.length;j++) {
+                    if(avail[j]) {
+                        if(!seen[a[0]]) { avail[j]= false; color[a[0]]= j; seen[a[0]]= true; }
+                        else if(!seen[a[1]]) { avail[j]= false; color[a[1]]= j; seen[a[1]]= true; }
+                        else if(!seen[a[2]]) { avail[j]= false; color[a[2]]= j; seen[a[2]]= true; }
+                    }
+                }
             }
+
+            print(color);
         }
-        out.println(ans);
     }
 
     public static void main(String[] args) throws Exception {
-        new SuitAndTie().run();
+        new FlagDay().run();
     }
 
     void run() throws Exception {
@@ -99,7 +109,7 @@ public class SuitAndTie {
     }
 
     void print(int[] arr) {
-        for (int i : arr) out.print(i + " ");
+        for (int i=1;i<arr.length;i++) out.print(arr[i] + " ");
         out.println();
     }
 

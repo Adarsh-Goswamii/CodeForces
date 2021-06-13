@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class SuitAndTie {
+public class Towers {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,25 +9,44 @@ public class SuitAndTie {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        int n= 2*ni();
-        int[] a= ni(n);
+        int t = 1;
+//        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            int n = ni(), k = ni();
+            int[] a = ni(n);
+            long sum= 0l; for(int i: a) sum+= i;
+            TreeSet<int[]> set= new TreeSet<>((i, j)-> (i[0]== j[0]? i[1]- j[1]: i[0]- j[0]));
+            for (int i = 0; i < n; i++) set.add(new int[]{a[i], i+1});
 
-        int ans= 0;
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int j, sub= 0;
-            for (j = i+1; j < n; j++) if(a[j]== a[i]) break;
-            for(int k: list) if(k>i && k<j) sub--;
-            if(j!= n) {
-                ans += (j - i - 1) + sub;
-                list.add(j);
+            int count= 0;
+            StringBuilder str= new StringBuilder();
+            while(k!= 0 && set.size()!= 1) {
+                int[] max= set.pollLast();
+                int[] min= set.pollFirst();
+                if(max[0]== min[0]) {
+                    set.add(max);
+                    set.add(min);
+                    break;
+                }
+                else {
+                    str.append(max[1]+" "+min[1]+"\n");
+                    min[0]++;
+                    max[0]--;
+                    set.add(max);
+                    set.add(min);
+                }
+
+                k--; count++;
+                if(sum%n!= 0 && set.last()[0]- set.first()[0]== 1) break;
             }
+
+            out.println((set.last()[0]- set.first()[0])+" "+count);
+            out.print(str);
         }
-        out.println(ans);
     }
 
     public static void main(String[] args) throws Exception {
-        new SuitAndTie().run();
+        new Towers().run();
     }
 
     void run() throws Exception {

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class SuitAndTie {
+public class VileGrasshopper {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -9,25 +9,23 @@ public class SuitAndTie {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        int n= 2*ni();
-        int[] a= ni(n);
-
-        int ans= 0;
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int j, sub= 0;
-            for (j = i+1; j < n; j++) if(a[j]== a[i]) break;
-            for(int k: list) if(k>i && k<j) sub--;
-            if(j!= n) {
-                ans += (j - i - 1) + sub;
-                list.add(j);
+        int p= ni(), y= ni();
+        for(int i= y;i> p;i--) {
+            if(isPrime(i, p)) {
+                out.println(i);
+                return;
             }
         }
-        out.println(ans);
+        out.println(-1);
+    }
+
+    boolean isPrime(int n, int p) {
+        for(int i= 2;i<=Math.min(p, Math.sqrt(n));i++) if(n%i== 0) return false;
+        return true;
     }
 
     public static void main(String[] args) throws Exception {
-        new SuitAndTie().run();
+        new VileGrasshopper().run();
     }
 
     void run() throws Exception {
