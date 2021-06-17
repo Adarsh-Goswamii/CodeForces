@@ -1,14 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: 26th January 2021 (COMPLETED: 17th June 2021)
-
-import java.util.*;
-import java.io.*;
-
-// TODO: 26th January 2021 (COMPLETED 17th June 2021)
-
-public class AdvertisingAgency {
+public class FunctionsAgain {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -16,37 +9,36 @@ public class AdvertisingAgency {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        helper();
-        int t= ni();
+        int t = 1;
+//        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), k= ni();
+            int n= ni();
             int[] a= ni(n);
-            sort(a);
 
-            Map<Integer, Integer> map = new HashMap<>();
-            for(int i: a) map.put(i, map.getOrDefault(i, 0)+ 1);
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < n-1; i++) list.add((int)Math.abs(a[i]- a[i+1]));
 
-            int freq= map.get(a[k-1]), i= k-1;
-            while(i!= -1 && a[i]== a[k-1]) i--;
-            long ans= mul(fact[freq],
-                    mul(binExp(fact[k-1-i], mod-2),
-                            binExp(fact[freq- (k-1-i)], mod-2)));
-            out.println(ans);
+            out.println(Math.max(kadane(list, 0), kadane(list, 1)));
         }
     }
 
-    long[] fact;
-    private void helper() {
-        fact= new long[1001]; fact[0]= 1l;
-        long val= 1l;
-        for (int i = 1; i < fact.length; i++) {
-            val= mul(val, i);
-            fact[i]= val;
+    private long kadane(List<Integer> list, int i) {
+        boolean neg= false;
+        long sum= 0l, max= imin;
+        for(;i<list.size();i++) {
+            long add= list.get(i);
+            if(neg) add*= -1;
+
+            if(sum+add< 0) sum= 0l;
+            else sum+= add;
+            neg= !neg;
+            max= Math.max(max, sum);
         }
+        return max;
     }
 
     public static void main(String[] args) throws Exception {
-        new AdvertisingAgency().run();
+        new FunctionsAgain().run();
     }
 
     void run() throws Exception {
@@ -83,6 +75,11 @@ public class AdvertisingAgency {
     char nc() throws Exception {
         if (!st.hasMoreTokens()) read();
         return st.nextToken().charAt(0);
+    }
+
+    String nw() throws Exception {
+        if (!st.hasMoreTokens()) read();
+        return st.nextToken();
     }
 
     long nl() throws Exception {
@@ -190,7 +187,7 @@ public class AdvertisingAgency {
     private void sort(int[] arr) {
         List<Integer> list = new ArrayList<>();
         for (int i : arr) list.add(i);
-        Collections.sort(list, Collections.reverseOrder());
+        Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
     }
 }

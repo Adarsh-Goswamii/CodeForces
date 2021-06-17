@@ -1,14 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: 26th January 2021 (COMPLETED: 17th June 2021)
-
-import java.util.*;
-import java.io.*;
-
-// TODO: 26th January 2021 (COMPLETED 17th June 2021)
-
-public class AdvertisingAgency {
+public class AddOne {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -16,37 +9,52 @@ public class AdvertisingAgency {
     final int mod = 1000000007;
 
     void solve() throws Exception {
+        int t = 1;
+        dp= new long[200001][10];
         helper();
-        int t= ni();
+        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), k= ni();
-            int[] a= ni(n);
-            sort(a);
+            int n= ni(), m= ni();
 
-            Map<Integer, Integer> map = new HashMap<>();
-            for(int i: a) map.put(i, map.getOrDefault(i, 0)+ 1);
-
-            int freq= map.get(a[k-1]), i= k-1;
-            while(i!= -1 && a[i]== a[k-1]) i--;
-            long ans= mul(fact[freq],
-                    mul(binExp(fact[k-1-i], mod-2),
-                            binExp(fact[freq- (k-1-i)], mod-2)));
+            long ans= 0l;
+            while(n!= 0) {
+                ans= add(ans, dp[m][n%10]);
+                n/= 10;
+            }
             out.println(ans);
         }
     }
 
-    long[] fact;
-    private void helper() {
-        fact= new long[1001]; fact[0]= 1l;
-        long val= 1l;
-        for (int i = 1; i < fact.length; i++) {
-            val= mul(val, i);
-            fact[i]= val;
+    long[][] dp;
+    // TABULATION
+    void helper() {
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(i< 10- j) dp[i][j]= 1;
+                else dp[i][j]= add(dp[i-(10-j)][1], dp[i-(10-j)][0]);
+            }
         }
     }
 
+//    MEMOIZATION
+//    long helper(int digit, int m) {
+//        if(m< 0) return 1l;
+//        else if(dp[m][digit]!= 0) return dp[m][digit];
+//        else {
+//            int val= 10- digit;
+//            if(val> m) dp[m][digit]= 1l;
+//            else {
+//                long one = helper(1, m - val);
+//                long zero = helper(0, m - val);
+//
+//                dp[m][digit] = add(one, zero);
+//            }
+//            return dp[m][digit];
+//        }
+//    }
+
     public static void main(String[] args) throws Exception {
-        new AdvertisingAgency().run();
+        new AddOne().run();
     }
 
     void run() throws Exception {
@@ -83,6 +91,11 @@ public class AdvertisingAgency {
     char nc() throws Exception {
         if (!st.hasMoreTokens()) read();
         return st.nextToken().charAt(0);
+    }
+
+    String nw() throws Exception {
+        if (!st.hasMoreTokens()) read();
+        return st.nextToken();
     }
 
     long nl() throws Exception {
@@ -190,7 +203,7 @@ public class AdvertisingAgency {
     private void sort(int[] arr) {
         List<Integer> list = new ArrayList<>();
         for (int i : arr) list.add(i);
-        Collections.sort(list, Collections.reverseOrder());
+        Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
     }
 }

@@ -1,14 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: 26th January 2021 (COMPLETED: 17th June 2021)
-
-import java.util.*;
-import java.io.*;
-
-// TODO: 26th January 2021 (COMPLETED 17th June 2021)
-
-public class AdvertisingAgency {
+public class Berpizza {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -16,37 +9,41 @@ public class AdvertisingAgency {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        helper();
-        int t= ni();
+        int t = 1;
+//        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), k= ni();
-            int[] a= ni(n);
-            sort(a);
+            int q= ni();
 
-            Map<Integer, Integer> map = new HashMap<>();
-            for(int i: a) map.put(i, map.getOrDefault(i, 0)+ 1);
+            int index= 1;
+            TreeSet<int[]> tm = new TreeSet<>((i,j)->(i[0]== j[0]? i[1]- j[1]:j[0]- i[0]));
+            TreeSet<int[]> ti = new TreeSet<>((i,j)->(i[1]- j[1]));
+            for (int i = 0; i < q; i++) {
+                int type= ni();
+                if(type== 1) {
+                    int money= ni();
+                    ti.add(new int[]{money, index});
+                    tm.add(new int[]{money, index});
+                    index++;
+                }
+                else if(type== 2) {
+                    int[] curr= ti.pollFirst();
+                    tm.remove(curr);
 
-            int freq= map.get(a[k-1]), i= k-1;
-            while(i!= -1 && a[i]== a[k-1]) i--;
-            long ans= mul(fact[freq],
-                    mul(binExp(fact[k-1-i], mod-2),
-                            binExp(fact[freq- (k-1-i)], mod-2)));
-            out.println(ans);
-        }
-    }
+                    out.print(curr[1]+" ");
+                }
+                else {
+                    int[] curr= tm.pollFirst();
+                    ti.remove(curr);
 
-    long[] fact;
-    private void helper() {
-        fact= new long[1001]; fact[0]= 1l;
-        long val= 1l;
-        for (int i = 1; i < fact.length; i++) {
-            val= mul(val, i);
-            fact[i]= val;
+                    out.print(curr[1]+" ");
+                }
+            }
+            out.println();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new AdvertisingAgency().run();
+        new Berpizza().run();
     }
 
     void run() throws Exception {
@@ -83,6 +80,11 @@ public class AdvertisingAgency {
     char nc() throws Exception {
         if (!st.hasMoreTokens()) read();
         return st.nextToken().charAt(0);
+    }
+
+    String nw() throws Exception {
+        if (!st.hasMoreTokens()) read();
+        return st.nextToken();
     }
 
     long nl() throws Exception {
@@ -190,7 +192,7 @@ public class AdvertisingAgency {
     private void sort(int[] arr) {
         List<Integer> list = new ArrayList<>();
         for (int i : arr) list.add(i);
-        Collections.sort(list, Collections.reverseOrder());
+        Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
     }
 }

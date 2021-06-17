@@ -1,14 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: 26th January 2021 (COMPLETED: 17th June 2021)
-
-import java.util.*;
-import java.io.*;
-
-// TODO: 26th January 2021 (COMPLETED 17th June 2021)
-
-public class AdvertisingAgency {
+public class FlamingoesOfMystery {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -16,57 +9,59 @@ public class AdvertisingAgency {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        helper();
-        int t= ni();
+        int t = 1;
+//        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), k= ni();
-            int[] a= ni(n);
-            sort(a);
+            int n= ni();
+            int[] ans= new int[n];
+            print(1, n);
+            int sum= ni();
+            n--;
 
-            Map<Integer, Integer> map = new HashMap<>();
-            for(int i: a) map.put(i, map.getOrDefault(i, 0)+ 1);
+            while(n!= 1) {
+                print(1, n);
+                int temp= ni();
+                ans[n]= sum- temp;
+                sum= temp;
+                n--;
+            }
 
-            int freq= map.get(a[k-1]), i= k-1;
-            while(i!= -1 && a[i]== a[k-1]) i--;
-            long ans= mul(fact[freq],
-                    mul(binExp(fact[k-1-i], mod-2),
-                            binExp(fact[freq- (k-1-i)], mod-2)));
-            out.println(ans);
+            print(2, 3);
+            ans[1]= ni()- ans[2];
+            ans[0]= sum-ans[1];
+            out.print("! ");
+            print(ans);
         }
     }
 
-    long[] fact;
-    private void helper() {
-        fact= new long[1001]; fact[0]= 1l;
-        long val= 1l;
-        for (int i = 1; i < fact.length; i++) {
-            val= mul(val, i);
-            fact[i]= val;
-        }
+    private void print(int l, int r) {
+        out.println("? "+ l+ " "+ r);
+        out.flush();
     }
 
     public static void main(String[] args) throws Exception {
-        new AdvertisingAgency().run();
+        new FlamingoesOfMystery().run();
     }
 
     void run() throws Exception {
-        if (System.getProperty("ONLINE_JUDGE") == null) {
-            File file = new File("C:\\college\\CodeForces\\inputf.txt");
-            br = new BufferedReader(new FileReader(file));
-            out = new PrintWriter("C:\\college\\CodeForces\\outputf.txt");
-        } else {
+//        if (System.getProperty("ONLINE_JUDGE") == null) {
+//            File file = new File("C:\\college\\CodeForces\\inputf.txt");
+//            br = new BufferedReader(new FileReader(file));
+//            out = new PrintWriter("C:\\college\\CodeForces\\outputf.txt");
+//        } else {
             out = new PrintWriter(System.out);
             br = new BufferedReader(new InputStreamReader(System.in));
-        }
+//        }
 
-        long ss = System.currentTimeMillis();
+//        long ss = System.currentTimeMillis();
         st = new StringTokenizer("");
-        while (true) {
-            solve();
-            String s = br.readLine();
-            if (s == null) break;
-            else st = new StringTokenizer(s);
-        }
+//        while (true) {
+//            solve();
+//            String s = br.readLine();
+//            if (s == null) break;
+//            else st = new StringTokenizer(s);
+//        }
+        solve();
         //out.println(System.currentTimeMillis()-ss+"ms");
         out.flush();
     }
@@ -83,6 +78,11 @@ public class AdvertisingAgency {
     char nc() throws Exception {
         if (!st.hasMoreTokens()) read();
         return st.nextToken().charAt(0);
+    }
+
+    String nw() throws Exception {
+        if (!st.hasMoreTokens()) read();
+        return st.nextToken();
     }
 
     long nl() throws Exception {
@@ -190,7 +190,7 @@ public class AdvertisingAgency {
     private void sort(int[] arr) {
         List<Integer> list = new ArrayList<>();
         for (int i : arr) list.add(i);
-        Collections.sort(list, Collections.reverseOrder());
+        Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
     }
 }

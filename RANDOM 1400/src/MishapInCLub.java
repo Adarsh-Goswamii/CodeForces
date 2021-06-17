@@ -1,14 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: 26th January 2021 (COMPLETED: 17th June 2021)
-
-import java.util.*;
-import java.io.*;
-
-// TODO: 26th January 2021 (COMPLETED 17th June 2021)
-
-public class AdvertisingAgency {
+public class MishapInCLub {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -16,37 +9,29 @@ public class AdvertisingAgency {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        helper();
-        int t= ni();
+        int t = 1;
+//        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n= ni(), k= ni();
-            int[] a= ni(n);
-            sort(a);
-
-            Map<Integer, Integer> map = new HashMap<>();
-            for(int i: a) map.put(i, map.getOrDefault(i, 0)+ 1);
-
-            int freq= map.get(a[k-1]), i= k-1;
-            while(i!= -1 && a[i]== a[k-1]) i--;
-            long ans= mul(fact[freq],
-                    mul(binExp(fact[k-1-i], mod-2),
-                            binExp(fact[freq- (k-1-i)], mod-2)));
-            out.println(ans);
-        }
-    }
-
-    long[] fact;
-    private void helper() {
-        fact= new long[1001]; fact[0]= 1l;
-        long val= 1l;
-        for (int i = 1; i < fact.length; i++) {
-            val= mul(val, i);
-            fact[i]= val;
+            char[] arr= ns().toCharArray();
+            int people= 0, inside= 0, outside= 0;
+            for(char c: arr) {
+                if(c== '+') {
+                    if(outside==0) people++;
+                    else outside--;
+                    inside++;
+                }
+                else {
+                    if(inside!= 0) { inside--; }
+                    else people++;
+                    outside++;
+                }
+            }
+            out.println(people);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new AdvertisingAgency().run();
+        new MishapInCLub().run();
     }
 
     void run() throws Exception {
@@ -83,6 +68,11 @@ public class AdvertisingAgency {
     char nc() throws Exception {
         if (!st.hasMoreTokens()) read();
         return st.nextToken().charAt(0);
+    }
+
+    String nw() throws Exception {
+        if (!st.hasMoreTokens()) read();
+        return st.nextToken();
     }
 
     long nl() throws Exception {
@@ -190,7 +180,7 @@ public class AdvertisingAgency {
     private void sort(int[] arr) {
         List<Integer> list = new ArrayList<>();
         for (int i : arr) list.add(i);
-        Collections.sort(list, Collections.reverseOrder());
+        Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
     }
 }
