@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class WelfareState {
+public class MP3 {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,45 +12,33 @@ public class WelfareState {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n = ni();
+            int n = ni(), I = ni();
             int[] a = ni(n);
 
-            int q = ni();
-            List<int[]> query = new ArrayList<>();
-            // {type, value}, {type, index, value}.
-            for (int i = 0; i < q; i++) {
-                int type = ni();
-                if (type == 1) query.add(new int[]{type, ni(), ni()});
-                else query.add(new int[]{type, ni()});
-            }
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i : a) map.put(i, map.getOrDefault(i, 0) + 1);
+            List<Integer> keys = new ArrayList<>(map.keySet()); Collections.sort(keys);
 
-            int[] arr= new int[n]; Arrays.fill(arr, -1);
-            for (int i = 0; i < query.size(); i++) {
-                int[] curr= query.get(i);
-                if(curr[0]== 1) arr[curr[1]-1]= i;
-            }
+            int k = I * 8 / n, _k= (int)Math.ceil(Math.log(keys.size()*1d)/Math.log(2d));
+            if(k>= _k) { out.println(0); return; }
 
-            int max= 0;
-            int[] range= new int[q];
-            for (int i = q-1; i>= 0; i--) {
-                int[] curr= query.get(i);
-                if(curr[0]== 2) {
-                   max= Math.max(max, curr[1]);
-                }
-                range[i]= max;
-            }
+            long distinct = binExp(2l, k);
+            long[] suffix = new long[keys.size()+1];
+            for (int i = suffix.length-2;i>=0; i--)
+                suffix[i] = map.get(keys.get(i)) + suffix[i + 1];
 
-            for (int i = 0; i < n; i++) {
-                a[i]= (arr[i]== -1? a[i]: query.get(arr[i])[2]);
-                a[i]= Math.max(a[i], range[arr[i]==-1? 0: arr[i]]);
+            int delete= keys.size()- (int)distinct;
+            long ans = suffix[suffix.length-1- delete], sum= 0l;
+            for (int i = 0; i < delete; i++) {
+                sum+= map.get(keys.get(i));
+                ans= Math.min(ans, sum+ suffix[suffix.length- delete+ i]);
             }
-
-            print(a);
+            out.println(ans);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new WelfareState().run();
+        new MP3().run();
     }
 
     void run() throws Exception {
@@ -201,7 +189,5 @@ public class WelfareState {
         for (int i : arr) list.add(i);
         Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
-
-
     }
 }

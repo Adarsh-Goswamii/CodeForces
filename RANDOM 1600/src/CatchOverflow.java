@@ -1,56 +1,45 @@
 import java.util.*;
 import java.io.*;
 
-public class WelfareState {
+public class CatchOverflow {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
-    final int imax = Integer.MAX_VALUE, imin = Integer.MIN_VALUE;
+    final long imax = (1l<<32)- 1, imin = Integer.MIN_VALUE;
     final int mod = 1000000007;
 
     void solve() throws Exception {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n = ni();
-            int[] a = ni(n);
+            int n= ni();
+            boolean overflow= false;
 
-            int q = ni();
-            List<int[]> query = new ArrayList<>();
-            // {type, value}, {type, index, value}.
-            for (int i = 0; i < q; i++) {
-                int type = ni();
-                if (type == 1) query.add(new int[]{type, ni(), ni()});
-                else query.add(new int[]{type, ni()});
-            }
-
-            int[] arr= new int[n]; Arrays.fill(arr, -1);
-            for (int i = 0; i < query.size(); i++) {
-                int[] curr= query.get(i);
-                if(curr[0]== 1) arr[curr[1]-1]= i;
-            }
-
-            int max= 0;
-            int[] range= new int[q];
-            for (int i = q-1; i>= 0; i--) {
-                int[] curr= query.get(i);
-                if(curr[0]== 2) {
-                   max= Math.max(max, curr[1]);
-                }
-                range[i]= max;
-            }
-
+            long x= 0;
+            Stack<Long> stack= new Stack<>(); stack.add(1l);
             for (int i = 0; i < n; i++) {
-                a[i]= (arr[i]== -1? a[i]: query.get(arr[i])[2]);
-                a[i]= Math.max(a[i], range[arr[i]==-1? 0: arr[i]]);
+                String cmd= nw();
+                if(cmd.equals("add")) {
+                    x+= stack.peek();
+                    if(x> imax) overflow= true;
+                }
+                else if(cmd.equals("for")) {
+                    long val= ni();
+                    val= Math.min(imax+1l, val*stack.peek());
+                    stack.push(val);
+                }
+                else {
+                    stack.pop();
+                }
             }
 
-            print(a);
+            if (overflow) out.println("OVERFLOW!!!");
+            else out.println(x);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new WelfareState().run();
+        new CatchOverflow().run();
     }
 
     void run() throws Exception {
@@ -201,7 +190,5 @@ public class WelfareState {
         for (int i : arr) list.add(i);
         Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
-
-
     }
 }

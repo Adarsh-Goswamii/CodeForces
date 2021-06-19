@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class WelfareState {
+public class AndryushaAndColoredBalloons {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,45 +12,39 @@ public class WelfareState {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n = ni();
-            int[] a = ni(n);
+            int n= ni();
+            col= new int[n+1];
+            List<Integer>[] arr= new ArrayList[n+1];
+            for (int i = 0; i < arr.length; i++) arr[i]= new ArrayList<>();
 
-            int q = ni();
-            List<int[]> query = new ArrayList<>();
-            // {type, value}, {type, index, value}.
-            for (int i = 0; i < q; i++) {
-                int type = ni();
-                if (type == 1) query.add(new int[]{type, ni(), ni()});
-                else query.add(new int[]{type, ni()});
+            for (int i = 0; i < n-1; i++) {
+                int u= ni(), v= ni();
+                arr[u].add(v);
+                arr[v].add(u);
             }
 
-            int[] arr= new int[n]; Arrays.fill(arr, -1);
-            for (int i = 0; i < query.size(); i++) {
-                int[] curr= query.get(i);
-                if(curr[0]== 1) arr[curr[1]-1]= i;
-            }
+            int max=0;
+            for (int i = 0; i <= n; i++) max= Math.max(max, arr[i].size());
+            col[1]= 1;
+            dfs(arr, 1, max+1, -1, -2, 0);
+            out.println(max+1);
+            print(col);
+        }
+    }
 
-            int max= 0;
-            int[] range= new int[q];
-            for (int i = q-1; i>= 0; i--) {
-                int[] curr= query.get(i);
-                if(curr[0]== 2) {
-                   max= Math.max(max, curr[1]);
-                }
-                range[i]= max;
-            }
-
-            for (int i = 0; i < n; i++) {
-                a[i]= (arr[i]== -1? a[i]: query.get(arr[i])[2]);
-                a[i]= Math.max(a[i], range[arr[i]==-1? 0: arr[i]]);
-            }
-
-            print(a);
+    int[] col;
+    private void dfs(List<Integer>[] arr, int root, int color, int usedx, int usedy, int par) {
+        int val= 1;
+        for(int i: arr[root]) {
+            if(par== i) continue;
+            while(val== col[par] || val== col[root]) val++;
+            col[i]= val++;
+            dfs(arr, i, color, usedy, val-1, root);
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new WelfareState().run();
+        new AndryushaAndColoredBalloons().run();
     }
 
     void run() throws Exception {
@@ -122,7 +116,8 @@ public class WelfareState {
     }
 
     void print(int[] arr) {
-        for (int i : arr) out.print(i + " ");
+        boolean f= true;
+        for (int i : arr) if(f) f= !f; else out.print(i + " ");
         out.println();
     }
 
@@ -201,7 +196,5 @@ public class WelfareState {
         for (int i : arr) list.add(i);
         Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
-
-
     }
 }

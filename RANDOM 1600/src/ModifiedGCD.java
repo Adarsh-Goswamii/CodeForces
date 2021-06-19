@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class WelfareState {
+public class ModifiedGCD {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,45 +12,50 @@ public class WelfareState {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n = ni();
-            int[] a = ni(n);
+            int a= ni(), b= ni();
+            Set<Integer> fa= new HashSet<>();
+            Set<Integer> fb= new HashSet<>();
 
-            int q = ni();
-            List<int[]> query = new ArrayList<>();
-            // {type, value}, {type, index, value}.
-            for (int i = 0; i < q; i++) {
-                int type = ni();
-                if (type == 1) query.add(new int[]{type, ni(), ni()});
-                else query.add(new int[]{type, ni()});
-            }
+            factors(a, fa);
+            factors(b, fb);
+            Set<Integer> intersection= new HashSet<>();
+            for(int i: fa) if(fb.contains(i)) intersection.add(i);
 
-            int[] arr= new int[n]; Arrays.fill(arr, -1);
-            for (int i = 0; i < query.size(); i++) {
-                int[] curr= query.get(i);
-                if(curr[0]== 1) arr[curr[1]-1]= i;
-            }
+            List<Integer> list = new ArrayList<>(intersection);
+            Collections.sort(list);
 
-            int max= 0;
-            int[] range= new int[q];
-            for (int i = q-1; i>= 0; i--) {
-                int[] curr= query.get(i);
-                if(curr[0]== 2) {
-                   max= Math.max(max, curr[1]);
-                }
-                range[i]= max;
-            }
-
+            int n= ni();
             for (int i = 0; i < n; i++) {
-                a[i]= (arr[i]== -1? a[i]: query.get(arr[i])[2]);
-                a[i]= Math.max(a[i], range[arr[i]==-1? 0: arr[i]]);
+                int low= ni(), high= ni();
+                int val= bin(list, high);
+                if(val< low) out.println(-1);
+                else out.println(val);
             }
+        }
+    }
 
-            print(a);
+    private int bin(List<Integer> list, int high) {
+        int s= 0, l= list.size()-1, ret= -1;
+        while(s<= l) {
+            int m= s+(l-s)/2;
+
+            if(list.get(m)<= high) {
+                s= m+1;
+                ret= list.get(m);
+            }
+            else l= m-1;
+        }
+        return ret;
+    }
+
+    private void factors(int a, Set<Integer> fa) {
+        for(int i=1;i<=Math.sqrt(a);i++) {
+            if(a%i== 0) { fa.add(i); fa.add(a/i); }
         }
     }
 
     public static void main(String[] args) throws Exception {
-        new WelfareState().run();
+        new ModifiedGCD().run();
     }
 
     void run() throws Exception {
@@ -201,7 +206,5 @@ public class WelfareState {
         for (int i : arr) list.add(i);
         Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
-
-
     }
 }

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class WelfareState {
+public class ChainReaction {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -12,45 +12,43 @@ public class WelfareState {
         int t = 1;
 //        t = ni();
         for (int ii = 0; ii < t; ii++) {
-            int n = ni();
-            int[] a = ni(n);
+            int n= ni();
+            List<int[]> a= new ArrayList<>();
+            for (int i = 0; i < n; i++) a.add(ni(2));
+            Collections.sort(a, (i, j)-> (i[0]- j[0]));
 
-            int q = ni();
-            List<int[]> query = new ArrayList<>();
-            // {type, value}, {type, index, value}.
-            for (int i = 0; i < q; i++) {
-                int type = ni();
-                if (type == 1) query.add(new int[]{type, ni(), ni()});
-                else query.add(new int[]{type, ni()});
-            }
-
-            int[] arr= new int[n]; Arrays.fill(arr, -1);
-            for (int i = 0; i < query.size(); i++) {
-                int[] curr= query.get(i);
-                if(curr[0]== 1) arr[curr[1]-1]= i;
-            }
-
-            int max= 0;
-            int[] range= new int[q];
-            for (int i = q-1; i>= 0; i--) {
-                int[] curr= query.get(i);
-                if(curr[0]== 2) {
-                   max= Math.max(max, curr[1]);
-                }
-                range[i]= max;
-            }
-
+            long[] dp= new long[n];
             for (int i = 0; i < n; i++) {
-                a[i]= (arr[i]== -1? a[i]: query.get(arr[i])[2]);
-                a[i]= Math.max(a[i], range[arr[i]==-1? 0: arr[i]]);
+                int[] curr= a.get(i);
+                int loc= curr[0]- curr[1]- 1;
+
+                int index= bin(a, loc);
+                dp[i]= index== -1? 1: dp[index]+ 1;
             }
 
-            print(a);
+            long max= imin;
+            for (int i = 0; i < n; i++) max= Math.max(max, dp[i]);
+            out.println(n- max);
         }
     }
 
+    // returns the greatest value that is smaller than or equal to find
+    private int bin(List<int[]> a, int find) {
+        int s= 0, l= a.size()-1, ret= -1;
+        while(s<= l) {
+            int m= s+(l-s)/2;
+
+            if(a.get(m)[0]<= find) {
+                s= m+1;
+                ret= m;
+            }
+            else l= m-1;
+        }
+        return ret;
+    }
+
     public static void main(String[] args) throws Exception {
-        new WelfareState().run();
+        new ChainReaction().run();
     }
 
     void run() throws Exception {
@@ -201,7 +199,5 @@ public class WelfareState {
         for (int i : arr) list.add(i);
         Collections.sort(list);
         for (int i = 0; i < arr.length; i++) arr[i] = list.get(i);
-
-
     }
 }
