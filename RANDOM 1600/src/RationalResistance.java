@@ -1,9 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: 26th June 2021
-
-public class C {
+public class RationalResistance {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -11,16 +9,29 @@ public class C {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        ArrayList list= new ArrayList();
-        list.add("Adarsh");
-        list.add(90);
-        List<Integer> list2 = new ArrayList<>(Arrays.asList(10, 80));
-        list.add(list2);
-        out.print(list);
+        int t = 1;
+//        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            long a= nl(), b= nl();
+
+            long ans= 0l;
+            while(a!=0 && b!= 0) {
+                if(a> b) {
+                    ans+= a/b;
+                    a= a%b;
+                }
+                else {
+                    ans+= b/a;
+                    b= b%a;
+                }
+            }
+
+            out.println(ans);
+        }
     }
 
     public static void main(String[] args) throws Exception {
-        new C().run();
+        new RationalResistance().run();
     }
 
     void run() throws Exception {

@@ -1,9 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-// TODO: 26th June 2021
-
-public class C {
+public class ExcitingBets {
     PrintWriter out;
     StringTokenizer st;
     BufferedReader br;
@@ -11,16 +9,20 @@ public class C {
     final int mod = 1000000007;
 
     void solve() throws Exception {
-        ArrayList list= new ArrayList();
-        list.add("Adarsh");
-        list.add(90);
-        List<Integer> list2 = new ArrayList<>(Arrays.asList(10, 80));
-        list.add(list2);
-        out.print(list);
+        int t = 1;
+        t = ni();
+        for (int ii = 0; ii < t; ii++) {
+            long a= nl(), b= nl(); if(a> b) {a= a^b;b= a^b;a= a^b;}
+            if(a== b) {out.println("0 0"); continue;}
+            long diff= b-a;
+            long turn= (long)Math.min(a- (a/diff)*diff, (long)Math.ceil(a*1d/diff)*diff-a);
+
+            out.println(diff+" "+turn);
+        }
     }
 
     public static void main(String[] args) throws Exception {
-        new C().run();
+        new ExcitingBets().run();
     }
 
     void run() throws Exception {
